@@ -1,34 +1,45 @@
-import React, { Component } from "react";
+import React, { Component, PropTypes } from "react";
+import { connect } from "react-redux";
 import DateCard from "./DateCard";
-import defaultJSON from "./default.json";
 
 class DateCards extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { dateCards: [] };
-    // this.handleLoadJSON = this.handleLoadJSON.bind(this);
-  }
-
-  handleLoadJSON(json) {
-    this.setState({ dateCards: json.dateCards });
-  }
-
-  componentDidMount() {
-    // TODO: LOAD JSON from API
-    this.handleLoadJSON(defaultJSON);
-  }
 
   render() {
-    const dateCards = this.state.dateCards.map((card) =>
-      (<DateCard {...card} key={card.dateScheduled} />)
-    );
+    let dateCards = (!this.props) ?
+      "Loading..." :
+     this.props.dateCards.map((card) =>
+       (<DateCard {...card} key={card.id} />)
+     );
 
     return (
-      <div className="date-cards">
-        {dateCards}
+      <div>
+        <p className="test-output" height="20px">{this.props.unsavedChanges ? "Unsaved Changes" : ""}</p>
+        <div className="date-cards">
+          {dateCards}
+          </div>
       </div>
     );
   }
 }
 
-export default DateCards;
+DateCards.PropTypes = {
+  dateCards: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    dateScheduled: PropTypes.string.isRequired,
+    slots: PropTypes.arrayOf(PropTypes.shape({
+      assignment: PropTypes.string.isRequired,
+      assignee: PropTypes.string.isRequired
+    }))
+  })).isRequired
+};
+
+function mapStateToProps(state) {
+  return {
+    dateCards: state.dateCards,
+    unsavedChanges: state.unsavedChanges
+  };
+}
+
+export default connect(
+  mapStateToProps
+)(DateCards);
