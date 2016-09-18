@@ -5,7 +5,7 @@ import { Provider } from "react-redux";
 import createLogger from "redux-logger";
 import thunk from "redux-thunk";
 import assignments from "./reducers/assignments.js";
-import { getAllCards } from "./actions/index.js";
+import { loadAllCards } from "./actions/index.js";
 import App from "./containers/App";
 import "./index.css";
 
@@ -19,7 +19,7 @@ const store = createStore(
   applyMiddleware(...middleware)
 );
 
-store.dispatch(getAllCards());
+store.dispatch(loadAllCards());
 
 render(
   <Provider store={store}>

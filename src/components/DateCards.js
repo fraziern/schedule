@@ -1,11 +1,12 @@
 import React, { Component, PropTypes } from "react";
 import { connect } from "react-redux";
 import DateCard from "./DateCard";
+import * as fromAssignments from "../reducers/assignments";
 
 class DateCards extends Component {
 
   render() {
-    let dateCards = (!this.props) ?
+    let dateCards = (!this.props.isLoaded) ?
       "Loading..." :
      this.props.dateCards.map((card) =>
        (<DateCard {...card} key={card.id} />)
@@ -35,8 +36,9 @@ DateCards.PropTypes = {
 
 function mapStateToProps(state) {
   return {
-    dateCards: state.dateCards,
-    unsavedChanges: state.unsavedChanges
+    dateCards: fromAssignments.getDateCards(state),
+    unsavedChanges: state.unsavedChanges,
+    isLoaded: state.isLoaded
   };
 }
 

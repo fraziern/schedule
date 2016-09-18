@@ -5,12 +5,13 @@ class AssignmentRow extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectorValue: this.props.assignee,
+      selectorValue: this.props.assignee.name,
       focused: false
     };
     this.handleSelectorChange = this.handleSelectorChange.bind(this);
     this.handleSelectorFocus = this.handleSelectorFocus.bind(this);
     this.handleSelectorBlur = this.handleSelectorBlur.bind(this);
+    this.handleSelectorEnter = this.handleSelectorEnter.bind(this);
   }
 
   handleSelectorChange(e) {
@@ -27,15 +28,23 @@ class AssignmentRow extends Component {
     this.setState({ focused: false });
   }
 
+  // if we hit ENTER then send an update action
+  handleSelectorEnter(e) {
+    if (e.charCode === 13) {
+      this.props.handleUpdateAssignment(this.props.id, this.state.selectorValue);
+    }
+  }
+
   render() {
     const className = (this.state.focused) ? "assignment-name assignment-name--focused" : "assignment-name";
 
     return (
       <li>
-        <h3 className={className}>{this.props.assignment}</h3>
+        <h3 className={className}>{this.props.assignment.name}</h3>
         <Selector {...this.props} selectorValue={this.state.selectorValue} handleSelectorChange={this.handleSelectorChange}
         handleSelectorFocus={this.handleSelectorFocus}
         handleSelectorBlur={this.handleSelectorBlur}
+        handleSelectorEnter={this.handleSelectorEnter}
          cardDisabled={this.props.cardDisabled} />
       </li>
     );

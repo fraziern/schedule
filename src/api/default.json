@@ -5,7 +5,7 @@
       "dateScheduled": "2016-09-11T04:00:00.000Z",
       "slots": [
         {
-          "id" : 1,
+          "id" : "542a08df-3a2a-4737-935e-ffe18722085e",
           "assignment": {
             "id": 1,
             "name": "Infant Nursery (A)"

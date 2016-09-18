@@ -8,7 +8,7 @@ function receiveCards(cards) {
   };
 }
 
-export function getAllCards() {
+export function loadAllCards() {
   return dispatch => {
     fetchApi.getAllCards(cards => {
       dispatch(receiveCards(cards.dateCards));
@@ -22,18 +22,18 @@ export function unsavedChanges() {
   };
 }
 
-export function updateAssignee(id, assignee) {
+export function updateAssignment(id, assignee) {
   return dispatch => {
     dispatch({
       type: types.UPDATE_ASSIGNMENT,
       id,
       assignee
     });
-    fetchApi.updateAssignee(status => {
-      dispatch({
-        type: types.UPDATE_ASSIGNMENT_SUCCESS
-      });
-    });
+    // fetchApi.updateAssignment(status => {
+    //   dispatch({
+    //     type: types.UPDATE_ASSIGNMENT_SUCCESS
+    //   });
+    // });
   };
 }
 
