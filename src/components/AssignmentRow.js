@@ -5,7 +5,7 @@ class AssignmentRow extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectorValue: this.props.assignee.name,
+      selectorValue: (this.props.assignee) ? this.props.assignee.name : "",
       focused: false
     };
     this.handleSelectorChange = this.handleSelectorChange.bind(this);

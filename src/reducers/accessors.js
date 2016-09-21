@@ -1,6 +1,6 @@
 function getEntityFunction(entity) {
   return function (state, id) {
-    return state.dateCards.entities[entity][id];
+    return state.entities[entity][id];
   };
 }
 
@@ -32,7 +32,7 @@ export function getSlots(state, slotsIDs) {
 }
 
 export function getAssigneeIDByName(state, newAssignee) {
-  const assignees = state.dateCards.entities.assignees;
+  const assignees = state.entities.assignees;
   // debugger;
   for (var assignee in assignees) {
     if (assignees[assignee].name === newAssignee) return assignees[assignee].id;

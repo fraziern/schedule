@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from "react";
 import { connect } from "react-redux";
 import DateCard from "./DateCard";
+import NewCardSelector from "./NewCardSelector";
 import * as fromAssignments from "../reducers/assignments";
 
 class DateCards extends Component {
@@ -15,6 +16,7 @@ class DateCards extends Component {
     return (
       <div>
         <p className="test-output" height="20px">{this.props.unsavedChanges ? "Unsaved Changes" : ""}</p>
+                  <NewCardSelector />
         <div className="date-cards">
           {dateCards}
           </div>
@@ -36,7 +38,7 @@ DateCards.PropTypes = {
 
 function mapStateToProps(state) {
   return {
-    dateCards: fromAssignments.getDateCards(state),
+    dateCards: fromAssignments.getVisibleDateCards(state),
     unsavedChanges: state.unsavedChanges,
     isLoaded: state.isLoaded
   };

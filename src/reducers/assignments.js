@@ -1,63 +1,89 @@
-import { normalize, Schema, arrayOf } from "normalizr";
 import * as types from "../constants/ActionTypes.js";
 import * as fromAccessors from "./accessors.js";
 import uuid from "uuid";
+import update from "react-addons-update";
 
 const initialState = {
-  dateCards: null,
   isSaving: false,
   unsavedChanges: false,
   isLoaded: false
 };
 
-// normalizr schemas
-const datecard = new Schema("dateCards");
-const assignee = new Schema("assignees");
-const assignment = new Schema("assignments");
-const slot = new Schema("slots");
-
-slot.define({
-  assignment: assignment,
-  assignee: assignee
-});
-
-datecard.define({
-  slots: arrayOf(slot)
-});
-
-export function addAssignee(state, id, assignee) {
-  const newAssignees = { ...state.dateCards.entities.assignees, [id]: {
-    id: id,
-    name: assignee
-  }};
-  const newEntities = { ...state.dateCards.entities, assignees: newAssignees };
-  const newDateCards = { ...state.dateCards, entities: newEntities };
-  return { ...state, dateCards: newDateCards };
+function addAssignee(state, id, name) {
+  return update(state, {
+    entities: {assignees: {$merge: {
+      [id]: {
+        id,
+        name
+      }
+    }}}
+  });
 }
 
-export function updateSlotAssignee(state, slotID, newAssignee) {
+function addSlot(state, id, assignment, assignee) {
+  return update(state, {
+    entities: {slots: {$merge: {
+      [id]: {
+        id,
+        assignment,
+        assignee
+      }
+    }}}
+  });
+}
+
+function updateSlotAssignee(state, slotID, newAssignee) {
   // takes an assignee by name, looks up the ID, creates a new one if needed
   let assigneeID = fromAccessors.getAssigneeIDByName(state, newAssignee);
   let newState = state;
-  // debugger;
   if (!assigneeID) {
     assigneeID = uuid.v4();
     newState = addAssignee(state, assigneeID, newAssignee);
   }
-
-  const oldSlot = fromAccessors.getNormalizedSlot(state, slotID);
-  const newSlot = { ...oldSlot, assignee: assigneeID };
-  const newSlots = { ...newState.dateCards.entities.slots, [slotID]: newSlot };
-  const newEntities = { ...newState.dateCards.entities, slots: newSlots };
-  const newDateCards = { ...newState.dateCards, entities: newEntities };
-  return { ...newState, dateCards: newDateCards };
+  return update(newState, {
+    entities: {slots: {[slotID]: {assignee: {$set: assigneeID }}}}
+  });
 }
 
+function addDateCard(state, newDate) {
+  // for now we'll change the date format "m/d/yyyy" to ISO w/o validating
+  const dateScheduled = new Date(newDate);
+  let newState = state;
 
-export function getDateCards(state) {
+  // create a set of new slots based on existing assignments list
+  var newSlots = Object.keys(state.entities.assignments).reduce((obj, assignment) => {
+    const newSlotId = uuid.v4();
+    return { ...obj,
+      [newSlotId]: {
+        id: newSlotId,
+        assignment,
+        assignee: null
+      }
+    };
+  }, {});
+  newState = update(newState, {
+    entities: {slots: {$merge: newSlots }}
+  });
+
+  // create new dateCard
+  let newDateCard = {
+    id: uuid.v4(),
+    dateScheduled,
+    slots: Object.keys(newSlots)
+  };
+
+  // add it to the existing dateCards and visibleCards
+  return update(newState, {
+    entities: {dateCards: {$merge: { [newDateCard.id]: newDateCard }}},
+    visibleCards: {$push: [newDateCard.id]}
+  });
+}
+
+// *** selectors ***
+export function getVisibleDateCards(state) {
   if (!state.isLoaded) return null;
 
-  return state.dateCards.result.map(dateCardID => {
+  return state.visibleCards.map(dateCardID => {
     const normalizedDateCard = fromAccessors.getNormalizedDateCard(state, dateCardID);
     return {
       id: dateCardID,
@@ -67,13 +93,17 @@ export function getDateCards(state) {
   });
 }
 
+// *** main reducer ***
 export default function assignments(state = initialState, action) {
   // let response;
   switch (action.type) {
 
   case types.RECEIVE_ALLCARDS:
-    return { ...initialState,
-      dateCards: normalize(action.dateCards, arrayOf(datecard)),
+    var normalized = action.dateCards;
+    return {
+      ...initialState,
+      entities: normalized.entities,
+      visibleCards: normalized.result,
       isLoaded: true
     };
 
@@ -81,6 +111,9 @@ export default function assignments(state = initialState, action) {
     return { ...state,
       unsavedChanges: true
     };
+
+  case types.ADD_DATECARD:
+    return addDateCard(state, action.newDate);
 
   case types.UPDATE_ASSIGNMENT:
     return updateSlotAssignee(

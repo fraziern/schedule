@@ -11,7 +11,7 @@ function receiveCards(cards) {
 export function loadAllCards() {
   return dispatch => {
     fetchApi.getAllCards(cards => {
-      dispatch(receiveCards(cards.dateCards));
+      dispatch(receiveCards(cards));
     });
   };
 }
@@ -22,6 +22,13 @@ export function unsavedChanges() {
   };
 }
 
+export function addDateCard(newDate) {  // TODO: this needs to send AJAX too
+  return {
+    type: types.ADD_DATECARD,
+    newDate
+  };
+}
+
 export function updateAssignment(id, assignee) {
   return dispatch => {
     dispatch({
@@ -29,6 +36,7 @@ export function updateAssignment(id, assignee) {
       id,
       assignee
     });
+    // TODO: This needs to send AJAX too
     // fetchApi.updateAssignment(status => {
     //   dispatch({
     //     type: types.UPDATE_ASSIGNMENT_SUCCESS
