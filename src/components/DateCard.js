@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from "react";
 import { connect } from "react-redux";
 import Slot from "./Slot";
 import { unsavedChanges, updateAssignment, markUnsaved } from "../actions";
+import padlock from "../../lock.svg";
 
 class DateCard extends Component {
 
@@ -36,6 +37,7 @@ class DateCard extends Component {
   render() {
     const disabled = this.props.isDisabled || "";
     const headerClass = "card-date-container " + ((disabled === "true") ? "card-date-container-disabled" : "");
+    const lockClass = (disabled === "true") ? "padlock" : "padlock padlock--hidden";
 
     let rows = this.props.slots.map((slot) =>
       (<Slot {...slot} key={slot.id} cardDisabled={disabled} id={slot.id} handleChangesIfNeeded={this.handleChangesIfNeeded} handleUpdateAssignment={this.handleUpdateAssignment} />)
@@ -45,6 +47,7 @@ class DateCard extends Component {
       <div className="date-card">
         <div className={headerClass}>
         <h2 className="card-date">{this.getDateName(this.props.dateScheduled)}</h2>
+        <img src={padlock} alt="locked" className={lockClass} />
         </div>
         <ul className="assignment-list">
           {rows}

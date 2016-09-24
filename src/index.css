@@ -34,6 +34,8 @@ body {
   width: 100%;
   height: 50px;
   padding: 10px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .card-date-container-disabled {
@@ -42,6 +44,14 @@ body {
 
 .card-date {
   margin-top: 0px;
+}
+
+.card-date-container .padlock {
+  width: 22px;
+}
+
+.card-date-container .padlock--hidden {
+  opacity: 0;
 }
 
 .assignment-list {

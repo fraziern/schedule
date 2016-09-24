@@ -7,6 +7,7 @@ const initialState = {
   isSaving: false,
   unsavedChanges: false,
   isLoaded: false,
+  currentDate: moment().format(),
   cutoffDate: moment().add(2, "weeks").format()
 };
 
@@ -85,7 +86,15 @@ export function getVisibleDateCards(state) {
   // TODO: make this dependant on state.sort
   const sortedState = sortCardsAsc(state);
 
-  return sortedState.visibleCards.map(dateCardID => {
+  // remove old cards
+  var filteredList = sortedState.visibleCards.filter(dateCardID => {
+    const normalizedDateCard = fromAccessors.getNormalizedDateCard(state, dateCardID);
+    if (normalizedDateCard.dateScheduled < state.currentDate) return false;
+    return true;
+  });
+
+  // convert normalized state to something we can use
+  return filteredList.map(dateCardID => {
     const normalizedDateCard = fromAccessors.getNormalizedDateCard(state, dateCardID);
     return {
       id: dateCardID,
@@ -108,6 +117,12 @@ export default function assignments(state = initialState, action) {
       isLoaded: true,
       sort: "asc"
     };
+
+  case types.SORT_ASCENDING:
+    return sortCardsAsc(state);
+
+  case types.HIDE_OLDCARDS:
+    return state;
 
   case types.UNSAVED_CHANGES:
     return { ...state,
