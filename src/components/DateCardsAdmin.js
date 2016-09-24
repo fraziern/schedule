@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from "react";
 import { connect } from "react-redux";
 import DateCard from "./DateCard";
+import NewCardSelector from "./NewCardSelector";
 import * as fromAssignments from "../reducers/assignments";
 
 class DateCards extends Component {
@@ -19,12 +20,13 @@ class DateCards extends Component {
     let dateCards = (!this.props.isLoaded) ?
       "Loading..." :
      this.props.dateCards.map((card) =>
-       (<DateCard {...card} key={card.id} isDisabled={this.isLocked(this.props.cutoffDate, card.dateScheduled)} />)
+       (<DateCard {...card} key={card.id} />)
      );
 
     return (
       <div className="App-body">
         <p className="test-output" height="20px"></p>
+        <NewCardSelector />
         <div className="date-cards">
           {dateCards}
           </div>
@@ -39,8 +41,7 @@ DateCards.PropTypes = {
     dateScheduled: PropTypes.string.isRequired,
     slots: PropTypes.arrayOf(PropTypes.shape({
       assignment: PropTypes.string.isRequired,
-      assignee: PropTypes.string.isRequired,
-      saved: PropTypes.bool
+      assignee: PropTypes.string.isRequired
     }))
   })).isRequired
 };

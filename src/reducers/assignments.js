@@ -1,13 +1,16 @@
 import * as types from "../constants/ActionTypes.js";
 import * as fromAccessors from "./accessors.js";
-import uuid from "uuid";
 import update from "react-addons-update";
+import moment from "moment";
 
 const initialState = {
   isSaving: false,
   unsavedChanges: false,
-  isLoaded: false
+  isLoaded: false,
+  cutoffDate: moment().add(2, "weeks").format()
 };
+
+// *** private helper functions ***
 
 function addAssignee(state, id, name) {
   return update(state, {
@@ -20,28 +23,32 @@ function addAssignee(state, id, name) {
   });
 }
 
-function addSlot(state, id, assignment, assignee) {
+// function addSlot(state, id, assignment, assignee) {
+//   return update(state, {
+//     entities: {slots: {$merge: {
+//       [id]: {
+//         id,
+//         assignment,
+//         assignee
+//       }
+//     }}}
+//   });
+// }
+
+function updateSlotAssignee(state, slotID, newAssignee) {
   return update(state, {
-    entities: {slots: {$merge: {
-      [id]: {
-        id,
-        assignment,
-        assignee
-      }
+    entities: {slots: {[slotID]: {
+      assignee: {$set: newAssignee.id },
+      saved: {$set: true }
     }}}
   });
 }
 
-function updateSlotAssignee(state, slotID, newAssignee) {
-  // takes an assignee by name, looks up the ID, creates a new one if needed
-  let assigneeID = fromAccessors.getAssigneeIDByName(state, newAssignee);
-  let newState = state;
-  if (!assigneeID) {
-    assigneeID = uuid.v4();
-    newState = addAssignee(state, assigneeID, newAssignee);
-  }
-  return update(newState, {
-    entities: {slots: {[slotID]: {assignee: {$set: assigneeID }}}}
+function markUnsaved(state, slotID) {
+  return update(state, {
+    entities: {slots: {[slotID]: {
+      saved: {$set: false }
+    }}}
   });
 }
 
@@ -90,7 +97,6 @@ export function getVisibleDateCards(state) {
 
 // *** main reducer ***
 export default function assignments(state = initialState, action) {
-  // let response;
   switch (action.type) {
 
   case types.RECEIVE_ALLCARDS:
@@ -111,17 +117,25 @@ export default function assignments(state = initialState, action) {
   case types.ADD_DATECARD:
     return addDateCard(state, action.card);
 
-  case types.UPDATE_ASSIGNMENT:
+  case types.UPDATE_ASSIGNEE:
     return updateSlotAssignee(
       state,
       action.id,
       action.assignee
     );
 
-  case types.UPDATE_ASSIGNMENT_SUCCESS:
-    return { ...state,
-      isSaving: false
-    };
+  case types.MARK_UNSAVED:
+    return markUnsaved(
+      state,
+      action.id
+    );
+
+  case types.ADD_ASSIGNEE:
+    return addAssignee(
+      state,
+      action.id,
+      action.name
+    );
 
   default:
     return state;

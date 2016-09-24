@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from "react";
 import { connect } from "react-redux";
-import AssignmentRow from "./AssignmentRow";
-import { unsavedChanges, updateAssignment } from "../actions";
+import Slot from "./Slot";
+import { unsavedChanges, updateAssignment, markUnsaved } from "../actions";
 
 class DateCard extends Component {
 
@@ -18,8 +18,9 @@ class DateCard extends Component {
     this.handleUpdateAssignment = this.handleUpdateAssignment.bind(this);
   }
 
-  handleChangesIfNeeded() {
+  handleChangesIfNeeded(slotId) {
     if (!this.props.unsavedChanges) this.props.flagChanges();
+    this.props.markUnsaved(slotId);
   }
 
   handleUpdateAssignment(slotID, assignee) {
@@ -33,11 +34,11 @@ class DateCard extends Component {
   }
 
   render() {
-    const disabled = this.props.cardDisabled || "";
+    const disabled = this.props.isDisabled || "";
     const headerClass = "card-date-container " + ((disabled === "true") ? "card-date-container-disabled" : "");
 
     let rows = this.props.slots.map((slot) =>
-      (<AssignmentRow {...slot} key={slot.id} cardDisabled={disabled} id={slot.id} handleChangesIfNeeded={this.handleChangesIfNeeded} handleUpdateAssignment={this.handleUpdateAssignment} />)
+      (<Slot {...slot} key={slot.id} cardDisabled={disabled} id={slot.id} handleChangesIfNeeded={this.handleChangesIfNeeded} handleUpdateAssignment={this.handleUpdateAssignment} />)
     );
 
     return (
@@ -71,6 +72,9 @@ function mapDispatchToProps(dispatch) {
     },
     updateAssignment: (id, assignee) => {
       dispatch(updateAssignment(id, assignee));
+    },
+    markUnsaved: (id) => {
+      dispatch(markUnsaved(id));
     }
   };
 }

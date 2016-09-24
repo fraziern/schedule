@@ -26,7 +26,8 @@ export function getSlots(state, slotsIDs) {
     return {
       id: slotsID,
       assignment: getAssignment(state, slot.assignment),
-      assignee: getAssignee(state, slot.assignee)
+      assignee: getAssignee(state, slot.assignee),
+      saved: slot.saved
     };
   });
 }

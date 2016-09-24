@@ -58,6 +58,24 @@ body {
   color: #007EFF;
 }
 
+.assignment-list li {
+  width: 250px;
+  position: relative;
+}
+
+.assignment-list .checkmark {
+  position: absolute;
+  width: 20px;
+  right: 10px;
+  top: 0px;
+  opacity: 0.9;
+  transition: all 0.5s;
+}
+
+.assignment-list .checkmark--hidden {
+  opacity: 0;
+}
+
 .assignment-list input {
   width: 250px;
   font-size: 11pt;

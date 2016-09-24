@@ -1,5 +1,6 @@
 import fetchApi from "../api/fetchApi.js";
 import * as types from "../constants/ActionTypes.js";
+import * as fromAccessors from "../reducers/accessors.js";
 import uuid from "uuid";
 
 function receiveCards(cards) {
@@ -16,11 +17,26 @@ function addCardSuccess(card) {
   };
 }
 
+function updateAssigneeSuccess(id, assignee) {
+  return {
+    type: types.UPDATE_ASSIGNEE,
+    id,
+    assignee
+  };
+}
+
 export function loadAllCards() {
   return dispatch => {
     fetchApi.getAllCards(cards => {
       dispatch(receiveCards(cards));
     });
+  };
+}
+
+export function markUnsaved(id) {
+  return {
+    type: types.MARK_UNSAVED,
+    id
   };
 }
 
@@ -30,8 +46,7 @@ export function unsavedChanges() {
   };
 }
 
-export function addDateCard(newDate) {  // TODO: this needs to send AJAX too
-  // build dateCard
+export function addDateCard(newDate) {
   return (dispatch, getState) => {
     // for now we'll change the date format "m/d/yyyy" to ISO w/o validating
     const dateScheduled = new Date(newDate);
@@ -66,19 +81,31 @@ export function addDateCard(newDate) {  // TODO: this needs to send AJAX too
   };
 }
 
-export function updateAssignment(id, assignee) {
-  return dispatch => {
-    dispatch({
-      type: types.UPDATE_ASSIGNMENT,
-      id,
-      assignee
+export function updateAssignment(id, assigneeName) {
+  return (dispatch, getState) => {
+
+    // get assignee ID if exists, otherwise dispatch an action to create one
+    let assigneeID = fromAccessors.getAssigneeIDByName(getState(), assigneeName);
+    if (!assigneeID) {
+      assigneeID = uuid.v4();
+      dispatch({
+        type: types.ADD_ASSIGNEE,
+        id: assigneeID,
+        name: assigneeName
+      });
+    }
+
+    // create assignee Object
+    const newAssignee = {
+      name: assigneeName,
+      id: assigneeID
+    };
+
+    // AJAX call, then update state if successful
+    fetchApi.updateAssignee(id, newAssignee, (status) => {
+      console.log(status);
+      return dispatch(updateAssigneeSuccess(id, newAssignee));
     });
-    // TODO: This needs to send AJAX too
-    // fetchApi.updateAssignment(status => {
-    //   dispatch({
-    //     type: types.UPDATE_ASSIGNMENT_SUCCESS
-    //   });
-    // });
   };
 }
 

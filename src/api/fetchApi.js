@@ -1,14 +1,15 @@
+/*eslint no-console: ["error", { allow: ["warn", "error"] }] */
 import { normalize, Schema, arrayOf } from "normalizr";
 
 // normalizr schemas
 const dateCardSchema = new Schema("dateCards");
-const assignee = new Schema("assignees");
-const assignment = new Schema("assignments");
+const assigneeSchema = new Schema("assignees");
+const assignmentSchema = new Schema("assignments");
 const slotSchema = new Schema("slots");
 
 slotSchema.define({
-  assignment: assignment,
-  assignee: assignee
+  assignment: assignmentSchema,
+  assignee: assigneeSchema
 });
 
 dateCardSchema.define({
@@ -45,15 +46,14 @@ export default {
       .then(json => normalizeCards(json.dateCards))
       .then(cb)
       .catch(error => {
-        console.log("fetch all request failed", error);
+        console.warn("fetch all request failed", error);
       });
   },
 
   addCard(card, cb) {
-
     fetch("/api/add", {
       method: "POST",
-      credentials : "same-origin",
+      credentials: "same-origin",
       headers: {
         "Accept": "application/json",
         "Content-Type": "application/json"
@@ -66,7 +66,27 @@ export default {
       .then(parseJSON)
       .then(json => cb(normalizeCard(json.saved, dateCardSchema)))
       .catch(error => {
-        console.log("addCard request failed", error);
+        console.warn("addCard request failed", error);
       });
+  },
+
+  updateAssignee(slotID, assignee, cb) {
+    fetch("/api/update-assignee/" + slotID, {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        assignee
+      })
+    })
+    .then(checkStatus)
+    .then(parseJSON)
+    .then(cb)
+    .catch(error => {
+      console.warn("updateAssignee request failed", error);
+    });
   }
 };

@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import Selector from "./Selector";
+import checkmark from "../../checkmark.svg";
 
-class AssignmentRow extends Component {
+class Slot extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -16,7 +17,7 @@ class AssignmentRow extends Component {
 
   handleSelectorChange(e) {
     this.setState({ selectorValue: e.target.value });
-    this.props.handleChangesIfNeeded();
+    this.props.handleChangesIfNeeded(this.props.id);
   }
 
   // These handlers are used to alter CSS
@@ -36,11 +37,13 @@ class AssignmentRow extends Component {
   }
 
   render() {
-    const className = (this.state.focused) ? "assignment-name assignment-name--focused" : "assignment-name";
+    const nameClass = (this.state.focused) ? "assignment-name assignment-name--focused" : "assignment-name";
+    const checkClass = (this.props.saved) ? "checkmark" : "checkmark checkmark--hidden";
 
     return (
       <li>
-        <h3 className={className}>{this.props.assignment.name}</h3>
+        <h3 className={nameClass}>{this.props.assignment.name}</h3>
+        <img src={checkmark} className={checkClass} alt="saved" />
         <Selector {...this.props} selectorValue={this.state.selectorValue} handleSelectorChange={this.handleSelectorChange}
         handleSelectorFocus={this.handleSelectorFocus}
         handleSelectorBlur={this.handleSelectorBlur}
@@ -51,4 +54,4 @@ class AssignmentRow extends Component {
   }
 }
 
-export default AssignmentRow;
+export default Slot;
