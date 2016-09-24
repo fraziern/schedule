@@ -1,10 +1,18 @@
 import fetchApi from "../api/fetchApi.js";
 import * as types from "../constants/ActionTypes.js";
+import uuid from "uuid";
 
 function receiveCards(cards) {
   return {
     type: types.RECEIVE_ALLCARDS,
     dateCards: cards
+  };
+}
+
+function addCardSuccess(card) {
+  return {
+    type: types.ADD_DATECARD,
+    card
   };
 }
 
@@ -23,9 +31,38 @@ export function unsavedChanges() {
 }
 
 export function addDateCard(newDate) {  // TODO: this needs to send AJAX too
-  return {
-    type: types.ADD_DATECARD,
-    newDate
+  // build dateCard
+  return (dispatch, getState) => {
+    // for now we'll change the date format "m/d/yyyy" to ISO w/o validating
+    const dateScheduled = new Date(newDate);
+    let state = getState();
+
+    // create a set of new slots based on existing assignments list
+    var newSlots = Object.keys(state.entities.assignments).map((assignmentId) => {
+      const newSlotId = uuid.v4();
+      return {
+        _id: newSlotId,
+        assignment: {
+          id: assignmentId,
+          name: state.entities.assignments[assignmentId].name
+        },
+        assignee: {
+          id: "",
+          name: ""
+        }
+      };
+    });
+
+    // create new dateCard
+    let newDateCard = {
+      _id: uuid.v4(),
+      dateScheduled,
+      slots: newSlots
+    };
+
+    fetchApi.addCard(newDateCard, function (card) {
+      return dispatch(addCardSuccess(card));
+    });
   };
 }
 

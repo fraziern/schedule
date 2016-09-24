@@ -45,45 +45,40 @@ function updateSlotAssignee(state, slotID, newAssignee) {
   });
 }
 
-function addDateCard(state, newDate) {
-  // for now we'll change the date format "m/d/yyyy" to ISO w/o validating
-  const dateScheduled = new Date(newDate);
-  let newState = state;
+function addDateCard(state, card) {
+  // card: a normalized card
+  // We only need to merge in dateCards, slots, and visibleCards
+  // because there are no new assignments/assignees
+  // and ids for assignments have not changed
 
-  // create a set of new slots based on existing assignments list
-  var newSlots = Object.keys(state.entities.assignments).reduce((obj, assignment) => {
-    const newSlotId = uuid.v4();
-    return { ...obj,
-      [newSlotId]: {
-        id: newSlotId,
-        assignment,
-        assignee: null
-      }
-    };
-  }, {});
-  newState = update(newState, {
-    entities: {slots: {$merge: newSlots }}
+  return update(state, {
+    entities: {
+      dateCards: {$merge: card.entities.dateCards },
+      slots: {$merge: card.entities.slots }},
+    visibleCards: {$push: [card.result]}
   });
+}
 
-  // create new dateCard
-  let newDateCard = {
-    id: uuid.v4(),
-    dateScheduled,
-    slots: Object.keys(newSlots)
-  };
-
-  // add it to the existing dateCards and visibleCards
-  return update(newState, {
-    entities: {dateCards: {$merge: { [newDateCard.id]: newDateCard }}},
-    visibleCards: {$push: [newDateCard.id]}
+function sortCardsAsc(state) {
+  var orderedCards = state.visibleCards;
+  orderedCards.sort(function(a, b) {
+    const aDate = state.entities.dateCards[a].dateScheduled;
+    const bDate = state.entities.dateCards[b].dateScheduled;
+    if (aDate < bDate) return -1;
+    if (aDate > bDate) return 1;
+    return 0;
   });
+  return {...state, visibleCards: orderedCards};
 }
 
 // *** selectors ***
 export function getVisibleDateCards(state) {
   if (!state.isLoaded) return null;
 
-  return state.visibleCards.map(dateCardID => {
+  // TODO: make this dependant on state.sort
+  const sortedState = sortCardsAsc(state);
+
+  return sortedState.visibleCards.map(dateCardID => {
     const normalizedDateCard = fromAccessors.getNormalizedDateCard(state, dateCardID);
     return {
       id: dateCardID,
@@ -104,7 +99,8 @@ export default function assignments(state = initialState, action) {
       ...initialState,
       entities: normalized.entities,
       visibleCards: normalized.result,
-      isLoaded: true
+      isLoaded: true,
+      sort: "asc"
     };
 
   case types.UNSAVED_CHANGES:
@@ -113,7 +109,7 @@ export default function assignments(state = initialState, action) {
     };
 
   case types.ADD_DATECARD:
-    return addDateCard(state, action.newDate);
+    return addDateCard(state, action.card);
 
   case types.UPDATE_ASSIGNMENT:
     return updateSlotAssignee(
