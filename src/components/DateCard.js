@@ -6,13 +6,6 @@ import padlock from "../../lock.svg";
 
 class DateCard extends Component {
 
-  // componentDidUpdate() {
-  //   const { save } = this.props;
-  //
-  //   if (this.saveTimeout) clearTimeout(this.saveTimeout);
-  //   this.saveTimeout = setTimeout(save, 1000);
-  // }
-
   constructor(props) {
     super(props);
     this.handleChangesIfNeeded = this.handleChangesIfNeeded.bind(this);
@@ -33,14 +26,24 @@ class DateCard extends Component {
     return MONTHS[dateIn.getUTCMonth()] + " " + dateIn.getUTCDate() + ", " + dateIn.getUTCFullYear();
   }
 
+  getFilteredSlots() {
+    let filteredRows = this.props.slots;
+    if (this.props.filter !== "ALL") {
+      filteredRows = filteredRows.filter((slot) => {
+        if (this.props.filter === "VACANT" && slot.assignee.name === "") return true;
+        return false;
+      });
+    }
+
+    return filteredRows.map((slot) =>
+      (<Slot {...slot} key={slot.id} cardDisabled={this.props.isDisabled} handleChangesIfNeeded={this.handleChangesIfNeeded} handleUpdateAssignment={this.handleUpdateAssignment} />)
+    );
+  }
+
   render() {
-    const disabled = this.props.isDisabled || "";
+    const disabled = this.props.isDisabled;
     const headerClass = "panel-heading " + ((disabled === "true") ? "panel-heading--disabled" : "");
     const lockClass = (disabled === "true") ? "padlock" : "padlock padlock--hidden";
-
-    let rows = this.props.slots.map((slot) =>
-      (<Slot {...slot} key={slot.id} cardDisabled={disabled} id={slot.id} handleChangesIfNeeded={this.handleChangesIfNeeded} handleUpdateAssignment={this.handleUpdateAssignment} />)
-    );
 
     return (
       <div className="datecard panel panel-default">
@@ -50,7 +53,7 @@ class DateCard extends Component {
         </div>
         <table className="table table-hover">
           <tbody>
-            {rows}
+            {this.getFilteredSlots()}
           </tbody>
         </table>
       </div>
@@ -60,8 +63,15 @@ class DateCard extends Component {
 
 DateCard.PropTypes = {
   updateAssignment: PropTypes.func.isRequired,
-  markUnsaved: PropTypes.func.isRequired
+  markUnsaved: PropTypes.func.isRequired,
+  isDisabled: PropTypes.string.isRequired
 };
+
+function mapStateToProps(state) {
+  return {
+    filter: state.filter
+  };
+}
 
 function mapDispatchToProps(dispatch) {
   return {
@@ -75,6 +85,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(DateCard);

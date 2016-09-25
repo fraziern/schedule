@@ -7,7 +7,8 @@ const initialState = {
   isSaving: false,
   isLoaded: false,
   currentDate: moment().format(),
-  cutoffDate: moment().add(2, "weeks").format()
+  cutoffDate: moment().add(2, "weeks").format(),
+  filter: "ALL"
 };
 
 // *** private helper functions ***
@@ -145,6 +146,9 @@ export default function assignments(state = initialState, action) {
       action.id,
       action.name
     );
+
+  case types.SET_FILTER:
+    return { ...state, filter: action.filter };
 
   default:
     return state;

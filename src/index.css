@@ -1,6 +1,32 @@
+* {
+  -webkit-border-radius: 0 !important;
+     -moz-border-radius: 0 !important;
+          border-radius: 0 !important;
+}
+
 .header {
   border-bottom: 2px #4b4b4b solid;
   margin-bottom: 20px;
+}
+
+.menubar {
+  margin-bottom: 30px;
+}
+
+.menubar button {
+  margin-right: 10px;
+}
+
+.menubar button.active {
+  opacity: 0.5;
+}
+
+.menubar button:hover {
+  background-color: #8f9bbf;
+}
+
+.menubar button:focus {
+  outline-color: #8f9bbf;
 }
 
 .datecard .panel-heading {

@@ -103,3 +103,10 @@ export function updateAssignment(id, assigneeName) {
 }
 
 // for rollback on failure see https://github.com/reactjs/redux/blob/master/examples/shopping-cart/src/actions/index.js
+
+export function setFilter(filter) {
+  return {
+    type: types.SET_FILTER,
+    filter
+  };
+}

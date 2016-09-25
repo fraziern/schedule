@@ -5,3 +5,4 @@ export const ADD_ASSIGNEE = "ADD_ASSIGNEE";
 export const MARK_UNSAVED = "MARK_UNSAVED";
 export const SORT_ASCENDING = "SORT_ASCENDING";
 export const HIDE_OLDCARDS = "HIDE_OLDCARDS";
+export const SET_FILTER = "SET_FILTER";
