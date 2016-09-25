@@ -17,7 +17,7 @@ class Slot extends Component {
 
   handleSelectorChange(e) {
     this.setState({ selectorValue: e.target.value });
-    this.props.handleChangesIfNeeded(this.props.id);
+    if(this.props.saved) this.props.handleChangesIfNeeded(this.props.id);
   }
 
   // These handlers are used to alter CSS
@@ -37,19 +37,20 @@ class Slot extends Component {
   }
 
   render() {
-    const nameClass = (this.state.focused) ? "assignment-name assignment-name--focused" : "assignment-name";
     const checkClass = (this.props.saved) ? "checkmark" : "checkmark checkmark--hidden";
+    const labelClass = (this.state.focused) ? "slotlabel label--focused" : "slotlabel";
+    const rowClass = (this.state.selectorValue === "") ? "danger" : "";
 
     return (
-      <li>
-        <h3 className={nameClass}>{this.props.assignment.name}</h3>
-        <img src={checkmark} className={checkClass} alt="saved" />
-        <Selector {...this.props} selectorValue={this.state.selectorValue} handleSelectorChange={this.handleSelectorChange}
-        handleSelectorFocus={this.handleSelectorFocus}
-        handleSelectorBlur={this.handleSelectorBlur}
-        handleSelectorEnter={this.handleSelectorEnter}
-         cardDisabled={this.props.cardDisabled} />
-      </li>
+      <tr className={rowClass}>
+          <td><h4 className={labelClass}>{this.props.assignment.name}</h4></td>
+          <td><Selector {...this.props} selectorValue={this.state.selectorValue} handleSelectorChange={this.handleSelectorChange}
+              handleSelectorFocus={this.handleSelectorFocus}
+              handleSelectorBlur={this.handleSelectorBlur}
+              handleSelectorEnter={this.handleSelectorEnter}
+               cardDisabled={this.props.cardDisabled} /></td>
+          <td><img src={checkmark} className={checkClass} alt="saved" /></td>
+      </tr>
     );
   }
 }

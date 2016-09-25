@@ -23,11 +23,8 @@ class DateCards extends Component {
      );
 
     return (
-      <div className="App-body">
-        <p className="test-output" height="20px"></p>
-        <div className="date-cards">
-          {dateCards}
-          </div>
+      <div className="datecards">
+        {dateCards}
       </div>
     );
   }

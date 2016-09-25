@@ -7,6 +7,7 @@ import thunk from "redux-thunk";
 import assignments from "./reducers/assignments.js";
 import { loadAllCards } from "./actions/index.js";
 import App from "./containers/App";
+import "bootstrap/dist/css/bootstrap.css";
 import "./index.css";
 
 const middleware = [ thunk ];

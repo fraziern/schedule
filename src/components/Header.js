@@ -7,14 +7,14 @@ class Header extends Component {
     return (
       // TODO: get rid of some of this nesting
       <div>
-      <div className="App-header">
-        <div className="header-container">
-          <div className="title-container">
-            <h1 className="card-date">Volunteer Scheduler</h1>
-          </div>
+        <div className="container header">
+          <h1>Volunteer Schedule <small>Raleigh Moravian Church</small></h1>
         </div>
-      </div>
-      {this.props.children}
+        <div className="container">
+          {this.props.children}
+        </div>
+        <div className="footer">
+        </div>
       </div>
     );
   }

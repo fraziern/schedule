@@ -1,108 +1,59 @@
-* {
-  box-sizing: border-box;
-  font-family: "Arial", sans-serif;
+.header {
+  border-bottom: 2px #4b4b4b solid;
+  margin-bottom: 20px;
 }
 
-body {
-  margin: 0;
-  padding: 0;
+.datecard .panel-heading {
+  background-color: #8f9bbf;
 }
 
-.App-header {
-  background-color: #007EFF;
-  width: 100%;
-  height: 50px;
-  padding: 10px;
+.datecard h3 {
+  margin: 10px;
+  width: 80%;
+  display: inline;
 }
 
-.date-cards {
-  display: flex;
-  flex-wrap: wrap;
+.datecard .panel-heading--disabled {
+  background-color: #8c1c3a;
 }
 
-.date-card {
-  border: 1px solid black;
-  padding: 0px;
-  width: 330px;
-  margin: 0 auto;
-  margin-top: 50px;
-  box-shadow: 5px 5px 5px #888888;
+.datecard .panel-heading--disabled h3 {
+  color: #ececec;
 }
 
-.card-date-container {
-  background-color: #007EFF;
-  width: 100%;
-  height: 50px;
-  padding: 10px;
-  display: flex;
-  justify-content: space-between;
+.slotlabel {
+  margin-left: 20px;
 }
 
-.card-date-container-disabled {
-  background-color: #ff5656;
+.label--focused {
+  color: #593f28;
+  transition: all 0.5s;
 }
 
-.card-date {
-  margin-top: 0px;
+.selector:focus {
+  border-color: #f2eda2;
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(89, 63, 40, .6);
 }
 
-.card-date-container .padlock {
+.padlock {
   width: 22px;
+  margin-left: 10px;
+  margin-bottom: 10px;
 }
 
-.card-date-container .padlock--hidden {
+.padlock--hidden {
   opacity: 0;
 }
 
-.assignment-list {
-  list-style: none;
-}
-
-.assignment-name {
-  margin: 20px 0px 4px;
-  font-weight: normal;
-  transition: all 0.3s;
-}
-
-.assignment-name--focused {
-  color: #007EFF;
-}
-
-.assignment-list li {
-  width: 250px;
-  position: relative;
-}
-
-.assignment-list .checkmark {
-  position: absolute;
-  width: 20px;
-  right: 10px;
-  top: 0px;
+.checkmark {
+  width: 25px;
+  padding: 0px;
+  padding-top: 5px;
   opacity: 0.9;
   transition: all 0.5s;
 }
 
-.assignment-list .checkmark--hidden {
+.checkmark--hidden {
+  width: 25px;
   opacity: 0;
-}
-
-.assignment-list input {
-  width: 250px;
-  font-size: 11pt;
-  font-style: italic;
-}
-
-.assignment-list input[type="text"] {
-  padding: 5px;
-  border: solid 1px #dcdcdc;
-  transition: box-shadow 0.3s, border 0.3s;
-}
-.assignment-list input[type="text"]:focus,
-.assignment-list input[type="text"].focus {
-  border: solid 1px #707070;
-  box-shadow: 0 0 5px 1px #969696;
-}
-
-.selector-empty {
-  background: #d5e9ff;
 }

@@ -40,12 +40,6 @@ export function markUnsaved(id) {
   };
 }
 
-export function unsavedChanges() {
-  return {
-    type: types.UNSAVED_CHANGES
-  };
-}
-
 export function addDateCard(newDate) {
   return (dispatch, getState) => {
     // for now we'll change the date format "m/d/yyyy" to ISO w/o validating
@@ -103,7 +97,6 @@ export function updateAssignment(id, assigneeName) {
 
     // AJAX call, then update state if successful
     fetchApi.updateAssignee(id, newAssignee, (status) => {
-      console.log(status);
       return dispatch(updateAssigneeSuccess(id, newAssignee));
     });
   };

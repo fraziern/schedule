@@ -7,7 +7,7 @@ import Header from "../components/Header";
 class App extends Component {
   render() {
     return (
-      <div className="App">
+      <div>
         <Router history={browserHistory}>
           <Route component={Header} >
             <Route path="/" component={DateCards} />

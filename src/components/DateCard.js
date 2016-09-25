@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from "react";
 import { connect } from "react-redux";
 import Slot from "./Slot";
-import { unsavedChanges, updateAssignment, markUnsaved } from "../actions";
+import { updateAssignment, markUnsaved } from "../actions";
 import padlock from "../../lock.svg";
 
 class DateCard extends Component {
@@ -20,7 +20,6 @@ class DateCard extends Component {
   }
 
   handleChangesIfNeeded(slotId) {
-    if (!this.props.unsavedChanges) this.props.flagChanges();
     this.props.markUnsaved(slotId);
   }
 
@@ -36,7 +35,7 @@ class DateCard extends Component {
 
   render() {
     const disabled = this.props.isDisabled || "";
-    const headerClass = "card-date-container " + ((disabled === "true") ? "card-date-container-disabled" : "");
+    const headerClass = "panel-heading " + ((disabled === "true") ? "panel-heading--disabled" : "");
     const lockClass = (disabled === "true") ? "padlock" : "padlock padlock--hidden";
 
     let rows = this.props.slots.map((slot) =>
@@ -44,35 +43,28 @@ class DateCard extends Component {
     );
 
     return (
-      <div className="date-card">
+      <div className="datecard panel panel-default">
         <div className={headerClass}>
-        <h2 className="card-date">{this.getDateName(this.props.dateScheduled)}</h2>
-        <img src={padlock} alt="locked" className={lockClass} />
+          <h3>{this.getDateName(this.props.dateScheduled)}</h3>
+          <img src={padlock} alt="locked" className={lockClass} />
         </div>
-        <ul className="assignment-list">
-          {rows}
-        </ul>
+        <table className="table table-hover">
+          <tbody>
+            {rows}
+          </tbody>
+        </table>
       </div>
     );
   }
 }
 
 DateCard.PropTypes = {
-  unsavedChanges: PropTypes.bool.isRequired,
-  flagChanges: PropTypes.func.isRequired
+  updateAssignment: PropTypes.func.isRequired,
+  markUnsaved: PropTypes.func.isRequired
 };
-
-function mapStateToProps(state) {
-  return {
-    unsavedChanges: state.unsavedChanges
-  };
-}
 
 function mapDispatchToProps(dispatch) {
   return {
-    flagChanges: () => {
-      dispatch(unsavedChanges());
-    },
     updateAssignment: (id, assignee) => {
       dispatch(updateAssignment(id, assignee));
     },
@@ -83,6 +75,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(DateCard);

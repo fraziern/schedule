@@ -5,7 +5,6 @@ import moment from "moment";
 
 const initialState = {
   isSaving: false,
-  unsavedChanges: false,
   isLoaded: false,
   currentDate: moment().format(),
   cutoffDate: moment().add(2, "weeks").format()
@@ -123,11 +122,6 @@ export default function assignments(state = initialState, action) {
 
   case types.HIDE_OLDCARDS:
     return state;
-
-  case types.UNSAVED_CHANGES:
-    return { ...state,
-      unsavedChanges: true
-    };
 
   case types.ADD_DATECARD:
     return addDateCard(state, action.card);
