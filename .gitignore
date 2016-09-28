@@ -9,6 +9,9 @@ coverage
 # production
 build
 
+# environment variables
+.env
+
 # misc
 .DS_Store
 npm-debug.log
