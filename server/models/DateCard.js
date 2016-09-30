@@ -2,7 +2,7 @@ var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
 var slotSchema = new Schema({
-  _id: String,
+  _id: { type: String, required: true },
   assignment: {
     id: String,
     name: String
@@ -14,8 +14,8 @@ var slotSchema = new Schema({
 });
 
 var dateCardSchema = new Schema({
-  _id: String,
-  dateScheduled: String,
+  _id: { type: String, required: true },
+  dateScheduled: { type: String, required: true },
   slots: [slotSchema]
 });
 

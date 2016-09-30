@@ -6,22 +6,16 @@ var DateCardController = function() {
     DateCard.find()
     .select("id dateScheduled slots")
     .exec(function(err, dateCards) {
-      if (err) {
-        return res.status(500).send(err);
-      }
+      if (err) return res.status(500).send(err);
       res.json({ dateCards });
     });
   }
 
   function addDateCard(req, res) {
-    if (!req.body.dateCard.slots || !req.body.dateCard.dateScheduled) {
-      return res.status(403).json({id: "dateCardID", dateScheduled: "Date"}).end();
-    }
-
     var newDateCard = new DateCard(req.body.dateCard);
 
     newDateCard.save( function(err, saved) {
-      if (err) return res.status(500).send(err);
+      if (err) return res.status(404).send(err);
       return res.json({ saved: saved });
     });
   }
@@ -38,14 +32,14 @@ var DateCardController = function() {
     var update = { $set: { "slots.$.assignee": assignee }};
 
     DateCard.update(query, update, function (err, saved) {
-      if (err) return res.status(500).send(err);
+      if (err) return res.status(404).send(err);
       return res.json({saved: saved});
     });
   }
 
   function deleteDateCard(req, res) {
     if (!req.params.id) {
-      return res.status(403).json({id: "dateCardID"}).end();
+      return res.status(404).json({id: "dateCardID"}).end();
     }
 
     var dateCardId = req.params.id;

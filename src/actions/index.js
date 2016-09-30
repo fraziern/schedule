@@ -78,6 +78,12 @@ export function addDateCard(newDate) {
 export function updateAssignment(id, assigneeName) {
   return (dispatch, getState) => {
 
+    // flag that we're saving now
+    dispatch({
+      type: types.SAVING_ASSIGNEE,
+      id
+    });
+
     // get assignee ID if exists, otherwise dispatch an action to create one
     let assigneeID = fromAccessors.getAssigneeIDByName(getState(), assigneeName);
     if (!assigneeID) {
@@ -98,6 +104,9 @@ export function updateAssignment(id, assigneeName) {
     // AJAX call, then update state if successful
     fetchApi.updateAssignee(id, newAssignee, (status) => {
       return dispatch(updateAssigneeSuccess(id, newAssignee));
+    })
+    .catch(error => {
+      console.log("fetch rejected", error);
     });
   };
 }

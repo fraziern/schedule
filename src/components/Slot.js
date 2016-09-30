@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Selector from "./Selector";
 import checkmark from "../../checkmark.svg";
+import spinner from "../../loading.gif";
 
 class Slot extends Component {
   constructor(props) {
@@ -37,9 +38,10 @@ class Slot extends Component {
   }
 
   render() {
-    const checkClass = (this.props.saved) ? "checkmark" : "checkmark checkmark--hidden";
-    const labelClass = (this.state.focused) ? "slotlabel label--focused" : "slotlabel";
-    const rowClass = (this.state.selectorValue === "") ? "danger" : "";
+    const checkClass = this.props.saved ? "checkmark" : "checkmark checkmark--hidden";
+    const labelClass = this.state.focused ? "slotlabel label--focused" : "slotlabel";
+    const rowClass = (this.state.selectorValue === "") ? "slot danger" : "slot";
+    const spinnerClass = this.props.isSaving ? "spinner" : "spinner spinner--hidden";
 
     return (
       <tr className={rowClass}>
@@ -49,7 +51,10 @@ class Slot extends Component {
               handleSelectorBlur={this.handleSelectorBlur}
               handleSelectorEnter={this.handleSelectorEnter}
                cardDisabled={this.props.cardDisabled} /></td>
-          <td><img src={checkmark} className={checkClass} alt="saved" /></td>
+          <td>
+            <img src={checkmark} className={checkClass} alt="saved" />
+            <img src={spinner} className={spinnerClass} alt="saving" />
+          </td>
       </tr>
     );
   }

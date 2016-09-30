@@ -47,6 +47,20 @@
   color: #ececec;
 }
 
+.padlock {
+  width: 22px;
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
+
+.padlock--hidden {
+  opacity: 0;
+}
+
+td {
+  position: relative;
+}
+
 .slotlabel {
   margin-left: 20px;
 }
@@ -61,26 +75,50 @@
   box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(89, 63, 40, .6);
 }
 
-.padlock {
-  width: 22px;
-  margin-left: 10px;
-  margin-bottom: 10px;
-}
-
-.padlock--hidden {
-  opacity: 0;
-}
-
 .checkmark {
   width: 25px;
   padding: 0px;
   padding-top: 5px;
   opacity: 0.9;
   fill: #8f9bbf;
-  transition: all 0.5s;
+  transition: all 0.3s;
 }
 
 .checkmark--hidden {
   width: 25px;
   opacity: 0;
+}
+
+.slot .spinner {
+  width: 25px;
+  padding: 0px;
+  opacity: 0.9;
+  position: absolute;
+  left: 7px;
+  top: 12px;
+  transition: all 0.3s;
+}
+
+.slot .spinner--hidden {
+  width: 25px;
+  opacity: 0;
+}
+
+@media (max-width : 420px)
+and (orientation : portrait) {
+  h3 {
+    font-size: 14px;
+  }
+
+  h4 {
+    font-size: 12px;
+  }
+
+  .slotlabel {
+    margin-left: 10px;
+  }
+
+  .form-control {
+    font-size: 12px;
+  }
 }

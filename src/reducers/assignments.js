@@ -36,19 +36,30 @@ function addAssignee(state, id, name) {
 //   });
 // }
 
+function savingSlotAssignee(state, slotID) {
+  return update(state, {
+    entities: {slots: {[slotID]: {
+      isSaving: {$set: true }
+    }}}
+  });
+}
+
 function updateSlotAssignee(state, slotID, newAssignee) {
   return update(state, {
     entities: {slots: {[slotID]: {
       assignee: {$set: newAssignee.id },
-      saved: {$set: true }
+      saved: {$set: true },
+      isSaving: {$set: false }
     }}}
   });
 }
 
 function markUnsaved(state, slotID) {
+  // TODO: How do we cancel an updateSlotAssignee in progress?
   return update(state, {
     entities: {slots: {[slotID]: {
-      saved: {$set: false }
+      saved: {$set: false },
+      isSaving: {$set: false }
     }}}
   });
 }
@@ -126,6 +137,12 @@ export default function assignments(state = initialState, action) {
 
   case types.ADD_DATECARD:
     return addDateCard(state, action.card);
+
+  case types.SAVING_ASSIGNEE:
+    return savingSlotAssignee(
+      state,
+      action.id
+    );
 
   case types.UPDATE_ASSIGNEE:
     return updateSlotAssignee(

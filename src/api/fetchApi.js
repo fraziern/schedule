@@ -71,7 +71,7 @@ export default {
   },
 
   updateAssignee(slotID, assignee, cb) {
-    fetch("/api/update-assignee/" + slotID, {
+    return fetch("/api/update-assignee/" + slotID, {
       method: "POST",
       credentials: "same-origin",
       headers: {
@@ -87,6 +87,7 @@ export default {
     .then(cb)
     .catch(error => {
       console.warn("updateAssignee request failed", error);
+      return Promise.reject(error);
     });
   }
 };

@@ -6,3 +6,4 @@ export const MARK_UNSAVED = "MARK_UNSAVED";
 export const SORT_ASCENDING = "SORT_ASCENDING";
 export const HIDE_OLDCARDS = "HIDE_OLDCARDS";
 export const SET_FILTER = "SET_FILTER";
+export const SAVING_ASSIGNEE = "SAVING_ASSIGNEE";

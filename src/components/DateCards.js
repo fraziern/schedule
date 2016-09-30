@@ -37,7 +37,8 @@ DateCards.PropTypes = {
     slots: PropTypes.arrayOf(PropTypes.shape({
       assignment: PropTypes.string.isRequired,
       assignee: PropTypes.string.isRequired,
-      saved: PropTypes.bool
+      saved: PropTypes.bool,
+      isSaving: PropTypes.bool
     }))
   })).isRequired
 };

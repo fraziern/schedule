@@ -27,7 +27,8 @@ export function getSlots(state, slotsIDs) {
       id: slotsID,
       assignment: getAssignment(state, slot.assignment),
       assignee: getAssignee(state, slot.assignee),
-      saved: slot.saved
+      saved: slot.saved,
+      isSaving: slot.isSaving
     };
   });
 }

@@ -2,7 +2,7 @@ var DateCard = require("./models/DateCard");
 
 module.exports = function () {
   DateCard.count().exec( function(err, count) {
-    if (count > 0) {
+    if (count > 0 || process.env.NODE_ENV === "test") {
       return;
     }
 
