@@ -2,11 +2,11 @@
 var express = require("express");
 var bodyParser = require("body-parser");
 require("dotenv").config({silent:true});
-var db_connect = require("./db_connect.js");
+var db_connect = require("./server/db_connect.js");
 var morgan = require("morgan");
 
 // additional routes
-var api = require("./routes/api.routes");
+var api = require("./server/routes/api.routes");
 
 var app = express();
 
@@ -18,18 +18,22 @@ if(process.env.NODE_ENV !== "test") {
   app.use(morgan("combined")); //"combined" outputs the Apache style LOGs
 }
 
+app.use(express.static("build"));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.text());
 app.use(bodyParser.json({ type: "application/json"}));
 
 app.use("/api", api);
-app.get("/", function (req, res) {
-  res.send("Hello World!");
+app.get("*", function(req, res){
+  console.log("Request: [GET]", req.originalUrl);
+  res.sendFile(__dirname+"/index.html");
 });
 
-app.listen(3001, function () {
-  console.log("Example app listening on port 3001!");
+var port = process.env.PORT || 3000;
+app.listen(port, function () {
+  console.log("Node.js listening on port " + port + "...");
 });
 
 module.exports = app; // for testing
