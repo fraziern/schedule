@@ -87,9 +87,8 @@
     "uuid": "^2.0.2"
   },
   "scripts": {
-    "start": "node scripts/start.js",
-    "build": "node scripts/build.js",
-    "test": "jest --watch --env=jsdom",
+    "start": "NODE_ENV=development node server.js",
+    "build": "webpack --progress --config ./config/webpack.dev.config.js",
     "postinstall": "webpack --progress -p --config ./config/webpack.production.config.js"
   },
   "eslintConfig": {

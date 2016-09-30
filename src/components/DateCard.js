@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from "react";
 import { connect } from "react-redux";
 import Slot from "./Slot";
 import { updateAssignment, markUnsaved } from "../actions";
-import padlock from "../../lock.svg";
+import padlock from "../img/lock.svg";
 
 class DateCard extends Component {
 

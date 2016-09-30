@@ -1,19 +1,28 @@
 // This is my simple webpack config
+var path = require("path");
 var webpack = require("webpack");
 
 var config = {
   devtool: "cheap-module-source-map",
   entry: {
-    main: "./js/main.js"
+    main: "./src/index.js"
   },
   output: {
-    filename: "public/[name].bundle.js"
+    path: path.resolve(__dirname, "../build/"),
+    filename: "[name].bundle.js"
   },
-  // plugins: [
-  //   new webpack.optimize.DedupePlugin(),
-  //   new webpack.optimize.UglifyJsPlugin(),
-  //   new webpack.optimize.AggressiveMergingPlugin()
-  // ],
+  plugins: [
+    new webpack.DefinePlugin({
+      "process.env":{
+        "NODE_ENV": JSON.stringify("production")
+      }
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      compress:{
+        warnings: true
+      }
+    })
+  ],
   module: {
     loaders: [
       {
@@ -24,6 +33,18 @@ var config = {
       {
         test: /\.scss$/,
         loaders: ["style", "css", "sass"]
+      },
+      {
+        test: /\.css$/,
+        loaders: ["style", "css"],
+      },
+      {
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        loader: "file?name=img/[name].[ext]"
+      },
+      {
+        test: /\.(woff2?|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,
+        loader: "file?name=fonts/[name].[ext]"
       }
     ]
   }

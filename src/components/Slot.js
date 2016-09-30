@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Selector from "./Selector";
-import checkmark from "../../checkmark.svg";
-import spinner from "../../loading.gif";
+import checkmark from "../img/checkmark.svg";
+import spinner from "../img/loading.gif";
 
 class Slot extends Component {
   constructor(props) {
