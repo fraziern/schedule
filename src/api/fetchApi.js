@@ -1,5 +1,6 @@
 /*eslint no-console: ["error", { allow: ["warn", "error"] }] */
 import { normalize, Schema, arrayOf } from "normalizr";
+import fetch from "isomorphic-fetch";  // fetch polyfill
 
 // normalizr schemas
 const dateCardSchema = new Schema("dateCards");
