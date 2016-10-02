@@ -4,6 +4,10 @@
           border-radius: 0 !important;
 }
 
+.container {
+  max-width: 650px;
+}
+
 .header {
   border-bottom: 2px #4b4b4b solid;
   margin-bottom: 20px;
@@ -59,6 +63,12 @@
 
 td {
   position: relative;
+}
+
+.create-new-slot input {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.1;
 }
 
 .slotlabel {
@@ -119,6 +129,10 @@ and (orientation : portrait) {
   }
 
   .form-control {
+    font-size: 12px;
+  }
+
+  .create-new-slot input {
     font-size: 12px;
   }
 }

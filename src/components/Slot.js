@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from "react";
 import Selector from "./Selector";
+import DeleteSlotButton from "./DeleteSlotButton";
 import checkmark from "../img/checkmark.svg";
 import spinner from "../img/loading.gif";
 
@@ -14,6 +15,12 @@ class Slot extends Component {
     this.handleSelectorFocus = this.handleSelectorFocus.bind(this);
     this.handleSelectorBlur = this.handleSelectorBlur.bind(this);
     this.handleSelectorEnter = this.handleSelectorEnter.bind(this);
+    this.handleDeleteSlotButton = this.handleDeleteSlotButton.bind(this);
+  }
+
+  handleDeleteSlotButton(e) {
+    e.preventDefault();
+    this.props.handleDeleteSlot(this.props.id);
   }
 
   handleSelectorChange(e) {
@@ -46,17 +53,18 @@ class Slot extends Component {
 
     return (
       <tr className={rowClass}>
+          {this.props.admin ? <DeleteSlotButton handleDeleteSlotButton={this.handleDeleteSlotButton} /> : null}
           <td>
             <h4 className={labelClass}>{this.props.assignment.name}</h4>
           </td>
           <td>
-            <Selector {...this.props}
+            <Selector assignmentName={this.props.assignment.name}
             selectorValue={this.state.selectorValue}
             handleSelectorChange={this.handleSelectorChange}
             handleSelectorFocus={this.handleSelectorFocus}
             handleSelectorBlur={this.handleSelectorBlur}
             handleSelectorEnter={this.handleSelectorEnter}
-            cardDisabled={this.props.cardDisabled} />
+            isDisabled={this.props.isDisabled} />
           </td>
           <td>
             <img src={checkmark} className={checkClass} alt="saved" />
@@ -72,6 +80,8 @@ Slot.PropTypes = {
   assignee: PropTypes.object.isRequired,
   assignment: PropTypes.object.isRequired,
   handleUpdateAssignment: PropTypes.func.isRequired,
+  handleDeleteSlot: PropTypes.func.isRequired,
+  admin: PropTypes.string,
   saved: PropTypes.bool,
   isSaving: PropTypes.bool,
   cardDisabled: PropTypes.string

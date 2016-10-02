@@ -38,6 +38,7 @@ class CreateNewSlot extends Component {
 
     return (
       <tr className="create-new-slot">
+          <td></td>
           <td>
             <input className="form-control selector" type="text"
               placeholder="Enter new assignment"

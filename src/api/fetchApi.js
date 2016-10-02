@@ -90,5 +90,44 @@ export default {
       console.warn("updateAssignee request failed", error);
       return Promise.reject(error);
     });
+  },
+
+  addSlotToCard(cardID, slot, cb) {
+    return fetch("/api/add-slot/" + cardID, {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        slot
+      })
+    })
+    .then(checkStatus)
+    .then(parseJSON)
+    .then(cb)
+    .catch(error => {
+      console.warn("addSlotToCard request failed", error);
+      return Promise.reject(error);
+    });
+  },
+
+  deleteSlotFromCard(slotID, cb) {
+    return fetch("/api/remove-slot/" + slotID, {
+      method: "DELETE",
+      credentials: "same-origin",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+      }
+    })
+    .then(checkStatus)
+    .then(parseJSON)
+    .then(cb)
+    .catch(error => {
+      console.warn("deleteSlotFromCard request failed", error);
+      return Promise.reject(error);
+    });
   }
 };

@@ -14,6 +14,12 @@ router.route("/add").post(DateCardController.addDateCard);
 // update assignee
 router.route("/update-assignee/:slotid").post(DateCardController.updateAssignee);
 
+// add slot to existing datecard
+router.route("/add-slot/:cardid").post(DateCardController.addSlotToCard);
+
+// TODO: remove slot from card
+router.route("/remove-slot/:slotid").delete(DateCardController.deleteSlotFromCard);
+
 // Delete a datecard
 router.route("/del/:id").delete(DateCardController.deleteDateCard);
 

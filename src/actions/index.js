@@ -26,6 +26,22 @@ function updateAssigneeSuccess(id, assignee) {
   };
 }
 
+function addSlotToCardSuccess(cardID, slot) {
+  return {
+    type: types.ADD_SLOT_TO_CARD,
+    cardID,
+    slot
+  };
+}
+
+function deleteSlotFromCardSuccess(cardID, slotID) {
+  return {
+    type: types.DELETE_SLOT_FROM_CARD,
+    cardID,
+    slotID
+  };
+}
+
 export function loadAllCards() {
   return dispatch => {
     fetchApi.getAllCards(cards => {
@@ -58,7 +74,7 @@ export function addDateCard(newDate) {
           name: state.entities.assignments[assignmentId].name
         },
         assignee: {
-          id: "",
+          id: "000",  // TODO: we need to try to get rid of any blank IDs in the state
           name: ""
         }
       };
@@ -104,7 +120,7 @@ export function updateAssignment(slotID, assigneeName) {
     };
 
     // AJAX call, then update state if successful
-    fetchApi.updateAssignee(slotID, newAssignee, (status) => {
+    fetchApi.updateAssignee(slotID, newAssignee, () => {
       return dispatch(updateAssigneeSuccess(slotID, newAssignee));
     })
     .catch(error => {
@@ -115,19 +131,53 @@ export function updateAssignment(slotID, assigneeName) {
 
 // for rollback on failure see https://github.com/reactjs/redux/blob/master/examples/shopping-cart/src/actions/index.js
 
-export function addSlot(text, id) {
-  // TODO: DO OTHER STUFF
-  // this needs to do several things:
-  //   1. flag that we're saving the slot now (can implement later)
-  //   2. get assignment ID if it exists, otherwise update state with a new one
-  //   3. AJAX call, then update state if successful
-  //
-  // Updating state after AJAX means add the new slot, add the slot ID to the card
+export function addSlotToCard(assignmentName, cardID) {
+  return (dispatch, getState) => {
+    // TODO: DO OTHER STUFF
+    // this needs to do several things:
+    //   1. flag that we're saving the slot now (can implement later)
+    //   2. get assignment ID if it exists, otherwise update state with a new one
+    let assignmentID = fromAccessors.getAssignmentIDByName(getState(), assignmentName);
+    if (!assignmentID) {
+      assignmentID = uuid.v4();
+      dispatch({
+        type: types.ADD_ASSIGNMENT,
+        id: assignmentID,
+        name: assignmentName
+      });
+    }
+    // TODO: The above can probably be refactored
+    //   3. AJAX call, then update state if successful
+    const newSlot = {
+      _id: uuid.v4(),
+      assignee: {
+        name: "",
+        id: "000"
+      },
+      assignment: {
+        name: assignmentName,
+        id: assignmentID
+      }
+    };
+    //
+    // Updating state after AJAX means add the new slot, add the slot ID to the card
+    fetchApi.addSlotToCard(cardID, newSlot, () => {
+      return dispatch(addSlotToCardSuccess(cardID, newSlot));
+    })
+    .catch(error => {
+      console.log("fetch rejected", error);
+    });
+  };
+}
 
-  return {
-    type: types.ADD_SLOT,
-    id,
-    text
+export function deleteSlotFromCard(cardID, slotID) {
+  return (dispatch) => {
+    fetchApi.deleteSlotFromCard(slotID, () => {
+      return dispatch(deleteSlotFromCardSuccess(cardID, slotID));
+    })
+    .catch(error => {
+      console.log("fetch rejected", error);
+    });
   };
 }
 

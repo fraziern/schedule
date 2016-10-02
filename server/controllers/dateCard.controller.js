@@ -25,14 +25,41 @@ var DateCardController = function() {
       return res.status(403).json(req.body).end();
     }
     // TODO: we should make sure assignee has name and id values too?
-    var slotId = req.params.slotid;
-    var assignee = req.body.assignee;
 
-    var query = {"slots._id": slotId};
-    var update = { $set: { "slots.$.assignee": assignee }};
+    var query = {"slots._id": req.params.slotid};
+    var update = { $set: { "slots.$.assignee": req.body.assignee }};
 
     DateCard.update(query, update, function (err, saved) {
-      if (err) return res.status(404).send(err);
+      if (err) return res.status(500).send(err);
+      return res.json({saved: saved});
+    });
+  }
+
+  function addSlotToCard(req, res) {
+    if (!req.params.cardid || !req.body.slot) {
+      return res.status(404).json({error: "Some parameters missing"}).end();
+    } else if (!req.body.slot.assignment || !req.body.slot.assignee) {
+      return res.status(404).json({error: "Some slot parameters missing"}).end();
+    }
+
+    var dateCardId = req.params.cardid;
+    var slot = req.body.slot;
+
+    var update = { $addToSet: {"slots": slot }};
+    DateCard.findByIdAndUpdate(dateCardId, update, {new: true}, function (err, saved) {
+      if (err) return res.status(500).send(err);
+      return res.json({saved: saved});
+    });
+  }
+
+  function deleteSlotFromCard(req, res) {
+    if (!req.params.slotid) return res.status(404).json({id: "slotID"}).end();
+
+    var query = {"slots._id": req.params.slotid};
+    var update = { $pull: { slots: { _id: req.params.slotid }}};
+    DateCard.findOneAndUpdate( query, update, {new: true}, function (err, saved) {
+      if (err) return res.status(500).send(err);
+      if (!saved) return res.status(404).json({error: "slot not found"}).end();
       return res.json({saved: saved});
     });
   }
@@ -53,6 +80,8 @@ var DateCardController = function() {
     getDateCards,
     addDateCard,
     updateAssignee,
+    addSlotToCard,
+    deleteSlotFromCard,
     deleteDateCard
   };
 }();

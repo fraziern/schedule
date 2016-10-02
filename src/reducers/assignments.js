@@ -24,26 +24,52 @@ function addAssignee(state, id, name) {
   });
 }
 
-function addSlot(state, id, assignment, assignee) {
+function addSlot(state, slot) {
   return update(state, {
     entities: {slots: {$merge: {
-      [id]: {
-        id,
-        assignment,
-        assignee
+      [slot._id]: {
+        _id: slot._id,
+        assignment: slot.assignment.id,
+        assignee: slot.assignee.id,
+        id: slot._id
       }
     }}}
   });
 }
 
-function addAssignment(state, id, assignment) {
-  return state;
-  // TODO: do more stuff
+function addAssignment(state, id, name) {
+  return update(state, {
+    entities: {assignments: {$merge: {
+      [id]: {
+        id,
+        name
+      }
+    }}}
+  });
 }
 
-function addSlotToDard(state, cardID, slot) {
-  return state;
-  // TODO: do more stuff
+function addSlotToCard(state, cardID, slot) {
+  return update(state, {
+    entities: {
+      slots: {$merge: {[slot._id]: {
+        _id: slot._id,
+        assignment: slot.assignment.id,
+        assignee: slot.assignee.id
+      }}},
+      dateCards: {[cardID]: {slots: {$push: [slot._id]}}}
+    }
+  });
+}
+
+function deleteSlotFromCard(state, cardID, slotID) {
+  // just pull the slot ID from the slots array. everything else will get
+  // cleaned up on the next app refresh
+  var newSlots = state.entities.dateCards[cardID].slots.filter((el) => (el !== slotID) );
+  return update(state, {
+    entities: {
+      dateCards: {[cardID]: {slots: {$set: newSlots }}}
+    }
+  });
 }
 
 function savingSlotAssignee(state, slotID) {
@@ -100,14 +126,18 @@ function sortCardsAsc(state) {
   return {...state, visibleCards: orderedCards};
 }
 
+// ***
+// EVERYTHING BELOW IS PUBLIC
+// ***
+
 // *** selectors ***
 export function getVisibleDateCards(state) {
   if (!state.isLoaded) return null;
 
-  // TODO: make this dependant on state.sort
+  // TODO: make this dependant on state.sort if/when we implement sorting
   const sortedState = sortCardsAsc(state);
 
-  // remove old cards
+  // remove cards that predate today
   var filteredList = sortedState.visibleCards.filter(dateCardID => {
     const normalizedDateCard = fromAccessors.getNormalizedDateCard(state, dateCardID);
     if (normalizedDateCard.dateScheduled < state.currentDate) return false;
@@ -178,16 +208,31 @@ export default function assignments(state = initialState, action) {
     return { ...state, filter: action.filter };
 
   case types.ADD_SLOT:
-    return state;
-    // TODO: do more stuff
+    return addSlot(
+      state,
+      action.slot
+    );
 
   case types.ADD_ASSIGNMENT:
-    return state;
-    // TODO: do more stuff
+    return addAssignment(
+      state,
+      action.id,
+      action.name
+    );
 
   case types.ADD_SLOT_TO_CARD:
-    return state;
-    // TODO: do more stuff
+    return addSlotToCard(
+      state,
+      action.cardID,
+      action.slot
+    );
+
+  case types.DELETE_SLOT_FROM_CARD:
+    return deleteSlotFromCard(
+      state,
+      action.cardID,
+      action.slotID
+    );
 
   default:
     return state;

@@ -3,22 +3,17 @@ import { connect } from "react-redux";
 import Slot from "./Slot";
 import CreateNewSlot from "./CreateNewSlot";
 import DateCardHeader from "./DateCardHeader";
-import { updateAssignment, markUnsaved, addSlot } from "../actions";
+import { updateAssignment, markUnsaved, addSlotToCard, deleteSlotFromCard } from "../actions";
 
 class DateCard extends Component {
 
   constructor(props) {
     super(props);
     this.handleChangesIfNeeded = this.handleChangesIfNeeded.bind(this);
-    this.handleUpdateAssignment = this.handleUpdateAssignment.bind(this);
   }
 
   handleChangesIfNeeded(slotId) {
     this.props.markUnsaved(slotId);
-  }
-
-  handleUpdateAssignment(slotID, assignee) {
-    this.props.updateAssignment(slotID, assignee);
   }
 
   getFilteredSlots() {
@@ -31,7 +26,14 @@ class DateCard extends Component {
     }
 
     return filteredRows.map((slot) =>
-      (<Slot {...slot} key={slot.id} cardDisabled={this.props.isDisabled} handleChangesIfNeeded={this.handleChangesIfNeeded} handleUpdateAssignment={this.handleUpdateAssignment} />)
+      (<Slot {...slot}
+        key={slot.id}
+        admin={this.props.admin}
+        isDisabled={this.props.isDisabled}
+        handleDeleteSlot={this.props.handleDeleteSlot}
+        handleChangesIfNeeded={this.handleChangesIfNeeded}
+        handleUpdateAssignment={this.props.handleUpdateAssignment}
+      />)
     );
   }
 
@@ -72,14 +74,18 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch, ownProps) {
   return {
-    updateAssignment: (id, assignee) => {
+    handleUpdateAssignment: (id, assignee) => {
       dispatch(updateAssignment(id, assignee));
     },
     markUnsaved: (id) => {
       dispatch(markUnsaved(id));
     },
     handleAddSlot: (text) => {
-      dispatch(addSlot(text, ownProps.id));
+      dispatch(addSlotToCard(text, ownProps.id));
+    },
+    // TODO create action for this
+    handleDeleteSlot: (slotID) => {
+      dispatch(deleteSlotFromCard(ownProps.id, slotID));
     }
   };
 }

@@ -4,11 +4,11 @@ var Schema = mongoose.Schema;
 var slotSchema = new Schema({
   _id: { type: String, required: true },
   assignment: {
-    id: String,
+    id: { type: String, required: true },
     name: String
   },
   assignee: {
-    id: String,
+    id: { type: String, required: true },
     name: String
   }
 });
