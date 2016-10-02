@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, PropTypes } from "react";
 import Selector from "./Selector";
 import checkmark from "../img/checkmark.svg";
 import spinner from "../img/loading.gif";
@@ -22,18 +22,19 @@ class Slot extends Component {
   }
 
   // These handlers are used to alter CSS
-  handleSelectorFocus(e) {
+  handleSelectorFocus() {
     this.setState({ focused: true });
   }
 
-  handleSelectorBlur(e) {
+  handleSelectorBlur() {
     this.setState({ focused: false });
   }
 
   // if we hit ENTER then send an update action
   handleSelectorEnter(e) {
-    if (e.charCode === 13) {
-      this.props.handleUpdateAssignment(this.props.id, this.state.selectorValue);
+    if (e.which === 13) {
+      const text = e.target.value.trim();
+      this.props.handleUpdateAssignment(this.props.id, text);
     }
   }
 
@@ -45,12 +46,18 @@ class Slot extends Component {
 
     return (
       <tr className={rowClass}>
-          <td><h4 className={labelClass}>{this.props.assignment.name}</h4></td>
-          <td><Selector {...this.props} selectorValue={this.state.selectorValue} handleSelectorChange={this.handleSelectorChange}
-              handleSelectorFocus={this.handleSelectorFocus}
-              handleSelectorBlur={this.handleSelectorBlur}
-              handleSelectorEnter={this.handleSelectorEnter}
-               cardDisabled={this.props.cardDisabled} /></td>
+          <td>
+            <h4 className={labelClass}>{this.props.assignment.name}</h4>
+          </td>
+          <td>
+            <Selector {...this.props}
+            selectorValue={this.state.selectorValue}
+            handleSelectorChange={this.handleSelectorChange}
+            handleSelectorFocus={this.handleSelectorFocus}
+            handleSelectorBlur={this.handleSelectorBlur}
+            handleSelectorEnter={this.handleSelectorEnter}
+            cardDisabled={this.props.cardDisabled} />
+          </td>
           <td>
             <img src={checkmark} className={checkClass} alt="saved" />
             <img src={spinner} className={spinnerClass} alt="saving" />
@@ -59,5 +66,15 @@ class Slot extends Component {
     );
   }
 }
+
+Slot.PropTypes = {
+  id: PropTypes.string.isRequired,
+  assignee: PropTypes.object.isRequired,
+  assignment: PropTypes.object.isRequired,
+  handleUpdateAssignment: PropTypes.func.isRequired,
+  saved: PropTypes.bool,
+  isSaving: PropTypes.bool,
+  cardDisabled: PropTypes.string
+};
 
 export default Slot;

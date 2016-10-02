@@ -1,3 +1,4 @@
+// *** ACTIONS *** //
 import fetchApi from "../api/fetchApi.js";
 import * as types from "../constants/ActionTypes.js";
 import * as fromAccessors from "../reducers/accessors.js";
@@ -112,6 +113,15 @@ export function updateAssignment(id, assigneeName) {
 }
 
 // for rollback on failure see https://github.com/reactjs/redux/blob/master/examples/shopping-cart/src/actions/index.js
+
+export function addSlot(text, id) {
+  // TODO: DO OTHER STUFF
+  return {
+    type: types.ADD_SLOT,
+    id,
+    text
+  };
+}
 
 export function setFilter(filter) {
   return {

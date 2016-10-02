@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from "react";
 import { connect } from "react-redux";
 import Slot from "./Slot";
-import { updateAssignment, markUnsaved } from "../actions";
+import CreateNewSlot from "./CreateNewSlot";
+import { updateAssignment, markUnsaved, addSlot } from "../actions";
 import padlock from "../img/lock.svg";
 
 class DateCard extends Component {
@@ -54,6 +55,7 @@ class DateCard extends Component {
         <table className="table table-hover">
           <tbody>
             {this.getFilteredSlots()}
+            { this.props.admin ? <CreateNewSlot handleAddSlot={this.props.handleAddSlot}/> : "" }
           </tbody>
         </table>
       </div>
@@ -64,7 +66,12 @@ class DateCard extends Component {
 DateCard.PropTypes = {
   updateAssignment: PropTypes.func.isRequired,
   markUnsaved: PropTypes.func.isRequired,
-  isDisabled: PropTypes.string.isRequired
+  dateScheduled: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+  slots: PropTypes.array.isRequired,
+  filter: PropTypes.string.isRequired,
+  isDisabled: PropTypes.string,
+  admin: PropTypes.string
 };
 
 function mapStateToProps(state) {
@@ -73,13 +80,16 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch, ownProps) {
   return {
     updateAssignment: (id, assignee) => {
       dispatch(updateAssignment(id, assignee));
     },
     markUnsaved: (id) => {
       dispatch(markUnsaved(id));
+    },
+    handleAddSlot: (text) => {
+      dispatch(addSlot(text, ownProps.id));
     }
   };
 }

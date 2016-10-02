@@ -167,6 +167,10 @@ export default function assignments(state = initialState, action) {
   case types.SET_FILTER:
     return { ...state, filter: action.filter };
 
+  case types.ADD_SLOT:
+    return state;
+    // TODO: do other stuff
+
   default:
     return state;
   }

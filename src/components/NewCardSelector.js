@@ -26,7 +26,7 @@ class NewCardSelector extends Component {
     return (
       <div className="datecard panel panel-default" >
         <form onSubmit={this.handleSubmit}>
-          <input type="text" placeholder="Enter new date" value={this.state.selectorValue} onChange={this.handleSelectorChange} />
+          <input className="form-control selector" type="text" placeholder="Enter new date" value={this.state.selectorValue} onChange={this.handleSelectorChange} />
           <button type="submit">+</button>
         </form>
       </div>

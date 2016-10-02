@@ -8,19 +8,19 @@ class DateCards extends Component {
 
   constructor(props) {
     super(props);
-    this.isLocked = this.isLocked.bind(this);
+    // this.isLocked = this.isLocked.bind(this);
   }
 
-  isLocked(cutoff, cardDate) {
-    if (cutoff > cardDate) return "true";
-    return "";
-  }
+  // isLocked(cutoff, cardDate) {
+  //   if (cutoff > cardDate) return "true";
+  //   return "";
+  // }
 
   render() {
     let dateCards = (!this.props.isLoaded) ?
       "Loading..." :
      this.props.dateCards.map((card) =>
-       (<DateCard {...card} key={card.id} />)
+       (<DateCard {...card} key={card.id} admin="true" />)
      );
 
     return (
