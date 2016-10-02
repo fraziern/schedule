@@ -8,3 +8,5 @@ export const HIDE_OLDCARDS = "HIDE_OLDCARDS";
 export const SET_FILTER = "SET_FILTER";
 export const SAVING_ASSIGNEE = "SAVING_ASSIGNEE";
 export const ADD_SLOT = "ADD_SLOT";
+export const ADD_ASSIGNMENT = "ADD_ASSIGNMENT";
+export const ADD_SLOT_TO_CARD = "ADD_SLOT_TO_CARD";

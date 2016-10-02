@@ -2,8 +2,8 @@ import React, { Component, PropTypes } from "react";
 import { connect } from "react-redux";
 import Slot from "./Slot";
 import CreateNewSlot from "./CreateNewSlot";
+import DateCardHeader from "./DateCardHeader";
 import { updateAssignment, markUnsaved, addSlot } from "../actions";
-import padlock from "../img/lock.svg";
 
 class DateCard extends Component {
 
@@ -21,12 +21,6 @@ class DateCard extends Component {
     this.props.updateAssignment(slotID, assignee);
   }
 
-  getDateName(JSONDateIn) {
-    const dateIn = new Date(JSONDateIn);
-    const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    return MONTHS[dateIn.getUTCMonth()] + " " + dateIn.getUTCDate() + ", " + dateIn.getUTCFullYear();
-  }
-
   getFilteredSlots() {
     let filteredRows = this.props.slots;
     if (this.props.filter !== "ALL") {
@@ -42,22 +36,18 @@ class DateCard extends Component {
   }
 
   render() {
-    const disabled = this.props.isDisabled;
-    const headerClass = "panel-heading " + ((disabled === "true") ? "panel-heading--disabled" : "");
-    const lockClass = (disabled === "true") ? "padlock" : "padlock padlock--hidden";
-
     return (
       <div className="datecard panel panel-default">
-        <div className={headerClass}>
-          <h3>{this.getDateName(this.props.dateScheduled)}</h3>
-          <img src={padlock} alt="locked" className={lockClass} />
-        </div>
+
+        <DateCardHeader dateScheduled={this.props.dateScheduled} isDisabled={this.props.isDisabled} />
+
         <table className="table table-hover">
           <tbody>
             {this.getFilteredSlots()}
-            { this.props.admin ? <CreateNewSlot handleAddSlot={this.props.handleAddSlot}/> : "" }
+            { this.props.admin && <CreateNewSlot handleAddSlot={this.props.handleAddSlot}/> }
           </tbody>
         </table>
+
       </div>
     );
   }

@@ -4,6 +4,16 @@ function getEntityFunction(entity) {
   };
 }
 
+function getEntityIDByNameFunction(entity) {
+  return function (state, name) {
+    const elements = state.entities[entity];
+    for (var element in elements) {
+      if (elements[element].name === name) return elements[element].id;
+    }
+    return null;
+  };
+}
+
 export function getAssignee(state, id) {
   return getEntityFunction("assignees")(state, id);
 }
@@ -20,6 +30,14 @@ export function getNormalizedDateCard(state, id) {
   return getEntityFunction("dateCards")(state, id);
 }
 
+export function getAssigneeIDByName(state, newAssignee) {
+  return getEntityIDByNameFunction("assignees")(state, newAssignee);
+}
+
+export function getAssignmentIDByName(state, newAssignment) {
+  return getEntityIDByNameFunction("assignments")(state, newAssignment);
+}
+
 export function getSlots(state, slotsIDs) {
   return slotsIDs.map(slotsID => {
     const slot = getNormalizedSlot(state, slotsID);
@@ -31,13 +49,4 @@ export function getSlots(state, slotsIDs) {
       isSaving: slot.isSaving
     };
   });
-}
-
-export function getAssigneeIDByName(state, newAssignee) {
-  const assignees = state.entities.assignees;
-  // debugger;
-  for (var assignee in assignees) {
-    if (assignees[assignee].name === newAssignee) return assignees[assignee].id;
-  }
-  return null;
 }

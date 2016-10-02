@@ -44,6 +44,7 @@ export function markUnsaved(id) {
 export function addDateCard(newDate) {
   return (dispatch, getState) => {
     // for now we'll change the date format "m/d/yyyy" to ISO w/o validating
+    // TODO: validate date
     const dateScheduled = new Date(newDate);
     let state = getState();
 
@@ -76,16 +77,16 @@ export function addDateCard(newDate) {
   };
 }
 
-export function updateAssignment(id, assigneeName) {
+export function updateAssignment(slotID, assigneeName) {
   return (dispatch, getState) => {
 
     // flag that we're saving now
     dispatch({
       type: types.SAVING_ASSIGNEE,
-      id
+      id: slotID
     });
 
-    // get assignee ID if exists, otherwise dispatch an action to create one
+    // get assignee ID if exists, otherwise create one
     let assigneeID = fromAccessors.getAssigneeIDByName(getState(), assigneeName);
     if (!assigneeID) {
       assigneeID = uuid.v4();
@@ -103,8 +104,8 @@ export function updateAssignment(id, assigneeName) {
     };
 
     // AJAX call, then update state if successful
-    fetchApi.updateAssignee(id, newAssignee, (status) => {
-      return dispatch(updateAssigneeSuccess(id, newAssignee));
+    fetchApi.updateAssignee(slotID, newAssignee, (status) => {
+      return dispatch(updateAssigneeSuccess(slotID, newAssignee));
     })
     .catch(error => {
       console.log("fetch rejected", error);
@@ -116,6 +117,13 @@ export function updateAssignment(id, assigneeName) {
 
 export function addSlot(text, id) {
   // TODO: DO OTHER STUFF
+  // this needs to do several things:
+  //   1. flag that we're saving the slot now (can implement later)
+  //   2. get assignment ID if it exists, otherwise update state with a new one
+  //   3. AJAX call, then update state if successful
+  //
+  // Updating state after AJAX means add the new slot, add the slot ID to the card
+
   return {
     type: types.ADD_SLOT,
     id,

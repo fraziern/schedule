@@ -24,17 +24,27 @@ function addAssignee(state, id, name) {
   });
 }
 
-// function addSlot(state, id, assignment, assignee) {
-//   return update(state, {
-//     entities: {slots: {$merge: {
-//       [id]: {
-//         id,
-//         assignment,
-//         assignee
-//       }
-//     }}}
-//   });
-// }
+function addSlot(state, id, assignment, assignee) {
+  return update(state, {
+    entities: {slots: {$merge: {
+      [id]: {
+        id,
+        assignment,
+        assignee
+      }
+    }}}
+  });
+}
+
+function addAssignment(state, id, assignment) {
+  return state;
+  // TODO: do more stuff
+}
+
+function addSlotToDard(state, cardID, slot) {
+  return state;
+  // TODO: do more stuff
+}
 
 function savingSlotAssignee(state, slotID) {
   return update(state, {
@@ -169,7 +179,15 @@ export default function assignments(state = initialState, action) {
 
   case types.ADD_SLOT:
     return state;
-    // TODO: do other stuff
+    // TODO: do more stuff
+
+  case types.ADD_ASSIGNMENT:
+    return state;
+    // TODO: do more stuff
+
+  case types.ADD_SLOT_TO_CARD:
+    return state;
+    // TODO: do more stuff
 
   default:
     return state;
