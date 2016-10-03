@@ -53,7 +53,7 @@ class Slot extends Component {
 
     return (
       <tr className={rowClass}>
-          {this.props.admin ? <DeleteSlotButton handleDeleteSlotButton={this.handleDeleteSlotButton} /> : null}
+          {this.props.admin ? <DeleteSlotButton handleDeleteSlotButton={this.handleDeleteSlotButton} editing={this.props.editing} /> : null}
           <td>
             <h4 className={labelClass}>{this.props.assignment.name}</h4>
           </td>
@@ -82,6 +82,7 @@ Slot.PropTypes = {
   handleUpdateAssignment: PropTypes.func.isRequired,
   handleDeleteSlot: PropTypes.func.isRequired,
   admin: PropTypes.string,
+  editing: PropTypes.bool.isRequired,
   saved: PropTypes.bool,
   isSaving: PropTypes.bool,
   cardDisabled: PropTypes.string

@@ -3,6 +3,7 @@ import fetchApi from "../api/fetchApi.js";
 import * as types from "../constants/ActionTypes.js";
 import * as fromAccessors from "../reducers/accessors.js";
 import uuid from "uuid";
+import moment from "moment";
 
 function receiveCards(cards) {
   return {
@@ -42,6 +43,9 @@ function deleteSlotFromCardSuccess(cardID, slotID) {
   };
 }
 
+/// *** PUBLIC FUNCTIONS ***
+// *************************
+
 export function loadAllCards() {
   return dispatch => {
     fetchApi.getAllCards(cards => {
@@ -59,9 +63,9 @@ export function markUnsaved(id) {
 
 export function addDateCard(newDate) {
   return (dispatch, getState) => {
-    // for now we'll change the date format "m/d/yyyy" to ISO w/o validating
-    // TODO: validate date
-    const dateScheduled = new Date(newDate);
+    const dateScheduled = new moment(newDate, ["M/D/YYYY"]);
+    if (!dateScheduled.isValid()) return;
+
     let state = getState();
 
     // create a set of new slots based on existing assignments list

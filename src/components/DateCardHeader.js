@@ -1,16 +1,21 @@
 import React, { Component, PropTypes } from "react";
 import padlock from "../img/lock.svg";
+import moment from "moment";
 
 class DateCardHeader extends Component {
 
   constructor(props) {
     super(props);
+    this.handleEditButton = this.handleEditButton.bind(this);
   }
 
   getDateName(JSONDateIn) {
-    const dateIn = new Date(JSONDateIn);
-    const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    return MONTHS[dateIn.getUTCMonth()] + " " + dateIn.getUTCDate() + ", " + dateIn.getUTCFullYear();
+    return moment(JSONDateIn).format("MMMM Do, YYYY");
+  }
+
+  handleEditButton(e) {
+    e.preventDefault();
+    this.props.toggleEditing();
   }
 
   render() {
@@ -18,10 +23,13 @@ class DateCardHeader extends Component {
     const headerClass = "panel-heading " + ((disabled === "true") ? "panel-heading--disabled" : "");
     const lockClass = (disabled === "true") ? "padlock" : "padlock padlock--hidden";
 
+    const pointer = (this.props.admin) ? (<span onClick={this.handleEditButton} className="glyphicon glyphicon-pencil pull-right" aria-hidden="true"></span>) : null;
+
     return (
       <div className={headerClass}>
         <h3>{this.getDateName(this.props.dateScheduled)}</h3>
         <img src={padlock} alt="locked" className={lockClass} />
+        {pointer}
       </div>
     );
   }

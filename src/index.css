@@ -1,7 +1,7 @@
 * {
-  -webkit-border-radius: 0 !important;
-     -moz-border-radius: 0 !important;
-          border-radius: 0 !important;
+  -webkit-border-radius: 0;
+     -moz-border-radius: 0;
+          border-radius: 0;
 }
 
 .container {
@@ -61,8 +61,31 @@
   opacity: 0;
 }
 
+.glyphicon-pencil {
+  margin-top: 5px;
+}
+
+.glyphicon-pencil:hover {
+  cursor: pointer;
+  color: red;
+}
+
 td {
   position: relative;
+  overflow: hidden;
+}
+
+.remove-slot-btn button {
+  opacity: 1;
+  border-radius: 50%;
+  transition: all 0.2s;
+}
+
+.remove-slot-btn--hidden button {
+  opacity: 0;
+  left: -50px;
+  position: absolute;
+  cursor: default;
 }
 
 .create-new-slot input {
