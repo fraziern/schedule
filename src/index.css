@@ -67,7 +67,11 @@
 
 .glyphicon-pencil:hover {
   cursor: pointer;
-  color: red;
+  color: #c9302c;
+}
+
+.pencil--red {
+  color: #c9302c;
 }
 
 td {
@@ -78,6 +82,10 @@ td {
 .remove-slot-btn button {
   opacity: 1;
   border-radius: 50%;
+  background-color: transparent;
+  color: #333;
+  border: none;
+  margin-top: 5px;
   transition: all 0.2s;
 }
 

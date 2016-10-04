@@ -22,8 +22,9 @@ class DateCardHeader extends Component {
     const disabled = this.props.isDisabled;
     const headerClass = "panel-heading " + ((disabled === "true") ? "panel-heading--disabled" : "");
     const lockClass = (disabled === "true") ? "padlock" : "padlock padlock--hidden";
+    const pencilClass = "glyphicon glyphicon-pencil pull-right" + ((this.props.editing) ? " pencil--red" : "");
 
-    const pointer = (this.props.admin) ? (<span onClick={this.handleEditButton} className="glyphicon glyphicon-pencil pull-right" aria-hidden="true"></span>) : null;
+    const pointer = (this.props.admin) ? (<span onClick={this.handleEditButton} className={pencilClass} aria-hidden="true"></span>) : null;
 
     return (
       <div className={headerClass}>

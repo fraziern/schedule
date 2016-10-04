@@ -48,7 +48,7 @@ class DateCard extends Component {
     return (
       <div className="datecard panel panel-default">
 
-        <DateCardHeader dateScheduled={this.props.dateScheduled} isDisabled={this.props.isDisabled} admin={this.props.admin} toggleEditing={this.toggleEditing}/>
+        <DateCardHeader dateScheduled={this.props.dateScheduled} isDisabled={this.props.isDisabled} admin={this.props.admin} editing={this.state.editing} toggleEditing={this.toggleEditing}/>
 
         <table className="table table-hover">
           <tbody>
