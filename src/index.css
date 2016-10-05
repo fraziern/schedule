@@ -107,8 +107,8 @@ td {
 }
 
 .label--focused {
-  color: #593f28;
-  transition: all 0.5s;
+  color: #7586bb;
+  transition: all 0.3s;
 }
 
 .selector:focus {

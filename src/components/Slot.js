@@ -9,7 +9,8 @@ class Slot extends Component {
     super(props);
     this.state = {
       selectorValue: (this.props.assignee) ? this.props.assignee.name : "",
-      focused: false
+      focused: false,
+      changed: false
     };
     this.handleSelectorChange = this.handleSelectorChange.bind(this);
     this.handleSelectorFocus = this.handleSelectorFocus.bind(this);
@@ -25,6 +26,7 @@ class Slot extends Component {
 
   handleSelectorChange(e) {
     this.setState({ selectorValue: e.target.value });
+    if (!this.state.changed) this.setState({ changed: true });
     if(this.props.saved) this.props.handleChangesIfNeeded(this.props.id);
   }
 
@@ -35,13 +37,13 @@ class Slot extends Component {
 
   handleSelectorBlur() {
     this.setState({ focused: false });
+    if (this.state.changed) this.props.handleUpdateAssignment(this.props.id, this.state.selectorValue.trim());
   }
 
   // if we hit ENTER then send an update action
   handleSelectorEnter(e) {
     if (e.which === 13) {
-      const text = e.target.value.trim();
-      this.props.handleUpdateAssignment(this.props.id, text);
+      this.props.handleUpdateAssignment(this.props.id, this.state.selectorValue.trim());
     }
   }
 
