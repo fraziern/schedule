@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from "react";
 import padlock from "../img/lock.svg";
 import moment from "moment";
+import DeleteCardButton from "./DeleteCardButton";
 
 class DateCardHeader extends Component {
 
@@ -22,15 +23,20 @@ class DateCardHeader extends Component {
     const disabled = this.props.isDisabled;
     const headerClass = "panel-heading " + ((disabled === "true") ? "panel-heading--disabled" : "");
     const lockClass = (disabled === "true") ? "padlock" : "padlock padlock--hidden";
-    const pencilClass = "glyphicon glyphicon-pencil pull-right" + ((this.props.editing) ? " pencil--red" : "");
+    const pencilClass = "glyphicon glyphicon-pencil" + ((this.props.editing) ? " pencil--red" : "");
 
-    const pointer = (this.props.admin) ? (<span onClick={this.handleEditButton} className={pencilClass} aria-hidden="true"></span>) : null;
+    const trashcan = (this.props.admin) ? (<DeleteCardButton handleDeleteCard={this.props.handleDeleteCard}/>) : null;
+
+    const pencil = (this.props.admin) ? (<span onClick={this.handleEditButton} className={pencilClass} aria-hidden="true"></span>) : null;
 
     return (
       <div className={headerClass}>
         <h3>{this.getDateName(this.props.dateScheduled)}</h3>
         <img src={padlock} alt="locked" className={lockClass} />
-        {pointer}
+        <ul className="list-inline pull-right">
+        <li>{trashcan}</li>
+        <li>{pencil}</li>
+        </ul>
       </div>
     );
   }
@@ -38,6 +44,7 @@ class DateCardHeader extends Component {
 
 DateCardHeader.PropTypes = {
   dateScheduled: PropTypes.string.isRequired,
+  handleDeleteCard: PropTypes.func.isRequired,
   isDisabled: PropTypes.string
 };
 

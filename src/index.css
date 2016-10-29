@@ -74,6 +74,31 @@
   color: #c9302c;
 }
 
+.glyphicon-trash {
+  margin-top: 5px;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  transition: all 0.2s;
+}
+
+.glyphicon-trash:hover {
+  cursor: pointer;
+  color: #c9302c;
+}
+
+.glyphicon-trash--armed {
+  background-color: #c9302c;
+  color: black;
+  border-radius: 50%;
+  padding: 7px;
+}
+
+.glyphicon-trash--armed:hover {
+  color: #8f9bbf;
+}
+
 td {
   position: relative;
   overflow: hidden;

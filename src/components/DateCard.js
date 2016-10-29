@@ -11,6 +11,7 @@ class DateCard extends Component {
     super(props);
     this.handleChangesIfNeeded = this.handleChangesIfNeeded.bind(this);
     this.toggleEditing = this.toggleEditing.bind(this);
+    this.handleDeleteCard = this.handleDeleteCard.bind(this);
     this.state = { editing: false };
   }
 
@@ -20,6 +21,10 @@ class DateCard extends Component {
 
   toggleEditing() {
     this.setState({ editing: !this.state.editing });
+  }
+
+  handleDeleteCard() {
+    console.log("handleDeleteCard");
   }
 
   getFilteredSlots() {
@@ -48,7 +53,12 @@ class DateCard extends Component {
     return (
       <div className="datecard panel panel-default">
 
-        <DateCardHeader dateScheduled={this.props.dateScheduled} isDisabled={this.props.isDisabled} admin={this.props.admin} editing={this.state.editing} toggleEditing={this.toggleEditing}/>
+        <DateCardHeader dateScheduled={this.props.dateScheduled} isDisabled={this.props.isDisabled}
+        admin={this.props.admin}
+        editing={this.state.editing}
+        toggleEditing={this.toggleEditing}
+        handleDeleteCard={this.handleDeleteCard}
+        />
 
         <table className="table table-hover">
           <tbody>
