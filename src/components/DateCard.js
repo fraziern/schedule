@@ -11,6 +11,7 @@ class DateCard extends Component {
     super(props);
     this.handleChangesIfNeeded = this.handleChangesIfNeeded.bind(this);
     this.toggleEditing = this.toggleEditing.bind(this);
+    this.handleDeleteCard = this.handleDeleteCard.bind(this);
     this.state = { editing: false };
   }
 
@@ -20,6 +21,10 @@ class DateCard extends Component {
 
   toggleEditing() {
     this.setState({ editing: !this.state.editing });
+  }
+
+  handleDeleteCard() {
+    console.log("handleDeleteCard");
   }
 
   getFilteredSlots() {
@@ -48,6 +53,7 @@ class DateCard extends Component {
     return (
       <div className="datecard panel panel-default">
 
+<<<<<<< 621d6b8e2140f8e9f85c95051220f270ec2e0997
         <DateCardHeader
           dateScheduled={this.props.dateScheduled}
           isDisabled={this.props.isDisabled}
@@ -58,6 +64,14 @@ class DateCard extends Component {
           handleUpdateLabel={this.props.handleUpdateLabel}
           handleDeleteCard={this.handleDeleteCard}
           />
+=======
+        <DateCardHeader dateScheduled={this.props.dateScheduled} isDisabled={this.props.isDisabled}
+        admin={this.props.admin}
+        editing={this.state.editing}
+        toggleEditing={this.toggleEditing}
+        handleDeleteCard={this.handleDeleteCard}
+        />
+>>>>>>> added trashcan button, nonfunctional
 
         <table className="table table-hover">
           <tbody>
