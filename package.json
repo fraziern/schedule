@@ -65,6 +65,7 @@
     "normalizr": "^2.2.1",
     "object-assign": "4.1.0",
     "opn": "4.0.2",
+    "passport": "^0.3.2",
     "path-exists": "3.0.0",
     "postcss-loader": "0.11.1",
     "promise": "7.1.1",
