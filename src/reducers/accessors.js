@@ -1,3 +1,5 @@
+import moment from "moment";
+
 function getEntityFunction(entity) {
   return function (state, id) {
     return state.entities[entity][id];
@@ -49,4 +51,31 @@ export function getSlots(state, slotsIDs) {
       isSaving: slot.isSaving
     };
   });
+}
+
+export function getLastNormDatecard(state) {
+  // helper function to find the last in time datecard and return the
+  //  normalized version of it
+
+  // create an array of objects, which store ids and moments
+  var moments = Object.keys(state.entities.dateCards).map((el) => {
+    return {
+      id: el, 
+      date: moment(state.entities.dateCards[el].dateScheduled)
+    };
+  });
+
+  // find the latest date, save ID
+  var last = {
+    id: "",
+    date: moment(0)
+  };
+  moments.forEach((el) => {
+    if (el.date.isAfter(last.date)) {
+      last = el;
+    }
+  });
+
+  if (last.id !== "") return state.entities.dateCards[last.id];
+  else return undefined;
 }

@@ -16,6 +16,7 @@
     "eslint-plugin-jsx-a11y": "2.2.1",
     "eslint-plugin-react": "5.2.2",
     "jest": "15.1.1",
+    "mocha": "^3.1.2",
     "react-addons-test-utils": "^15.3.1",
     "recursive-readdir": "2.0.0",
     "redux-devtools": "^3.3.1",
@@ -88,7 +89,8 @@
   "scripts": {
     "start": "node server.js",
     "build": "webpack --watch --progress --colors --config ./config/webpack.dev.config.js",
-    "postinstall": "webpack --progress -p --config ./config/webpack.production.config.js"
+    "postinstall": "webpack --progress -p --config ./config/webpack.production.config.js",
+    "test": "mocha --require babel-core/register"
   },
   "eslintConfig": {
     "extends": "./config/eslint.js"

@@ -65,12 +65,16 @@ export function addDateCard(newDate) {
   return (dispatch, getState) => {
     const dateScheduled = new moment(newDate, ["M/D/YYYY"]);
     if (!dateScheduled.isValid()) return;
-
     let state = getState();
 
-    // create a set of new slots based on existing assignments list
-    var newSlots = Object.keys(state.entities.assignments).map((assignmentId) => {
+    // create a set of new slots based on the last chronological dateCard
+    //  1. find latest date scheduled
+    var lastNormDateCard = fromAccessors.getLastNormDatecard(state);
+
+    //  2. iterate over the existing slots, create an array of new slots
+    var newSlots = lastNormDateCard.slots.map((slotId) => {
       const newSlotId = uuid.v4();
+      const assignmentId = state.entities.slots[slotId].assignment;
       return {
         _id: newSlotId,
         assignment: {
@@ -84,15 +88,16 @@ export function addDateCard(newDate) {
       };
     });
 
-    // create new dateCard
+    //  3. create new NON-NORMALIZED dateCard
     let newDateCard = {
       _id: uuid.v4(),
       dateScheduled,
       slots: newSlots
     };
 
-    fetchApi.addCard(newDateCard, function (card) {
-      return dispatch(addCardSuccess(card));
+    // addCard inputs nonNormalized card, returns normalized card
+    fetchApi.addCard(newDateCard, function (nCard) {
+      return dispatch(addCardSuccess(nCard));
     });
   };
 }
