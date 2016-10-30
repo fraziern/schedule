@@ -129,5 +129,9 @@ export default {
       console.warn("deleteSlotFromCard request failed", error);
       return Promise.reject(error);
     });
+  },
+
+  deleteCard(cardID, cb) {
+    window.setTimeout(cb, 1000);
   }
 };
