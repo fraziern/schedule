@@ -1,5 +1,3 @@
-import moment from "moment";
-
 function getEntityFunction(entity) {
   return function (state, id) {
     return state.entities[entity][id];
