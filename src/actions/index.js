@@ -149,7 +149,7 @@ export function updateAssignment(slotID, assigneeName) {
       return dispatch(updateAssigneeSuccess(slotID, newAssignee));
     })
     .catch(error => {
-      console.log("fetch rejected", error);
+      console.warn("fetch rejected", error);
     });
   };
 }
@@ -202,7 +202,7 @@ export function addSlotToCard(assignmentName, cardID) {
       return dispatch(addSlotToCardSuccess(cardID, newSlot));
     })
     .catch(error => {
-      console.log("fetch rejected", error);
+      console.warn("fetch rejected", error);
     });
   };
 }
@@ -213,7 +213,7 @@ export function deleteSlotFromCard(cardID, slotID) {
       return dispatch(deleteSlotFromCardSuccess(cardID, slotID));
     })
     .catch(error => {
-      console.log("fetch rejected", error);
+      console.warn("fetch rejected", error);
     });
   };
 }
