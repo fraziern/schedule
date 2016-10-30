@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import Slot from "./Slot";
 import CreateNewSlot from "./CreateNewSlot";
 import DateCardHeader from "./DateCardHeader";
-import { updateAssignment, markUnsaved, addSlotToCard, deleteSlotFromCard } from "../actions";
+import { updateAssignment, markUnsaved, addSlotToCard, deleteSlotFromCard, deleteCard } from "../actions";
 
 class DateCard extends Component {
 
@@ -11,7 +11,6 @@ class DateCard extends Component {
     super(props);
     this.handleChangesIfNeeded = this.handleChangesIfNeeded.bind(this);
     this.toggleEditing = this.toggleEditing.bind(this);
-    this.handleDeleteCard = this.handleDeleteCard.bind(this);
     this.state = { editing: false };
   }
 
@@ -21,10 +20,6 @@ class DateCard extends Component {
 
   toggleEditing() {
     this.setState({ editing: !this.state.editing });
-  }
-
-  handleDeleteCard() {
-    console.log("handleDeleteCard");
   }
 
   getFilteredSlots() {
@@ -57,7 +52,7 @@ class DateCard extends Component {
         admin={this.props.admin}
         editing={this.state.editing}
         toggleEditing={this.toggleEditing}
-        handleDeleteCard={this.handleDeleteCard}
+        handleDeleteCard={this.props.handleDeleteCard}
         />
 
         <table className="table table-hover">
@@ -100,9 +95,11 @@ function mapDispatchToProps(dispatch, ownProps) {
     handleAddSlot: (text) => {
       dispatch(addSlotToCard(text, ownProps.id));
     },
-    // TODO create action for this
     handleDeleteSlot: (slotID) => {
       dispatch(deleteSlotFromCard(ownProps.id, slotID));
+    },
+    handleDeleteCard: () => {
+      dispatch(deleteCard(ownProps.id));
     }
   };
 }
