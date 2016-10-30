@@ -17,7 +17,7 @@ router.route("/update-assignee/:slotid").post(DateCardController.updateAssignee)
 // add slot to existing datecard
 router.route("/add-slot/:cardid").post(DateCardController.addSlotToCard);
 
-// TODO: remove slot from card
+// remove slot from card
 router.route("/remove-slot/:slotid").delete(DateCardController.deleteSlotFromCard);
 
 // Delete a datecard

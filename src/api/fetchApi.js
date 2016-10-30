@@ -1,5 +1,6 @@
 /*eslint no-console: ["error", { allow: ["warn", "error"] }] */
 import { normalize, Schema, arrayOf } from "normalizr";
+import * as fromAccessors from "../reducers/accessors.js";
 import fetch from "isomorphic-fetch";  // fetch polyfill
 
 // normalizr schemas
@@ -39,6 +40,31 @@ function normalizeCards(cards) {
   return normalize(cards, arrayOf(dateCardSchema));
 }
 
+function denormalizeSlot(slot, state) {
+  // we have a normalized slot object (just IDs), we need a slot object
+  var assignee = (slot.assignee) ? fromAccessors.getAssignee(state, slot.assignee) : { id: "000", name: "" };
+  
+  return {
+    id: slot.id,
+    assignee,
+    assignment: fromAccessors.getAssignment(state, slot.assignment)
+  };
+}
+
+function denormalizeCard(card, slots, state) {
+  // we have a array of slotIDs, we need an array of slot objects
+  var newSlots = card.slots.map((slotID) => {
+    var slot = slots[slotID];
+    return denormalizeSlot(slot, state);
+  });
+  return {
+    ...card,
+    slots: newSlots
+  };
+}
+
+// *** PUBLIC FUNCTIONS BELOW ***
+
 export default {
   getAllCards(cb) {
     fetch("/api/all", { credentials : "same-origin" })
@@ -51,7 +77,9 @@ export default {
       });
   },
 
-  addCard(card, cb) {
+  addCard(dateCard, slots, state, cb) {
+    var denormalizedCard = denormalizeCard(dateCard, slots, state);
+
     fetch("/api/add", {
       method: "POST",
       credentials: "same-origin",
@@ -60,7 +88,7 @@ export default {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        dateCard: card
+        dateCard: denormalizedCard
       })
     })
       .then(checkStatus)
@@ -132,6 +160,20 @@ export default {
   },
 
   deleteCard(cardID, cb) {
-    window.setTimeout(cb, 1000);
+    return fetch("/api/del/" + cardID, {
+      method: "DELETE",
+      credentials: "same-origin",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+      }
+    })
+    .then(checkStatus)
+    .then(parseJSON)
+    .then(cb)
+    .catch(error => {
+      console.warn("deleteCard request failed", error);
+      return Promise.reject(error);
+    });
   }
 };
