@@ -57,22 +57,18 @@ export function getLastNormDatecard(state) {
   // helper function to find the last in time datecard and return the
   //  normalized version of it
 
-  // create an array of objects, which store ids and moments
-  var moments = Object.keys(state.entities.dateCards).map((el) => {
-    return {
-      id: el, 
-      date: moment(state.entities.dateCards[el].dateScheduled)
-    };
-  });
-
   // find the latest date, save ID
   var last = {
     id: "",
-    date: moment(0)
+    date: "0"
   };
-  moments.forEach((el) => {
-    if (el.date.isAfter(last.date)) {
-      last = el;
+  Object.keys(state.entities.dateCards).forEach((id) => {
+    var date = state.entities.dateCards[id].dateScheduled;
+    if (date > last.date) {
+      last = {
+        id,
+        date
+      };
     }
   });
 
