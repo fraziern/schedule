@@ -52,6 +52,13 @@ function deleteSlotFromCardSuccess(cardID, slotID) {
   };
 }
 
+function deleteCardSuccess(cardID) {
+  return {
+    type: types.DELETE_CARD,
+    cardID
+  };
+}
+
 /// *** PUBLIC FUNCTIONS ***
 // *************************
 
@@ -215,5 +222,13 @@ export function setFilter(filter) {
   return {
     type: types.SET_FILTER,
     filter
+  };
+}
+
+export function deleteCard(cardID) {
+  return (dispatch) => {
+    fetchApi.deleteCard(cardID, () => {
+      return dispatch(deleteCardSuccess(cardID));
+    });
   };
 }

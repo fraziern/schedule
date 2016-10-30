@@ -1,5 +1,6 @@
 import * as types from "../constants/ActionTypes.js";
 import * as fromAccessors from "./accessors.js";
+// TODO: use immutability-helper instead of react-addons-update
 import update from "react-addons-update";
 import moment from "moment";
 
@@ -119,6 +120,23 @@ function addDateCard(state, card) {
       dateCards: {$merge: card.entities.dateCards },
       slots: {$merge: card.entities.slots }},
     visibleCards: {$push: [card.result]}
+  });
+}
+
+function deleteDateCard(state, cardID) {
+  var newDateCards = {};
+  for (var card in state.entities.dateCards) {
+    if (card !== cardID) newDateCards[card] = state.entities.dateCards[card];
+  }
+
+  var newVisibleCards = state.visibleCards.filter((id) => {
+    return (id !== cardID);
+  });
+
+  return update(state, {
+    entities: {
+      dateCards: {$set: newDateCards }},
+    visibleCards: {$set: newVisibleCards }
   });
 }
 
@@ -248,6 +266,12 @@ export default function assignments(state = initialState, action) {
       state,
       action.cardID,
       action.slotID
+    );
+
+  case types.DELETE_CARD:
+    return deleteDateCard(
+      state,
+      action.cardID
     );
 
   default:
