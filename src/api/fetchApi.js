@@ -43,9 +43,8 @@ function normalizeCards(cards) {
 function denormalizeSlot(slot, state) {
   // we have a normalized slot object (just IDs), we need a slot object
   var assignee = (slot.assignee) ? fromAccessors.getAssignee(state, slot.assignee) : { id: "000", name: "" };
-  
   return {
-    id: slot.id,
+    _id: slot._id,
     assignee,
     assignment: fromAccessors.getAssignment(state, slot.assignment)
   };
