@@ -3,7 +3,7 @@ var path = require("path");
 var config = {
   debug: true,
   entry: {
-    main: "./src/index.js"
+    main: ["babel-polyfill", "./src/index.js"]
   },
   output: {
     path: path.resolve(__dirname, "../build/"),
