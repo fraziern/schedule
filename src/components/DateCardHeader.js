@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from "react";
 import padlock from "../img/lock.svg";
 import moment from "moment";
+import CardLabel from "./CardLabel";
 
 class DateCardHeader extends Component {
 
@@ -31,6 +32,7 @@ class DateCardHeader extends Component {
         <h3>{this.getDateName(this.props.dateScheduled)}</h3>
         <img src={padlock} alt="locked" className={lockClass} />
         {pointer}
+        <CardLabel label="test" editing={this.props.editing}/>
       </div>
     );
   }

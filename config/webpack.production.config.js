@@ -5,6 +5,7 @@ var webpack = require("webpack");
 var config = {
   devtool: "cheap-module-source-map",
   entry: {
+    // babel-polyfill adds ES2015 support for IE
     main: ["babel-polyfill", "./src/index.js"]
   },
   output: {

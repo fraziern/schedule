@@ -43,6 +43,10 @@
   display: inline;
 }
 
+.datecard .cardlabel {
+  margin-left: 10px;
+}
+
 .datecard .panel-heading--disabled {
   background-color: #8c1c3a;
 }

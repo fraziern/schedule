@@ -1,6 +1,9 @@
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
+// Use native promises
+mongoose.Promise = global.Promise;
+
 var slotSchema = new Schema({
   _id: { type: String, required: true },
   assignment: {
