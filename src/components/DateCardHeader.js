@@ -32,15 +32,23 @@ class DateCardHeader extends Component {
         <h3>{this.getDateName(this.props.dateScheduled)}</h3>
         <img src={padlock} alt="locked" className={lockClass} />
         {pointer}
-        <CardLabel label="test" editing={this.props.editing}/>
+        <CardLabel
+          label={this.props.label}
+          editing={this.props.editing}
+          handleUpdateLabel={this.props.handleUpdateLabel}
+          />
       </div>
     );
   }
 }
 
 DateCardHeader.PropTypes = {
+  toggleEditing: PropTypes.func.isRequired,
+  editing: PropTypes.bool.isRequired,
+  admin: PropTypes.bool.isRequired,
   dateScheduled: PropTypes.string.isRequired,
-  isDisabled: PropTypes.string
+  isDisabled: PropTypes.string,
+  label: PropTypes.string
 };
 
 export default DateCardHeader;

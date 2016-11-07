@@ -61,6 +61,14 @@ function addSlotToCard(state, cardID, slot) {
   });
 }
 
+function updateLabel(state, cardID, label) {
+  return update(state, {
+    entities: {
+      dateCards: {[cardID]: {label: {$set: label }}}
+    }
+  });
+}
+
 function deleteSlotFromCard(state, cardID, slotID) {
   // just pull the slot ID from the slots array. everything else will get
   // cleaned up on the next app refresh
@@ -150,6 +158,7 @@ export function getVisibleDateCards(state) {
     return {
       id: dateCardID,
       dateScheduled: normalizedDateCard.dateScheduled,
+      label: normalizedDateCard.label,
       slots: fromAccessors.getSlots(state, normalizedDateCard.slots)
     };
   });
@@ -189,6 +198,13 @@ export default function assignments(state = initialState, action) {
       state,
       action.id,
       action.assignee
+    );
+
+  case types.UPDATE_LABEL:
+    return updateLabel(
+      state,
+      action.cardID,
+      action.label
     );
 
   case types.MARK_UNSAVED:

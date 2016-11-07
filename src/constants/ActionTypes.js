@@ -11,3 +11,4 @@ export const ADD_SLOT = "ADD_SLOT";
 export const ADD_ASSIGNMENT = "ADD_ASSIGNMENT";
 export const ADD_SLOT_TO_CARD = "ADD_SLOT_TO_CARD";
 export const DELETE_SLOT_FROM_CARD = "DELETE_SLOT_FROM_CARD";
+export const UPDATE_LABEL = "UPDATE_LABEL";

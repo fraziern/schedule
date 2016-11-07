@@ -33,13 +33,14 @@ class DateCards extends Component {
 DateCards.PropTypes = {
   dateCards: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
+    label: PropTypes.string,
     dateScheduled: PropTypes.string.isRequired,
     slots: PropTypes.arrayOf(PropTypes.shape({
       assignment: PropTypes.string.isRequired,
       assignee: PropTypes.string.isRequired,
       saved: PropTypes.bool,
       isSaving: PropTypes.bool
-    }))
+    })).isRequired
   })).isRequired
 };
 

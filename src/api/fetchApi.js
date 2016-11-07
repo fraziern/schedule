@@ -92,6 +92,27 @@ export default {
     });
   },
 
+  updateLabel(cardID, label, cb) {
+    return fetch("/api/update-label/" + cardID, {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        label
+      })
+    })
+    .then(checkStatus)
+    .then(parseJSON)
+    .then(cb)
+    .catch(error => {
+      console.warn("updateAssignee request failed", error);
+      return Promise.reject(error);
+    });
+  },
+
   addSlotToCard(cardID, slot, cb) {
     return fetch("/api/add-slot/" + cardID, {
       method: "POST",

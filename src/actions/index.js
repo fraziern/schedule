@@ -1,4 +1,5 @@
 // *** ACTIONS *** //
+// TODO: change this to actions.js
 import fetchApi from "../api/fetchApi.js";
 import * as types from "../constants/ActionTypes.js";
 import * as fromAccessors from "../reducers/accessors.js";
@@ -24,6 +25,14 @@ function updateAssigneeSuccess(id, assignee) {
     type: types.UPDATE_ASSIGNEE,
     id,
     assignee
+  };
+}
+
+function updateLabelSuccess(cardID, label) {
+  return {
+    type: types.UPDATE_LABEL,
+    cardID,
+    label
   };
 }
 
@@ -131,6 +140,18 @@ export function updateAssignment(slotID, assigneeName) {
     // AJAX call, then update state if successful
     fetchApi.updateAssignee(slotID, newAssignee, () => {
       return dispatch(updateAssigneeSuccess(slotID, newAssignee));
+    })
+    .catch(error => {
+      console.log("fetch rejected", error);
+    });
+  };
+}
+
+export function updateLabel(cardID, label) {
+  return (dispatch) => {
+    // AJAX call, then update state if successful
+    fetchApi.updateLabel(cardID, label, () => {
+      return dispatch(updateLabelSuccess(cardID, label));
     })
     .catch(error => {
       console.log("fetch rejected", error);

@@ -14,6 +14,9 @@ router.route("/add").post(DateCardController.addDateCard);
 // update assignee
 router.route("/update-assignee/:slotid").post(DateCardController.updateAssignee);
 
+// update label
+router.route("/update-label/:cardid").post(DateCardController.updateLabel);
+
 // add slot to existing datecard
 router.route("/add-slot/:cardid").post(DateCardController.addSlotToCard);
 

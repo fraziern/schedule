@@ -93,9 +93,6 @@
     "postinstall": "webpack --progress -p --config ./config/webpack.production.config.js",
     "test": "mocha --require babel-core/register"
   },
-  "eslintConfig": {
-    "extends": "./config/eslint.js"
-  },
   "jest": {
     "moduleFileExtensions": [
       "jsx",

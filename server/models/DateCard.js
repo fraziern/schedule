@@ -19,6 +19,7 @@ var slotSchema = new Schema({
 var dateCardSchema = new Schema({
   _id: { type: String, required: true },
   dateScheduled: { type: String, required: true },
+  label: { type: String },
   slots: [slotSchema]
 });
 

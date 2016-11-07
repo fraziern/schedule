@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import Slot from "./Slot";
 import CreateNewSlot from "./CreateNewSlot";
 import DateCardHeader from "./DateCardHeader";
-import { updateAssignment, markUnsaved, addSlotToCard, deleteSlotFromCard } from "../actions";
+import { updateAssignment, updateLabel, markUnsaved, addSlotToCard, deleteSlotFromCard } from "../actions";
 
 class DateCard extends Component {
 
@@ -48,7 +48,15 @@ class DateCard extends Component {
     return (
       <div className="datecard panel panel-default">
 
-        <DateCardHeader dateScheduled={this.props.dateScheduled} isDisabled={this.props.isDisabled} admin={this.props.admin} editing={this.state.editing} toggleEditing={this.toggleEditing}/>
+        <DateCardHeader
+          dateScheduled={this.props.dateScheduled}
+          isDisabled={this.props.isDisabled}
+          admin={this.props.admin}
+          editing={this.state.editing}
+          toggleEditing={this.toggleEditing}
+          label={this.props.label}
+          handleUpdateLabel={this.props.handleUpdateLabel}
+          />
 
         <table className="table table-hover">
           <tbody>
@@ -64,6 +72,7 @@ class DateCard extends Component {
 
 DateCard.PropTypes = {
   updateAssignment: PropTypes.func.isRequired,
+  label: PropTypes.string,
   markUnsaved: PropTypes.func.isRequired,
   dateScheduled: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
@@ -81,8 +90,11 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch, ownProps) {
   return {
-    handleUpdateAssignment: (id, assignee) => {
-      dispatch(updateAssignment(id, assignee));
+    handleUpdateAssignment: (slotID, assignee) => {
+      dispatch(updateAssignment(slotID, assignee));
+    },
+    handleUpdateLabel: (label) => {
+      dispatch(updateLabel(ownProps.id, label));
     },
     markUnsaved: (id) => {
       dispatch(markUnsaved(id));
