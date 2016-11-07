@@ -85,16 +85,16 @@ Slot.propTypes = {
   }).isRequired,
   handleDeleteSlot: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired,
-  saved: PropTypes.bool.isRequired,
+  saved: PropTypes.bool,
   handleUpdateAssignment: PropTypes.func.isRequired,
-  isSaving: PropTypes.bool.isRequired,
+  isSaving: PropTypes.bool,
   admin: PropTypes.bool.isRequired,
   editing: PropTypes.bool.isRequired,
   assignment: PropTypes.shape({
     name: PropTypes.string,
     id: PropTypes.string
   }).isRequired,
-  isDisabled: PropTypes.bool.isRequired
+  isDisabled: PropTypes.bool
 };
 
 export default Slot;

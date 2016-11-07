@@ -56,13 +56,13 @@ class DateCard extends Component {
           toggleEditing={this.toggleEditing}
           label={this.props.label}
           handleUpdateLabel={this.props.handleUpdateLabel}
-          handleDeleteCard={this.handleDeleteCard}
+          handleDeleteCard={this.props.handleDeleteCard}
           />
 
         <table className="table table-hover">
           <tbody>
             {this.getFilteredSlots()}
-            { (this.props.admin && this.state.editing) && <CreateNewSlot handleAddSlot={this.props.handleAddSlot}/> }
+            { (this.props.admin && this.state.editing) ? (<CreateNewSlot handleAddSlot={this.props.handleAddSlot}/>) : null }
           </tbody>
         </table>
 
@@ -73,6 +73,7 @@ class DateCard extends Component {
 
 DateCard.propTypes = {
   handleUpdateAssignment: PropTypes.func.isRequired,
+  handleDeleteCard: PropTypes.func.isRequired,
   handleDeleteSlot: PropTypes.func.isRequired,
   handleUpdateLabel: PropTypes.func.isRequired,
   handleAddSlot: PropTypes.func.isRequired,

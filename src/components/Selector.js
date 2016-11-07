@@ -17,7 +17,7 @@ class Selector extends Component {
 Selector.propTypes = {
   selectorValue: PropTypes.string.isRequired,
   assignmentName: PropTypes.string.isRequired,
-  isDisabled: PropTypes.bool.isRequired,
+  isDisabled: PropTypes.bool,
   handleSelectorChange: PropTypes.func.isRequired,
   handleSelectorFocus: PropTypes.func.isRequired,
   handleSelectorBlur: PropTypes.func.isRequired,

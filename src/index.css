@@ -57,6 +57,10 @@
   color: #ececec;
 }
 
+.datecard .panel-heading--disabled .cardlabel {
+  color: #ececec;
+}
+
 .padlock {
   width: 22px;
   margin-left: 10px;

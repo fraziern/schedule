@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from "react";
 import { connect } from "react-redux";
 import DateCard from "./DateCard";
+import NewCardSelector from "./NewCardSelector";
 import * as fromAssignments from "../reducers/assignments";
 
 class DateCards extends Component {
@@ -11,30 +12,36 @@ class DateCards extends Component {
   }
 
   isLocked(cutoff, cardDate) {
-    if (cutoff > cardDate) return "true";
+    if (!this.props.admin && (cutoff > cardDate)) return "true";
     return "";
   }
 
   render() {
+    let conditionalNewCardSelector = (this.props.admin) ? (<NewCardSelector />) : null;
+
     let dateCards = (!this.props.isLoaded) ?
       "Loading..." :
      this.props.dateCards.map((card) =>
-       (<DateCard {...card} key={card.id} isDisabled={this.isLocked(this.props.cutoffDate, card.dateScheduled)} />)
+       (<DateCard {...card} key={card.id} admin={this.props.admin || ""} isDisabled={this.isLocked(this.props.cutoffDate, card.dateScheduled)} />)
      );
 
     return (
-      <div className="datecards">
-        {dateCards}
+      <div>
+        <div className="datecards">
+          {dateCards}
+        </div>
+        {conditionalNewCardSelector}
       </div>
     );
   }
 }
 
 DateCards.propTypes = {
+  admin: PropTypes.string,
   isLoaded: PropTypes.bool.isRequired,
   cutoffDate: PropTypes.string.isRequired,
   dateCards: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
+    id: PropTypes.string.isRequired,
     label: PropTypes.string,
     dateScheduled: PropTypes.string.isRequired,
     slots: PropTypes.arrayOf(PropTypes.shape({

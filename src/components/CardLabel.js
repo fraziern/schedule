@@ -37,7 +37,6 @@ class CardLabel extends Component {
 }
 
 CardLabel.propTypes = {
-  handleAddSlot: PropTypes.func.isRequired,
   editing: PropTypes.bool.isRequired,
   handleUpdateLabel: PropTypes.func.isRequired,
   label: PropTypes.string

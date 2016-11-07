@@ -1,17 +1,18 @@
-// TODO: make this a composed version of DateCards
+// TODO: change admin to a boolean!!
 
-import React, { Component, PropTypes } from "react";
-import { connect } from "react-redux";
-import DateCard from "./DateCard";
-import NewCardSelector from "./NewCardSelector";
-import * as fromAssignments from "../reducers/assignments";
+import React, { Component } from "react";
+// import { connect } from "react-redux";
+// import DateCard from "./DateCard";
+import DateCards from "./DateCards";
+// import NewCardSelector from "./NewCardSelector";
+// import * as fromAssignments from "../reducers/assignments";
 
-class DateCards extends Component {
+class DateCardsAdmin extends Component {
 
-  constructor(props) {
-    super(props);
-    // this.isLocked = this.isLocked.bind(this);
-  }
+  // constructor(props) {
+  //   super(props);
+  //   // this.isLocked = this.isLocked.bind(this);
+  // }
 
   // isLocked(cutoff, cardDate) {
   //   if (cutoff > cardDate) return "true";
@@ -19,44 +20,47 @@ class DateCards extends Component {
   // }
 
   render() {
-    let dateCards = (!this.props.isLoaded) ?
-      "Loading..." :
-     this.props.dateCards.map((card) =>
-       (<DateCard {...card} key={card.id} admin="true" />)
-     );
+    // let dateCards = (!this.props.isLoaded) ?
+    //   "Loading..." :
+    //  this.props.dateCards.map((card) =>
+    //    (<DateCard {...card} key={card.id} admin="true" />)
+    //  );
 
     return (
-      <div>
-        <div className="datecards">
-          {dateCards}
-        </div>
-        <NewCardSelector />
-      </div>
+      // <div>
+      //   <div className="datecards">
+      //     {dateCards}
+      //   </div>
+      //   <NewCardSelector />
+      // </div>
+      <DateCards admin="true" />
     );
   }
 }
+//
+// DateCardsAdmin.propTypes = {
+//   isLoaded: PropTypes.bool.isRequired,
+//   dateCards: PropTypes.arrayOf(PropTypes.shape({
+//     id: PropTypes.string.isRequired,
+//     dateScheduled: PropTypes.string.isRequired,
+//     slots: PropTypes.arrayOf(PropTypes.shape({
+//       assignment: PropTypes.object.isRequired,
+//       assignee: PropTypes.object.isRequired,
+//       id: PropTypes.string.isRequired
+//     }))
+//   })).isRequired
+// };
 
-DateCards.propTypes = {
-  isLoaded: PropTypes.bool.isRequired,
-  dateCards: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    dateScheduled: PropTypes.string.isRequired,
-    slots: PropTypes.arrayOf(PropTypes.shape({
-      assignment: PropTypes.string.isRequired,
-      assignee: PropTypes.string.isRequired
-    }))
-  })).isRequired
-};
+// function mapStateToProps(state) {
+//   return {
+//     dateCards: fromAssignments.getVisibleDateCards(state),
+//     unsavedChanges: state.unsavedChanges,
+//     isLoaded: state.isLoaded,
+//     cutoffDate: state.cutoffDate
+//   };
+// }
 
-function mapStateToProps(state) {
-  return {
-    dateCards: fromAssignments.getVisibleDateCards(state),
-    unsavedChanges: state.unsavedChanges,
-    isLoaded: state.isLoaded,
-    cutoffDate: state.cutoffDate
-  };
-}
-
-export default connect(
-  mapStateToProps
-)(DateCards);
+// export default connect(
+//   mapStateToProps
+// )(DateCardsAdmin);
+export default DateCardsAdmin;

@@ -26,6 +26,8 @@ class DateCardHeader extends Component {
     const lockClass = (disabled === "true") ? "padlock" : "padlock padlock--hidden";
     const pencilClass = "glyphicon glyphicon-pencil" + ((this.props.editing) ? " pencil--red" : "");
 
+    // TODO: move trashcan and pencil to its own component
+
     const trashcan = (this.props.admin) ? (<DeleteCardButton handleDeleteCard={this.props.handleDeleteCard}/>) : null;
 
     const pencil = (this.props.admin) ? (<span onClick={this.handleEditButton} className={pencilClass} aria-hidden="true"></span>) : null;
