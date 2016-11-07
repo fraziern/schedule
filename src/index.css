@@ -165,7 +165,7 @@ and (orientation : portrait) {
     margin-left: 10px;
   }
 
-  .cardlabel {
+  .datecard .cardlabel {
     font-size: 14px;
   }
 
