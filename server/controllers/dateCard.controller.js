@@ -42,7 +42,7 @@ var DateCardController = function() {
   }
 
   function updateLabel(req, res) {
-    if (!req.params.cardid || !req.body.label) {
+    if (!req.params.cardid || req.body.label == undefined) {
       return res.status(404).json({error: "Some parameters missing"}).end();
     }
 
