@@ -33,7 +33,7 @@ class NewCardSelector extends Component {
   }
 }
 
-NewCardSelector.PropTypes = {
+NewCardSelector.propTypes = {
   addDateCard: PropTypes.func.isRequired
 };
 

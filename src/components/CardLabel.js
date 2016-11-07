@@ -36,8 +36,11 @@ class CardLabel extends Component {
   }
 }
 
-CardLabel.PropTypes = {
+CardLabel.propTypes = {
   handleAddSlot: PropTypes.func.isRequired,
+  editing: PropTypes.bool.isRequired,
+  handleUpdateLabel: PropTypes.func.isRequired,
+  label: PropTypes.string
 };
 
 export default CardLabel;

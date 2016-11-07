@@ -15,7 +15,7 @@ class Menubar extends Component {
   }
 }
 
-Menubar.PropTypes = {
+Menubar.propTypes = {
   setFilter: PropTypes.func.isRequired
 };
 
@@ -31,7 +31,3 @@ export default connect(
   null,
   mapDispatchToProps
 )(Menubar);
-
-// <button type="button" className="btn btn-default btn-sm" onClick={() => { this.props.setFilter("ALL");}}>Show All</button>
-//
-// <button type="button" className="btn btn-default btn-sm" onClick={() => { this.props.setFilter("VACANT");}}>Show Vacant</button>

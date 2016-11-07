@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, PropTypes } from "react";
 import Menubar from "./Menubar";
 
 class Header extends Component {
@@ -19,5 +19,9 @@ class Header extends Component {
     );
   }
 }
+
+Header.propTypes = {
+  children: PropTypes.element
+};
 
 export default Header;

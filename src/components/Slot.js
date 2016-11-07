@@ -77,17 +77,24 @@ class Slot extends Component {
   }
 }
 
-Slot.PropTypes = {
-  id: PropTypes.string.isRequired,
-  assignee: PropTypes.object.isRequired,
-  assignment: PropTypes.object.isRequired,
-  handleUpdateAssignment: PropTypes.func.isRequired,
+Slot.propTypes = {
+  handleChangesIfNeeded: PropTypes.func.isRequired,
+  assignee: PropTypes.shape({
+    name: PropTypes.string,
+    id: PropTypes.string
+  }).isRequired,
   handleDeleteSlot: PropTypes.func.isRequired,
-  admin: PropTypes.string,
+  id: PropTypes.string.isRequired,
+  saved: PropTypes.bool.isRequired,
+  handleUpdateAssignment: PropTypes.func.isRequired,
+  isSaving: PropTypes.bool.isRequired,
+  admin: PropTypes.bool.isRequired,
   editing: PropTypes.bool.isRequired,
-  saved: PropTypes.bool,
-  isSaving: PropTypes.bool,
-  cardDisabled: PropTypes.string
+  assignment: PropTypes.shape({
+    name: PropTypes.string,
+    id: PropTypes.string
+  }).isRequired,
+  isDisabled: PropTypes.bool.isRequired
 };
 
 export default Slot;

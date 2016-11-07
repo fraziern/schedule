@@ -70,8 +70,11 @@ class DateCard extends Component {
   }
 }
 
-DateCard.PropTypes = {
-  updateAssignment: PropTypes.func.isRequired,
+DateCard.propTypes = {
+  handleUpdateAssignment: PropTypes.func.isRequired,
+  handleDeleteSlot: PropTypes.func.isRequired,
+  handleUpdateLabel: PropTypes.func.isRequired,
+  handleAddSlot: PropTypes.func.isRequired,
   label: PropTypes.string,
   markUnsaved: PropTypes.func.isRequired,
   dateScheduled: PropTypes.string.isRequired,

@@ -1,3 +1,5 @@
+// TODO: make this a composed version of DateCards
+
 import React, { Component, PropTypes } from "react";
 import { connect } from "react-redux";
 import DateCard from "./DateCard";
@@ -34,7 +36,8 @@ class DateCards extends Component {
   }
 }
 
-DateCards.PropTypes = {
+DateCards.propTypes = {
+  isLoaded: PropTypes.bool.isRequired,
   dateCards: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
     dateScheduled: PropTypes.string.isRequired,

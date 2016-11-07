@@ -15,9 +15,11 @@ class FilterButton extends Component {
   }
 }
 
-FilterButton.PropTypes = {
+FilterButton.propTypes = {
   filter: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired,
+  active: PropTypes.bool,
+  label: PropTypes.string.isRequired
 };
 
 function mapStateToProps(state, ownProps) {

@@ -42,13 +42,14 @@ class DateCardHeader extends Component {
   }
 }
 
-DateCardHeader.PropTypes = {
+DateCardHeader.propTypes = {
   toggleEditing: PropTypes.func.isRequired,
   editing: PropTypes.bool.isRequired,
   admin: PropTypes.bool.isRequired,
   dateScheduled: PropTypes.string.isRequired,
   isDisabled: PropTypes.string,
-  label: PropTypes.string
+  label: PropTypes.string,
+  handleUpdateLabel: PropTypes.func.isRequired
 };
 
 export default DateCardHeader;

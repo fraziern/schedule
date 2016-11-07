@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, PropTypes } from "react";
 
 class Selector extends Component {
   render() {
@@ -13,5 +13,15 @@ class Selector extends Component {
     );
   }
 }
+
+Selector.propTypes = {
+  selectorValue: PropTypes.string.isRequired,
+  assignmentName: PropTypes.string.isRequired,
+  isDisabled: PropTypes.bool.isRequired,
+  handleSelectorChange: PropTypes.func.isRequired,
+  handleSelectorFocus: PropTypes.func.isRequired,
+  handleSelectorBlur: PropTypes.func.isRequired,
+  handleSelectorEnter: PropTypes.func.isRequired
+};
 
 export default Selector;

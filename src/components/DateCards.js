@@ -30,7 +30,9 @@ class DateCards extends Component {
   }
 }
 
-DateCards.PropTypes = {
+DateCards.propTypes = {
+  isLoaded: PropTypes.bool.isRequired,
+  cutoffDate: PropTypes.string.isRequired,
   dateCards: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
     label: PropTypes.string,

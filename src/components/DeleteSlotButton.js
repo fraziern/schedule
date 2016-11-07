@@ -10,8 +10,9 @@ class DeleteSlotButton extends Component {
   }
 }
 
-DeleteSlotButton.PropTypes = {
-  handleDeleteSlotButton: PropTypes.func.isRequired
+DeleteSlotButton.propTypes = {
+  handleDeleteSlotButton: PropTypes.func.isRequired,
+  editing: PropTypes.bool.isRequired
 };
 
 export default DeleteSlotButton;
