@@ -22,8 +22,8 @@ class DateCardHeader extends Component {
 
   render() {
     const disabled = this.props.isDisabled;
-    const headerClass = "panel-heading " + ((disabled === "true") ? "panel-heading--disabled" : "");
-    const lockClass = (disabled === "true") ? "padlock" : "padlock padlock--hidden";
+    const headerClass = "panel-heading " + ((disabled) ? "panel-heading--disabled" : "");
+    const lockClass = (disabled) ? "padlock" : "padlock padlock--hidden";
     const pencilClass = "glyphicon glyphicon-pencil" + ((this.props.editing) ? " pencil--red" : "");
 
     // TODO: move trashcan and pencil to its own component
@@ -57,7 +57,7 @@ DateCardHeader.propTypes = {
   editing: PropTypes.bool.isRequired,
   admin: PropTypes.bool.isRequired,
   dateScheduled: PropTypes.string.isRequired,
-  isDisabled: PropTypes.string,
+  isDisabled: PropTypes.bool,
   label: PropTypes.string,
   handleUpdateLabel: PropTypes.func.isRequired,
   handleDeleteCard: PropTypes.func.isRequired

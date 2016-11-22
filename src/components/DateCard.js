@@ -83,7 +83,7 @@ DateCard.propTypes = {
   id: PropTypes.string.isRequired,
   slots: PropTypes.array.isRequired,
   filter: PropTypes.string.isRequired,
-  isDisabled: PropTypes.string,
+  isDisabled: PropTypes.bool,
   admin: PropTypes.string
 };
 

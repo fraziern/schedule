@@ -53,6 +53,9 @@ class Slot extends Component {
     const rowClass = (this.state.selectorValue === "") ? "slot danger" : "slot";
     const spinnerClass = this.props.isSaving ? "spinner" : "spinner spinner--hidden";
 
+    // enable Selector if blank, even if it's in a locked card
+    const disable = (!this.props.assignee.name) ? false : this.props.isDisabled;
+
     return (
       <tr className={rowClass}>
           {this.props.admin ? <DeleteSlotButton handleDeleteSlotButton={this.handleDeleteSlotButton} editing={this.props.editing} /> : null}
@@ -66,7 +69,7 @@ class Slot extends Component {
             handleSelectorFocus={this.handleSelectorFocus}
             handleSelectorBlur={this.handleSelectorBlur}
             handleSelectorEnter={this.handleSelectorEnter}
-            isDisabled={this.props.isDisabled} />
+            isDisabled={disable} />
           </td>
           <td>
             <img src={checkmark} className={checkClass} alt="saved" />

@@ -12,8 +12,8 @@ class DateCards extends Component {
   }
 
   isLocked(cutoff, cardDate) {
-    if (!this.props.admin && (cutoff > cardDate)) return "true";
-    return "";
+    if (!this.props.admin && (cutoff > cardDate)) return true;
+    return false;
   }
 
   render() {
