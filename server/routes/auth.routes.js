@@ -7,5 +7,6 @@ var router = new Router();
 
 // Login
 router.route("/login").post(AuthController.login);
+router.route("/loggedin").get(AuthController.loggedin);
 
 module.exports = router;

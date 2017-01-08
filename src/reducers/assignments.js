@@ -198,7 +198,7 @@ export default function assignments(state = initialState, action) {
   case types.RECEIVE_ALLCARDS:
     var normalized = action.dateCards;
     return {
-      ...initialState,
+      ...state,
       entities: normalized.entities,
       visibleCards: normalized.result,
       isLoaded: true,

@@ -6,7 +6,7 @@ import * as types from "../constants/ActionTypes.js";
 import * as fromAccessors from "../reducers/accessors.js";
 import uuid from "uuid";
 import moment from "moment";
-import { push } from "react-router-redux";
+import { browserHistory } from "react-router";
 
 function receiveCards(cards) {
   return {
@@ -240,16 +240,34 @@ export function login(username, password, location) {
   return (dispatch) => {
     authApi.login(username, password, (user, err) => {
       if (!err) {
-        dispatch(receiveUser(user));
-
-        if (location.state && location.state.nextPathname) {
-          return dispatch(push(location.state.nextPathname));
-        } else {
-          return dispatch(push("/"));
+        if (user.user.username) {
+          dispatch(receiveUser(user));
+          if (location.state && location.state.nextPathname) {
+            browserHistory.push(location.state.nextPathname);
+          } else {
+            browserHistory.push("/");
+          }
+        } else if (user.message) {
+          // TODO: dispatch error
+          return user.message;
         }
       } else {
+        // TODO: dispatch error
         return err;
       }
     });
+  };
+}
+
+export function checkServerLogin() {
+  return (dispatch, getState) => {
+    const { assignments } = getState();
+    if (!assignments.loggedInUser) {
+      authApi.loggedin((response) => {
+        if (response.username) {
+          dispatch(receiveUser({user: response}));
+        }
+      });
+    }
   };
 }

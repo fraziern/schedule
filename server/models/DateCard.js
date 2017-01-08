@@ -23,15 +23,6 @@ var dateCardSchema = new Schema({
   slots: [slotSchema]
 });
 
-// Return id instead of _id
-// Duplicate the ID field.
-// dateCardSchema.virtual("id").get(function(){
-//   return this._id.toHexString();
-// });
-// slotSchema.virtual("id").get(function(){
-//   return this._id.toHexString();
-// });
-
 // Ensure virtual fields are serialised.
 dateCardSchema.set("toJSON", {
   virtuals: true

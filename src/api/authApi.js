@@ -39,5 +39,15 @@ export default {
       .catch(error => {
         console.warn("login request failed", JSON.stringify(error));
       });
+  },
+
+  loggedin(cb) {
+    fetch("/auth/loggedin", { credentials : "same-origin" })
+      .then(checkStatus)
+      .then(parseJSON)
+      .then(cb)
+      .catch(error => {
+        console.warn("check login request failed", error);
+      });
   }
 };
