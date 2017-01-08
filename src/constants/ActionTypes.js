@@ -13,3 +13,5 @@ export const ADD_SLOT_TO_CARD = "ADD_SLOT_TO_CARD";
 export const DELETE_SLOT_FROM_CARD = "DELETE_SLOT_FROM_CARD";
 export const UPDATE_LABEL = "UPDATE_LABEL";
 export const DELETE_CARD = "DELETE_CARD";
+export const RECEIVE_USER = "RECEIVE_USER";
+export const DROP_USER = "DROP_USER";

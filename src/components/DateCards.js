@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from "react";
 import { connect } from "react-redux";
+import Menubar from "./Menubar";
 import DateCard from "./DateCard";
 import NewCardSelector from "./NewCardSelector";
 import * as fromAssignments from "../reducers/assignments";
@@ -22,11 +23,12 @@ class DateCards extends Component {
     let dateCards = (!this.props.isLoaded) ?
       "Loading..." :
      this.props.dateCards.map((card) =>
-       (<DateCard {...card} key={card.id} admin={this.props.admin || ""} isDisabled={this.isLocked(this.props.cutoffDate, card.dateScheduled)} />)
+       (<DateCard {...card} key={card.id} admin={this.props.admin || false} isDisabled={this.isLocked(this.props.cutoffDate, card.dateScheduled)} />)
      );
 
     return (
       <div>
+        <Menubar />
         <div className="datecards">
           {dateCards}
         </div>
@@ -37,7 +39,7 @@ class DateCards extends Component {
 }
 
 DateCards.propTypes = {
-  admin: PropTypes.string,
+  admin: PropTypes.bool,
   isLoaded: PropTypes.bool.isRequired,
   cutoffDate: PropTypes.string.isRequired,
   dateCards: PropTypes.arrayOf(PropTypes.shape({
@@ -50,15 +52,15 @@ DateCards.propTypes = {
       saved: PropTypes.bool,
       isSaving: PropTypes.bool
     })).isRequired
-  })).isRequired
+  }))
 };
 
 function mapStateToProps(state) {
   return {
     dateCards: fromAssignments.getVisibleDateCards(state),
-    unsavedChanges: state.unsavedChanges,
-    isLoaded: state.isLoaded,
-    cutoffDate: state.cutoffDate
+    unsavedChanges: state.assignments.unsavedChanges,
+    isLoaded: state.assignments.isLoaded,
+    cutoffDate: state.assignments.cutoffDate
   };
 }
 
