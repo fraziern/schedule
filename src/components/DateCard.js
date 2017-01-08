@@ -84,12 +84,12 @@ DateCard.propTypes = {
   slots: PropTypes.array.isRequired,
   filter: PropTypes.string.isRequired,
   isDisabled: PropTypes.bool,
-  admin: PropTypes.string
+  admin: PropTypes.bool
 };
 
 function mapStateToProps(state) {
   return {
-    filter: state.filter
+    filter: state.assignments.filter
   };
 }
 

@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from "react";
-import Menubar from "./Menubar";
 
 class Header extends Component {
 
@@ -11,7 +10,6 @@ class Header extends Component {
         <div className="header">
           <h1>Volunteer Schedule <small>Raleigh Moravian Church</small></h1>
         </div>
-        <Menubar />
         <div>
           {this.props.children}
         </div>

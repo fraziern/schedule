@@ -7,6 +7,7 @@ import moment from "moment";
 const initialState = {
   isSaving: false,
   isLoaded: false,
+  loggedInUser: null,
   currentDate: moment().format(),
   cutoffDate: moment().add(2, "weeks").format(),
   filter: "ALL"
@@ -152,32 +153,40 @@ function sortCardsAsc(state) {
   return {...state, visibleCards: orderedCards};
 }
 
+function receiveUser(state, user) {
+  return {...state, loggedInUser: user};
+}
+
+function dropUser(state) {
+  return {...state, loggedInUser: null};
+}
+
 // ***
 // EVERYTHING BELOW IS PUBLIC
 // ***
 
 // *** selectors ***
 export function getVisibleDateCards(state) {
-  if (!state.isLoaded) return null;
+  if (!state.assignments.isLoaded) return null;
 
   // TODO: make this dependant on state.sort if/when we implement sorting
-  const sortedState = sortCardsAsc(state);
+  const sortedState = sortCardsAsc(state.assignments);
 
   // remove cards that predate today
   var filteredList = sortedState.visibleCards.filter(dateCardID => {
-    const normalizedDateCard = fromAccessors.getNormalizedDateCard(state, dateCardID);
-    if (normalizedDateCard.dateScheduled < state.currentDate) return false;
+    const normalizedDateCard = fromAccessors.getNormalizedDateCard(state.assignments, dateCardID);
+    if (normalizedDateCard.dateScheduled < state.assignments.currentDate) return false;
     return true;
   });
 
   // convert normalized state to something we can use
   return filteredList.map(dateCardID => {
-    const normalizedDateCard = fromAccessors.getNormalizedDateCard(state, dateCardID);
+    const normalizedDateCard = fromAccessors.getNormalizedDateCard(state.assignments, dateCardID);
     return {
       id: dateCardID,
       dateScheduled: normalizedDateCard.dateScheduled,
       label: normalizedDateCard.label,
-      slots: fromAccessors.getSlots(state, normalizedDateCard.slots)
+      slots: fromAccessors.getSlots(state.assignments, normalizedDateCard.slots)
     };
   });
 }
@@ -273,6 +282,15 @@ export default function assignments(state = initialState, action) {
       state,
       action.cardID
     );
+
+  case types.RECEIVE_USER:
+    return receiveUser(
+      state,
+      action.user
+    );
+
+  case types.DROP_USER:
+    return dropUser(state);
 
   default:
     return state;

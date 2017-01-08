@@ -1,10 +1,12 @@
 // *** ACTIONS *** //
 // TODO: change this to actions.js
 import fetchApi from "../api/fetchApi.js";
+import authApi from "../api/authApi.js";
 import * as types from "../constants/ActionTypes.js";
 import * as fromAccessors from "../reducers/accessors.js";
 import uuid from "uuid";
 import moment from "moment";
+import { push } from "react-router-redux";
 
 function receiveCards(cards) {
   return {
@@ -56,6 +58,13 @@ function deleteCardSuccess(cardID) {
   return {
     type: types.DELETE_CARD,
     cardID
+  };
+}
+
+function receiveUser(user) {
+  return {
+    type: types.RECEIVE_USER,
+    user
   };
 }
 
@@ -223,6 +232,24 @@ export function deleteCard(cardID) {
   return (dispatch) => {
     fetchApi.deleteCard(cardID, () => {
       return dispatch(deleteCardSuccess(cardID));
+    });
+  };
+}
+
+export function login(username, password, location) {
+  return (dispatch) => {
+    authApi.login(username, password, (user, err) => {
+      if (!err) {
+        dispatch(receiveUser(user));
+
+        if (location.state && location.state.nextPathname) {
+          return dispatch(push(location.state.nextPathname));
+        } else {
+          return dispatch(push("/"));
+        }
+      } else {
+        return err;
+      }
     });
   };
 }

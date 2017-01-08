@@ -5,12 +5,6 @@ var DateCard = require("../models/DateCard.js");
 
 var DateCardController = function() {
   function getDateCards(req, res) {
-    // DateCard.find()
-    // .select("id dateScheduled slots label")
-    // .exec(function(err, dateCards) {
-    //   if (err) return res.status(500).send(err);
-    //   res.json({ dateCards });
-    // });
     DateCard.find(function (err, dateCards) {
       if (err) return res.status(500).send(err);
       res.json({ dateCards });
@@ -52,8 +46,6 @@ var DateCardController = function() {
       if (err) return res.status(500).send(err);
       return res.json({saved: saved});
     });
-
-
   }
 
   function addSlotToCard(req, res) {
