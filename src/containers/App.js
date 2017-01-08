@@ -9,7 +9,7 @@ import { Provider } from "react-redux";
 import createLogger from "redux-logger";
 import thunk from "redux-thunk";
 import rootReducer from "../reducers";
-import { loadAllCards } from "../actions/index.js";
+import { loadAllCards, checkServerLogin } from "../actions/index.js";
 import { syncHistoryWithStore, routerMiddleware } from "react-router-redux";
 
 class App extends Component {
@@ -28,6 +28,8 @@ class App extends Component {
     );
 
     this.history = syncHistoryWithStore(browserHistory, this.store);
+
+    this.store.dispatch(checkServerLogin());
 
     this.loggedIn = this.loggedIn.bind(this);
     this.requireAuth = this.requireAuth.bind(this);

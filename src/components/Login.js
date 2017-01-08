@@ -26,7 +26,7 @@ class Login extends Component {
 
     const email = this.state.email;
     const pass = this.state.pass;
-    
+
     this.props.handleLogin(email, pass, this.props.location);
   }
 
@@ -58,7 +58,7 @@ Login.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    loggedInUser: state.loggedInUser
+    loggedInUser: state.assignments.loggedInUser
   };
 }
 

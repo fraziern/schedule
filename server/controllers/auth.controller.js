@@ -27,9 +27,14 @@ var AuthController = function() {
     });
   }
 
+  function loggedin(req, res) {
+    return res.json(req.isAuthenticated() ? req.user : null);
+  }
+
   return {
     login,
-    verify
+    verify,
+    loggedin
   };
 }();
 
