@@ -17,7 +17,7 @@ class App extends Component {
   constructor(props) {
     super(props);
 
-    let middleware = [ thunk, routerMiddleware(browserHistory) ];
+    let middleware = [ thunk ];
     if (process.env.NODE_ENV !== "production") {
       middleware.push(createLogger());
     }
@@ -27,7 +27,7 @@ class App extends Component {
       applyMiddleware(...middleware)
     );
 
-    this.history = syncHistoryWithStore(browserHistory, this.store);
+    this.history = browserHistory;
 
     this.store.dispatch(checkServerLogin());
 
@@ -41,7 +41,7 @@ class App extends Component {
 
   loggedIn() {
     const state = this.store.getState();
-    return state.assignments.loggedInUser;
+    return state.userinfo.loggedInUser;
   }
 
   requireAuth(nextState, replace) {

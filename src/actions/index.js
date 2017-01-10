@@ -94,7 +94,7 @@ export function addDateCard(newDate) {
 
     // create a set of new slots based on the last chronological dateCard
     //  1. find latest date scheduled
-    var lastNormDateCard = fromAccessors.getLastNormDatecard(state);
+    var lastNormDateCard = fromAccessors.getLastNormDatecard(state.assignments);
 
     //  2. iterate over the existing slots, create an object of new slots
     var newSlots = {};
@@ -103,7 +103,7 @@ export function addDateCard(newDate) {
       newSlots[id] = {
         _id: id,
         assignee: "",
-        assignment: state.entities.slots[slotID].assignment
+        assignment: state.assignments.entities.slots[slotID].assignment
       };
     });
 
@@ -131,7 +131,8 @@ export function updateAssignment(slotID, assigneeName) {
     });
 
     // get assignee ID if exists, otherwise create one
-    let assigneeID = fromAccessors.getAssigneeIDByName(getState(), assigneeName);
+    const state = getState();
+    let assigneeID = fromAccessors.getAssigneeIDByName(state.assignments, assigneeName);
     if (!assigneeID) {
       assigneeID = uuid.v4();
       dispatch({
@@ -177,7 +178,8 @@ export function addSlotToCard(assignmentName, cardID) {
     // this needs to do several things:
     //   1. flag that we're saving the slot now (can implement later)
     //   2. get assignment ID if it exists, otherwise update state with a new one
-    let assignmentID = fromAccessors.getAssignmentIDByName(getState(), assignmentName);
+    const state = getState();
+    let assignmentID = fromAccessors.getAssignmentIDByName(state.assignments, assignmentName);
     if (!assignmentID) {
       assignmentID = uuid.v4();
       dispatch({
@@ -261,8 +263,8 @@ export function login(username, password, location) {
 
 export function checkServerLogin() {
   return (dispatch, getState) => {
-    const { assignments } = getState();
-    if (!assignments.loggedInUser) {
+    const { userinfo } = getState();
+    if (!userinfo.loggedInUser) {
       authApi.loggedin((response) => {
         if (response.username) {
           dispatch(receiveUser({user: response}));
