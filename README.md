@@ -2,6 +2,8 @@
 
 This is a full-stack "signup sheet" single page app, built on a MongoDB, Express, React, and Node platform.
 
+### [Demo](http://www.nickfrazier.com/projects/1_schedule.html)
+
 ### Installation
 
 1. Clone the repo and `cd schedule`
