@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from "react";
 import { connect } from "react-redux";
 import { login } from "../actions";
+import { browserHistory } from "react-router";
 
 class Login extends Component {
 
@@ -11,6 +12,12 @@ class Login extends Component {
     this.handleChangeEmail = this.handleChangeEmail.bind(this);
     this.handleChangePass = this.handleChangePass.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  componentDidUpdate() {
+    if (this.props.loggedInUser) {
+      browserHistory.push("/admin");
+    }
   }
 
   handleChangeEmail(event) {
@@ -58,7 +65,7 @@ Login.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    loggedInUser: state.assignments.loggedInUser
+    loggedInUser: state.userinfo.loggedInUser
   };
 }
 

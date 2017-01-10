@@ -166,6 +166,7 @@ function dropUser(state) {
 // ***
 
 // *** selectors ***
+// SELECTORS USE STATE.ASSIGNMENTS NOT STATE
 export function getVisibleDateCards(state) {
   if (!state.assignments.isLoaded) return null;
 

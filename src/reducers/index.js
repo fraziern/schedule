@@ -1,10 +1,10 @@
-import { routerReducer as routing } from "react-router-redux";
 import { combineReducers } from "redux";
 import assignments from "./assignments.js";
+import userinfo from "./userinfo.js";
 
 const rootReducer = combineReducers({
   assignments,
-  routing
+  userinfo
 });
 
 export default rootReducer;

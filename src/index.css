@@ -1,11 +1,26 @@
 * {
-  -webkit-border-radius: 0;
-     -moz-border-radius: 0;
-          border-radius: 0;
+  border-radius: 0;
 }
 
 .container {
   max-width: 650px;
+}
+
+.userinfo {
+  background-color: #5e77c2;
+  color: white;
+  height: 40px;
+  padding: 8px 60px;
+}
+
+.userinfo .logout-link a {
+  margin-left: 10px;
+  color: white;
+  text-decoration: underline;
+}
+
+.userinfo .logout-link a:hover {
+  color: #8c1c3a;
 }
 
 .header {
@@ -19,6 +34,7 @@
 
 .menubar button {
   margin-right: 10px;
+  border-radius: 0;
 }
 
 .menubar button.active {
@@ -33,8 +49,13 @@
   outline-color: #8f9bbf;
 }
 
+.datecard {
+  border-radius: 0;
+}
+
 .datecard .panel-heading {
   background-color: #8f9bbf;
+  border-radius: 0;
 }
 
 .datecard h3 {
@@ -116,7 +137,7 @@ td {
 
 .remove-slot-btn button {
   opacity: 1;
-  border-radius: 50%;
+  border-radius: 20%;
   background-color: transparent;
   color: #333;
   border: none;
@@ -144,6 +165,10 @@ td {
 .label--focused {
   color: #7586bb;
   transition: all 0.3s;
+}
+
+.selector {
+  border-radius: 0;
 }
 
 .selector:focus {

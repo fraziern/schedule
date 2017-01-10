@@ -46,7 +46,7 @@ function denormalizeSlot(slot, state) {
   return {
     _id: slot._id,
     assignee,
-    assignment: fromAccessors.getAssignment(state, slot.assignment)
+    assignment: fromAccessors.getAssignment(state.assignments, slot.assignment)
   };
 }
 
