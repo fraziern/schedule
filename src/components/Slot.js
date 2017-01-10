@@ -25,7 +25,9 @@ class Slot extends Component {
   }
 
   handleSelectorChange(e) {
-    this.setState({ selectorValue: e.target.value });
+    // forbid non-valid characters
+    const cleanedValue = e.target.value.replace(/[^A-Za-z\.\s]/g,"");
+    this.setState({ selectorValue: cleanedValue });
     if (!this.state.changed) this.setState({ changed: true });
     if(this.props.saved) this.props.handleChangesIfNeeded(this.props.id);
   }
