@@ -4,6 +4,7 @@ import Menubar from "./Menubar";
 import DateCard from "./DateCard";
 import NewCardSelector from "./NewCardSelector";
 import * as fromAssignments from "../reducers/assignments";
+import spinner from "../img/loading.gif";
 
 class DateCards extends Component {
 
@@ -18,13 +19,13 @@ class DateCards extends Component {
   }
 
   render() {
-    let conditionalNewCardSelector = (this.props.admin) ? (<NewCardSelector />) : null;
-
-    let dateCards = (!this.props.isLoaded) ?
-      "Loading..." :
+    const dateCards = (!this.props.isLoaded) ?
+      (<img src={spinner} className="spinner" alt="Loading..." />) :
      this.props.dateCards.map((card) =>
        (<DateCard {...card} key={card.id} admin={this.props.admin || false} isDisabled={this.isLocked(this.props.cutoffDate, card.dateScheduled)} />)
      );
+
+    const conditionalNewCardSelector = (this.props.admin) ? (<NewCardSelector />) : null;
 
     return (
       <div>

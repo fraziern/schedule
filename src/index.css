@@ -63,6 +63,12 @@ h1 {
   border-radius: 0;
 }
 
+.datecards > .spinner {
+  width: 50px;
+  margin: 0 auto;
+  display: block;
+}
+
 .datecard .panel-heading {
   background-color: #8f9bbf;
   border-radius: 0;
