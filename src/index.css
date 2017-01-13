@@ -83,7 +83,7 @@ h3 {
 }
 
 .datecard .panel-heading--disabled {
-  background-color: #8c1c3a;
+  background-color: #8d252c;
 }
 
 .datecard .panel-heading--disabled h3 {
@@ -184,8 +184,8 @@ td {
 }
 
 .selector:focus {
-  border-color: #f2eda2;
-  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(89, 63, 40, .6);
+  border-color: #7586bb;
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(72, 109, 138, .6);
 }
 
 .checkmark {
@@ -194,7 +194,7 @@ td {
   padding: 0px;
   padding-top: 5px;
   opacity: 0.9;
-  fill: #8f9bbf;
+  fill: #7586bb;
   transition: all 0.3s;
 }
 

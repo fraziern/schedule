@@ -9,8 +9,7 @@ import { Provider } from "react-redux";
 import createLogger from "redux-logger";
 import thunk from "redux-thunk";
 import rootReducer from "../reducers";
-import { loadAllCards, checkServerLogin } from "../actions/index.js";
-import { syncHistoryWithStore, routerMiddleware } from "react-router-redux";
+import { loadAllCards } from "../actions/index.js";
 
 class App extends Component {
 
@@ -26,40 +25,19 @@ class App extends Component {
       rootReducer,
       applyMiddleware(...middleware)
     );
-
-    this.history = browserHistory;
-
-    this.store.dispatch(checkServerLogin());
-
-    this.loggedIn = this.loggedIn.bind(this);
-    this.requireAuth = this.requireAuth.bind(this);
   }
 
   componentWillMount() {
     this.store.dispatch(loadAllCards());
   }
 
-  loggedIn() {
-    const state = this.store.getState();
-    return state.userinfo.loggedInUser;
-  }
-
-  requireAuth(nextState, replace) {
-    if (!this.loggedIn()) {
-      replace({
-        pathname: "/login",
-        state: { nextPathname: nextState.location.pathname }
-      });
-    }
-  }
-
   render() {
     return (
       <Provider store={this.store}>
-        <Router history={this.history}>
+        <Router history={browserHistory}>
           <Route component={Header} >
             <Route path="/" component={DateCards} />
-            <Route path="admin" component={DateCardsAdmin} onEnter={this.requireAuth}/>
+            <Route path="admin" component={DateCardsAdmin} />
             <Route path="login" component={Login} />
           </Route>
         </Router>
