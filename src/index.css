@@ -1,5 +1,12 @@
+@import url('https://fonts.googleapis.com/css?family=Jaldi');
+
 * {
   border-radius: 0;
+}
+
+body {
+  background-color: #fafafa;
+  font-family: "Jaldi", sans-serif;
 }
 
 .container {
@@ -9,7 +16,6 @@
 .userinfo {
   background-color: #5e77c2;
   color: white;
-  height: 40px;
   padding: 8px 60px;
 }
 
@@ -26,6 +32,10 @@
 .header {
   border-bottom: 2px #4b4b4b solid;
   margin-bottom: 20px;
+}
+
+h1 {
+  font-size: 44px;
 }
 
 .menubar {
@@ -58,16 +68,18 @@
   border-radius: 0;
 }
 
-.datecard h3 {
+h3 {
   margin: 10px;
   width: 80%;
   display: inline;
+  font-size: 32px;
 }
 
 .datecard .cardlabel {
   margin-left: 10px;
   margin-bottom: 0px;
   font-size: 18px;
+  font-family: sans-serif;
 }
 
 .datecard .panel-heading--disabled {
@@ -191,6 +203,11 @@ td {
   opacity: 0;
 }
 
+.slot {
+  background-color: white;
+  font-family: sans-serif;
+}
+
 .slot .spinner {
   width: 25px;
   padding: 0px;
@@ -209,7 +226,7 @@ td {
 @media (max-width : 420px)
 and (orientation : portrait) {
   h3 {
-    font-size: 14px;
+    font-size: 22px;
   }
 
   h4 {
