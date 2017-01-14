@@ -40,6 +40,7 @@ h1 {
 
 .menubar {
   margin-bottom: 30px;
+  display: flex;
 }
 
 .menubar button {
@@ -57,6 +58,18 @@ h1 {
 
 .menubar button:focus {
   outline-color: #8f9bbf;
+}
+
+.menubar .filter-range {
+  margin-left: 15px;
+}
+
+.menubar .filter-range input {
+  margin: 0 10px;
+  padding: 5px 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  border: 1px solid #ccc;
 }
 
 .datecard {

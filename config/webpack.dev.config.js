@@ -2,6 +2,7 @@ var path = require("path");
 
 var config = {
   debug: true,
+  devtool: "eval-source-map",
   entry: {
     // babel-polyfill adds ES2015 support for IE
     main: ["babel-polyfill", "./src/index.js"]

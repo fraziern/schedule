@@ -10,6 +10,7 @@ const initialState = {
   loggedInUser: null,
   currentDate: moment().format(),
   cutoffDate: moment().add(2, "weeks").format(),
+  startDate: moment().format(),
   filter: "ALL"
 };
 
@@ -112,7 +113,7 @@ function markUnsaved(state, slotID) {
 
 function addDateCard(state, card) {
   // card: a normalized card
-  // We only need to merge in dateCards, slots, and visibleCards
+  // We only need to merge in dateCards, slots, and sortedCards
   // because there are no new assignments/assignees
   // and ids for assignments have not changed
 
@@ -120,7 +121,7 @@ function addDateCard(state, card) {
     entities: {
       dateCards: {$merge: card.entities.dateCards },
       slots: {$merge: card.entities.slots }},
-    visibleCards: {$push: [card.result]}
+    sortedCards: {$push: [card.result]}
   });
 }
 
@@ -130,19 +131,19 @@ function deleteDateCard(state, cardID) {
     if (card !== cardID) newDateCards[card] = state.entities.dateCards[card];
   }
 
-  var newVisibleCards = state.visibleCards.filter((id) => {
+  var newSortedCards = state.sortedCards.filter((id) => {
     return (id !== cardID);
   });
 
   return update(state, {
     entities: {
       dateCards: {$set: newDateCards }},
-    visibleCards: {$set: newVisibleCards }
+    sortedCards: {$set: newSortedCards }
   });
 }
 
 function sortCardsAsc(state) {
-  var orderedCards = state.visibleCards;
+  var orderedCards = state.sortedCards;
   orderedCards.sort(function(a, b) {
     const aDate = state.entities.dateCards[a].dateScheduled;
     const bDate = state.entities.dateCards[b].dateScheduled;
@@ -150,7 +151,7 @@ function sortCardsAsc(state) {
     if (aDate > bDate) return 1;
     return 0;
   });
-  return {...state, visibleCards: orderedCards};
+  return {...state, sortedCards: orderedCards};
 }
 
 function receiveUser(state, user) {
@@ -168,26 +169,29 @@ function dropUser(state) {
 // *** selectors ***
 // SELECTORS USE STATE.ASSIGNMENTS NOT STATE
 export function getVisibleDateCards(state) {
-  if (!state.assignments.isLoaded) return null;
+  const { assignments } = state;
+
+  if (!assignments.isLoaded) return null;
 
   // TODO: make this dependant on state.sort if/when we implement sorting
-  const sortedState = sortCardsAsc(state.assignments);
+  // TODO: do we really need to do this every time we get the cards? Maybe only when we do an AJAX call or add a card or something.
+  const sortedState = sortCardsAsc(assignments);
 
-  // remove cards that predate today
-  var filteredList = sortedState.visibleCards.filter(dateCardID => {
-    const normalizedDateCard = fromAccessors.getNormalizedDateCard(state.assignments, dateCardID);
-    if (normalizedDateCard.dateScheduled < state.assignments.currentDate) return false;
+  // remove cards that predate startDate
+  var filteredList = sortedState.sortedCards.filter(dateCardID => {
+    const normalizedDateCard = fromAccessors.getNormalizedDateCard(assignments, dateCardID);
+    if (normalizedDateCard.dateScheduled < assignments.startDate) return false;
     return true;
   });
 
   // convert normalized state to something we can use
   return filteredList.map(dateCardID => {
-    const normalizedDateCard = fromAccessors.getNormalizedDateCard(state.assignments, dateCardID);
+    const normalizedDateCard = fromAccessors.getNormalizedDateCard(assignments, dateCardID);
     return {
       id: dateCardID,
       dateScheduled: normalizedDateCard.dateScheduled,
       label: normalizedDateCard.label,
-      slots: fromAccessors.getSlots(state.assignments, normalizedDateCard.slots)
+      slots: fromAccessors.getSlots(assignments, normalizedDateCard.slots)
     };
   });
 }
@@ -201,7 +205,7 @@ export default function assignments(state = initialState, action) {
     return {
       ...state,
       entities: normalized.entities,
-      visibleCards: normalized.result,
+      sortedCards: normalized.result,
       isLoaded: true,
       sort: "asc"
     };
@@ -250,6 +254,9 @@ export default function assignments(state = initialState, action) {
 
   case types.SET_FILTER:
     return { ...state, filter: action.filter };
+
+  case types.SET_STARTDATE:
+    return { ...state, startDate: action.date };
 
   case types.ADD_SLOT:
     return addSlot(

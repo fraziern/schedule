@@ -1,14 +1,23 @@
 import React, { Component, PropTypes } from "react";
 import { connect } from "react-redux";
-import { setFilter } from "../actions/index.js";
 
 class FilterButton extends Component {
+
+  constructor(props) {
+    super(props);
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick(e) {
+    e.preventDefault();
+    this.props.onClick(this.props.filter);
+  }
 
   render() {
     let buttonClass = "btn btn-default btn-sm" + ((this.props.active) ? " active" : "");
 
     return (
-        <button type="button" className={buttonClass} onClick={this.props.onClick} >
+        <button type="button" className={buttonClass} onClick={this.handleClick} >
           {this.props.label}
         </button>
     );
@@ -28,15 +37,4 @@ function mapStateToProps(state, ownProps) {
   };
 }
 
-function mapDispatchToProps(dispatch, ownProps) {
-  return {
-    onClick: () => {
-      dispatch(setFilter(ownProps.filter));
-    }
-  };
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(FilterButton);
+export default connect(mapStateToProps)(FilterButton);

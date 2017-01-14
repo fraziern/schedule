@@ -29,7 +29,7 @@ class DateCards extends Component {
 
     return (
       <div>
-        <Menubar />
+        <Menubar admin={this.props.admin}/>
         <div className="datecards">
           {dateCards}
         </div>

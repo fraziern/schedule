@@ -7,6 +7,7 @@ import * as fromAccessors from "../reducers/accessors.js";
 import uuid from "uuid";
 import moment from "moment";
 import { browserHistory } from "react-router";
+import * as constants from "../constants/Constants.js";
 
 function receiveCards(cards) {
   return {
@@ -227,6 +228,14 @@ export function setFilter(filter) {
   return {
     type: types.SET_FILTER,
     filter
+  };
+}
+
+export function setStartDate(dateString) {
+  const date = moment(dateString, constants.DATEFORMATS).format();
+  return {
+    type: types.SET_STARTDATE,
+    date
   };
 }
 

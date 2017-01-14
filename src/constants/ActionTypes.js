@@ -15,3 +15,4 @@ export const UPDATE_LABEL = "UPDATE_LABEL";
 export const DELETE_CARD = "DELETE_CARD";
 export const RECEIVE_USER = "RECEIVE_USER";
 export const DROP_USER = "DROP_USER";
+export const SET_STARTDATE = "SET_STARTDATE";
