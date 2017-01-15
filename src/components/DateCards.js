@@ -5,6 +5,7 @@ import DateCard from "./DateCard";
 import NewCardSelector from "./NewCardSelector";
 import * as fromAssignments from "../reducers/assignments";
 import spinner from "../img/loading.gif";
+import { getVisibleDateCardsAndDenormalize } from "../selectors";
 
 class DateCards extends Component {
 
@@ -58,7 +59,8 @@ DateCards.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    dateCards: fromAssignments.getVisibleDateCards(state),
+    // dateCards: fromAssignments.getVisibleDateCards(state),
+    dateCards: getVisibleDateCardsAndDenormalize(state),
     unsavedChanges: state.assignments.unsavedChanges,
     isLoaded: state.assignments.isLoaded,
     cutoffDate: state.assignments.cutoffDate

@@ -1,6 +1,6 @@
 /*eslint no-console: ["error", { allow: ["warn", "error"] }] */
 import { normalize, Schema, arrayOf } from "normalizr";
-import * as fromAccessors from "../reducers/accessors.js";
+import * as fromAccessors from "../reducers/assignmentsAccessors";
 import fetch from "isomorphic-fetch";  // fetch polyfill
 
 // normalizr schemas

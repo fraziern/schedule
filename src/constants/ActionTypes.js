@@ -16,3 +16,4 @@ export const DELETE_CARD = "DELETE_CARD";
 export const RECEIVE_USER = "RECEIVE_USER";
 export const DROP_USER = "DROP_USER";
 export const SET_STARTDATE = "SET_STARTDATE";
+export const SET_STOPDATE = "SET_STOPDATE";

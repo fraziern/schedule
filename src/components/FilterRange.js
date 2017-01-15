@@ -23,7 +23,7 @@ FilterRange.propTypes = {
   handleStartSubmit: PropTypes.func.isRequired,
   handleStopSubmit: PropTypes.func.isRequired,
   startValue: PropTypes.string.isRequired,
-  stopValue: PropTypes.string.isRequired
+  stopValue: PropTypes.string
 };
 
 export default FilterRange;

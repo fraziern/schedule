@@ -3,7 +3,7 @@
 import fetchApi from "../api/fetchApi.js";
 import authApi from "../api/authApi.js";
 import * as types from "../constants/ActionTypes.js";
-import * as fromAccessors from "../reducers/accessors.js";
+import * as fromAccessors from "../reducers/assignmentsAccessors";
 import uuid from "uuid";
 import moment from "moment";
 import { browserHistory } from "react-router";
@@ -232,9 +232,23 @@ export function setFilter(filter) {
 }
 
 export function setStartDate(dateString) {
-  const date = moment(dateString, constants.DATEFORMATS).format();
+  let date = "";
+  if (dateString) {
+    date = moment(dateString, constants.DATEFORMATS).format();
+  }
   return {
     type: types.SET_STARTDATE,
+    date
+  };
+}
+
+export function setStopDate(dateString) {
+  let date = "";
+  if (dateString) {
+    date = moment(dateString, constants.DATEFORMATS).format();
+  }
+  return {
+    type: types.SET_STOPDATE,
     date
   };
 }

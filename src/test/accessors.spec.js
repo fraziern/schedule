@@ -1,4 +1,4 @@
-var accessors = require("../reducers/accessors.js");
+var accessors = require("../reducers/assignmentsAccessors.js");
 var expect = require("chai").expect;
 
 describe("reducers", () => {

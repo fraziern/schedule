@@ -4,6 +4,7 @@ import DateCards from "../components/DateCards";
 import DateCardsAdmin from "../components/DateCardsAdmin";
 import Login from "../components/Login";
 import Header from "../components/Header";
+import Reports from "../components/Reports";
 import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import createLogger from "redux-logger";
@@ -39,6 +40,7 @@ class App extends Component {
             <Route path="/" component={DateCards} />
             <Route path="admin" component={DateCardsAdmin} />
             <Route path="login" component={Login} />
+            <Route path="reports" component={Reports} />
           </Route>
         </Router>
       </Provider>

@@ -1,3 +1,6 @@
+// These all operate on the "assignments" reducer piece, so "state"
+// is assumed to be state.assignments
+
 function getEntityFunction(entity) {
   return function (state, id) {
     return state.entities[entity][id];

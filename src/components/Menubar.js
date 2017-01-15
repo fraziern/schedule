@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from "react";
 import { connect } from "react-redux";
 import FilterButton from "./FilterButton.js";
 import FilterRange from "./FilterRange";
-import { setFilter, setStartDate } from "../actions";
+import { setFilter, setStartDate, setStopDate } from "../actions";
 import moment from "moment";
 
 class Menubar extends Component {
@@ -11,7 +11,7 @@ class Menubar extends Component {
     super(props);
     this.state = {
       startDate: moment(this.props.startDate).format("M/D/YYYY"),
-      stopDate: null
+      stopDate: ""
     };
 
     this.handleStartChange = this.handleStartChange.bind(this);
@@ -32,14 +32,13 @@ class Menubar extends Component {
 
   handleStartSubmit(e) {
     if (e.which === 13) {
-      console.log("submitting: " + this.state.startDate);
       this.props.dispatch(setStartDate(this.state.startDate));
     }
   }
 
   handleStopSubmit(e) {
     if (e.which === 13) {
-      console.log("submitting: " + this.state.stopDate);
+      this.props.dispatch(setStopDate(this.state.stopDate));
     }
   }
 

@@ -1,5 +1,5 @@
 import * as types from "../constants/ActionTypes.js";
-import * as fromAccessors from "./accessors.js";
+import * as fromAccessors from "./assignmentsAccessors";
 // TODO: use immutability-helper instead of react-addons-update
 import update from "react-addons-update";
 import moment from "moment";
@@ -11,6 +11,7 @@ const initialState = {
   currentDate: moment().format(),
   cutoffDate: moment().add(2, "weeks").format(),
   startDate: moment().format(),
+  stopDate: "",
   filter: "ALL"
 };
 
@@ -117,12 +118,13 @@ function addDateCard(state, card) {
   // because there are no new assignments/assignees
   // and ids for assignments have not changed
 
-  return update(state, {
+  const unsortedState = update(state, {
     entities: {
       dateCards: {$merge: card.entities.dateCards },
       slots: {$merge: card.entities.slots }},
     sortedCards: {$push: [card.result]}
   });
+  return sortCardsAsc(unsortedState);
 }
 
 function deleteDateCard(state, cardID) {
@@ -174,13 +176,13 @@ export function getVisibleDateCards(state) {
   if (!assignments.isLoaded) return null;
 
   // TODO: make this dependant on state.sort if/when we implement sorting
-  // TODO: do we really need to do this every time we get the cards? Maybe only when we do an AJAX call or add a card or something.
-  const sortedState = sortCardsAsc(assignments);
+  // const sortedState = sortCardsAsc(assignments);
 
-  // remove cards that predate startDate
-  var filteredList = sortedState.sortedCards.filter(dateCardID => {
+  // return cards between startDate and stopDate
+  var filteredList = assignments.sortedCards.filter(dateCardID => {
     const normalizedDateCard = fromAccessors.getNormalizedDateCard(assignments, dateCardID);
     if (normalizedDateCard.dateScheduled < assignments.startDate) return false;
+    if (assignments.stopDate && normalizedDateCard.dateScheduled > assignments.stopDate) return false;
     return true;
   });
 
@@ -202,13 +204,14 @@ export default function assignments(state = initialState, action) {
 
   case types.RECEIVE_ALLCARDS:
     var normalized = action.dateCards;
-    return {
+    var newState = {
       ...state,
       entities: normalized.entities,
       sortedCards: normalized.result,
       isLoaded: true,
       sort: "asc"
     };
+    return sortCardsAsc(newState);
 
   case types.SORT_ASCENDING:
     return sortCardsAsc(state);
@@ -257,6 +260,9 @@ export default function assignments(state = initialState, action) {
 
   case types.SET_STARTDATE:
     return { ...state, startDate: action.date };
+
+  case types.SET_STOPDATE:
+    return { ...state, stopDate: action.date };
 
   case types.ADD_SLOT:
     return addSlot(
