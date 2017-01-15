@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Jaldi');
+@import "../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
 
 * {
   border-radius: 0;

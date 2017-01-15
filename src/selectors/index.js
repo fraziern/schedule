@@ -2,6 +2,7 @@
 
 import * as fromAccessors from "../reducers/assignmentsAccessors";
 import { createSelector } from "reselect";
+import moment from "moment";
 
 const getStartDate = (state) => state.assignments.startDate;
 const getStopDate = (state) => state.assignments.stopDate;
@@ -39,22 +40,35 @@ export const getVisibleDateCardsAndDenormalize = createSelector(
 
 export const getAssigneeRankings = (assignments, startDate, stopDate) => {
   // returns a map of the format
-  // {"name": #ofassignments}
+  // { "SDIUHS-asd-3423": {frequency: 10, assignee: "Bob"}}
+
+  if (!assignments.isLoaded) return null;
+
+  // if no startDate or stopDate specified, use the last 1 year
+  if (!stopDate) stopDate = moment().format();
+  if (!startDate) startDate = moment().subtract(1, "years").format();
 
   // return only cards between startDate and stopDate
   const filteredList = filterIDListByDate(assignments.sortedCards, assignments, startDate, stopDate);
 
   // create array of slot IDs only
   var slotList = filteredList.reduce((prev, curr) => {
-    return prev.concat(assignments.entities.datecards[curr]);
+    return prev.concat(assignments.entities.dateCards[curr].slots);
   }, []);
 
+  let freqByID = {};
   // build frequency map of slot assignees by ID
-  var freqByID = slotList.reduce((prev, curr) => {
-    const normSlot = fromAccessors.getNormalizedSlot(assignments, curr);
-    if (normSlot in prev) return prev.normSlot += 1;
-    else return prev.normSlot = 1;
-  }, {});
+  slotList.forEach((el) => {
+    let assigneeID = assignments.entities.slots[el].assignee;
+    if (assigneeID in freqByID) freqByID[assigneeID].frequency += 1;
+    else {
+      const assignee = fromAccessors.getAssignee(assignments, assigneeID).name;
+      freqByID[assigneeID] = {
+        frequency: 1,
+        assignee
+      };
+    }
+  });
 
   return freqByID;
 };
