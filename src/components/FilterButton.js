@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from "react";
-import { connect } from "react-redux";
 
 class FilterButton extends Component {
 
@@ -14,7 +13,7 @@ class FilterButton extends Component {
   }
 
   render() {
-    let buttonClass = "btn btn-default btn-sm" + ((this.props.active) ? " active" : "");
+    let buttonClass = "btn btn-default btn-sm" + ((this.props.filterStatus === this.props.filter) ? " active" : "");
 
     return (
         <button type="button" className={buttonClass} onClick={this.handleClick} >
@@ -27,14 +26,8 @@ class FilterButton extends Component {
 FilterButton.propTypes = {
   filter: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
-  active: PropTypes.bool,
-  label: PropTypes.string.isRequired
+  label: PropTypes.string.isRequired,
+  filterStatus: PropTypes.string.isRequired
 };
 
-function mapStateToProps(state, ownProps) {
-  return {
-    active: ownProps.filter === state.assignments.filter
-  };
-}
-
-export default connect(mapStateToProps)(FilterButton);
+export default FilterButton;

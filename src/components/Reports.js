@@ -2,12 +2,13 @@ import React, { Component, PropTypes } from "react";
 import { connect } from "react-redux";
 import { getAssigneeRankings } from "../selectors";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
+// import VolunteerReportFilter from "./VolunteerReportFilter.js";
 
 class Reports extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { filter: "", sort: "" };
+    this.state = { filter: "" };
   }
 
   render() {
@@ -43,6 +44,7 @@ class Reports extends Component {
 
     return (
       <div>
+
         {assigneeTable}
       </div>
     );

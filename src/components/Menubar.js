@@ -62,8 +62,8 @@ class Menubar extends Component {
     return (
       <div className="menubar">
         <div className="filter-buttons">
-          <FilterButton filter="ALL" label="Show All" onClick={this.setFilter}/>
-          <FilterButton filter="VACANT" label="Vacant Only" onClick={this.setFilter}/>
+          <FilterButton filter="ALL" label="Show All" onClick={this.setFilter} filterStatus={this.props.cardFilter}/>
+          <FilterButton filter="VACANT" label="Vacant Only" onClick={this.setFilter} filterStatus={this.props.cardFilter}/>
         </div>
         {filterRange}
       </div>
@@ -72,14 +72,16 @@ class Menubar extends Component {
 }
 
 Menubar.propTypes = {
-  admin: PropTypes.bool.isRequired,
+  admin: PropTypes.bool,
   dispatch: PropTypes.func.isRequired,
-  startDate: PropTypes.string.isRequired
+  startDate: PropTypes.string.isRequired,
+  cardFilter: PropTypes.string.isRequired
 };
 
 function mapStateToProps(state) {
   return {
-    startDate: state.assignments.startDate
+    startDate: state.assignments.startDate,
+    cardFilter: state.assignments.filter
   };
 }
 
