@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import ReportAssigneeSignups from "./ReportAssigneeSignups";
+import ReportEmptySlots from "./ReportEmptySlots";
 
 class Reports extends Component {
 
@@ -11,6 +12,7 @@ class Reports extends Component {
 
     return (
       <div>
+        <ReportEmptySlots />
         <ReportAssigneeSignups />
       </div>
     );

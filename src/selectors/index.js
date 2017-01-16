@@ -38,6 +38,7 @@ export const getVisibleDateCardsAndDenormalize = createSelector(
   }
 );
 
+// TODO: once we need more performance, create a separate memoized function that returns last year, then use the public selector to filter by start and stop
 export const getAssigneeRankings = (assignments, startDate, stopDate) => {
   // returns a map of the format
   // { "SDIUHS-asd-3423": {frequency: 10, assignee: "Bob"}}
@@ -45,8 +46,8 @@ export const getAssigneeRankings = (assignments, startDate, stopDate) => {
   if (!assignments.isLoaded) return null;
 
   // if no startDate or stopDate specified, use the last 1 year
-  if (!stopDate) stopDate = moment().format();
-  if (!startDate) startDate = moment().subtract(1, "years").format();
+  if (!stopDate) stopDate = moment().startOf("date").format();
+  if (!startDate) startDate = moment().startOf("date").subtract(1, "years").format();
 
   // return only cards between startDate and stopDate
   const filteredList = filterIDListByDate(assignments.sortedCards, assignments, startDate, stopDate);
@@ -96,6 +97,39 @@ export const getAssigneeRankingsByFilter = (assignments, filter) => {
   default:
     time = {len: 1, unit: "years"};
   }
-  const startDate = moment().subtract(time.len, time.unit).format();
+  const startDate = moment().startOf("date").subtract(time.len, time.unit).format();
   return getAssigneeRankings(assignments, startDate);
+};
+
+export const getEmptySlotReport = (assignments) => {
+
+  if (!assignments.isLoaded) return null;
+
+  const startDate = moment().startOf("date").subtract(1, "years").format();
+  const stopDate = moment().endOf("date").format();
+
+  const filteredList = filterIDListByDate(assignments.sortedCards, assignments, startDate, stopDate);
+
+  // create array of assignee IDs where name is blank
+  let blankAssignees = [];
+  for (var el in assignments.entities.assignees) {
+    const assignee = assignments.entities.assignees[el];
+    if (assignee.name === "") blankAssignees.push(el);
+  }
+
+  // iterate over all slots, by date, and build table
+  let emptySlots = {};
+  filteredList.forEach((el) => {
+    const dateCard = assignments.entities.dateCards[el];
+    const dateScheduled = dateCard.dateScheduled;
+    let frequency = 0;
+    dateCard.slots.forEach((el) => {
+      // if this ID is one of the blank assignees IDs
+      if (blankAssignees.indexOf(assignments.entities.slots[el].assignee) >= 0) {
+        frequency++;
+      }
+    });
+    emptySlots[el] = { dateScheduled, frequency };
+  });
+  return emptySlots;
 };
