@@ -72,3 +72,30 @@ export const getAssigneeRankings = (assignments, startDate, stopDate) => {
 
   return freqByID;
 };
+
+export const getAssigneeRankingsByFilter = (assignments, filter) => {
+  let time = {};
+  switch (filter) {
+
+  case "Year":
+    time = {len: 1, unit: "years"};
+    break;
+
+  case "9 Months":
+    time = {len: 9, unit: "months"};
+    break;
+
+  case "6 Months":
+    time = {len: 6, unit: "months"};
+    break;
+
+  case "3 Months":
+    time = {len: 3, unit: "months"};
+    break;
+
+  default:
+    time = {len: 1, unit: "years"};
+  }
+  const startDate = moment().subtract(time.len, time.unit).format();
+  return getAssigneeRankings(assignments, startDate);
+};

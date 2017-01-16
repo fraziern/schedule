@@ -231,6 +231,13 @@ export function setFilter(filter) {
   };
 }
 
+export function updateSignupFilter(filter) {
+  return {
+    type: types.UPDATE_SIGNUP_FILTER,
+    filter
+  };
+}
+
 export function setStartDate(dateString) {
   let date = "";
   if (dateString) {

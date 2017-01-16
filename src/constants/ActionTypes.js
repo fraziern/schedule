@@ -17,3 +17,4 @@ export const RECEIVE_USER = "RECEIVE_USER";
 export const DROP_USER = "DROP_USER";
 export const SET_STARTDATE = "SET_STARTDATE";
 export const SET_STOPDATE = "SET_STOPDATE";
+export const UPDATE_SIGNUP_FILTER = "UPDATE_SIGNUP_FILTER";

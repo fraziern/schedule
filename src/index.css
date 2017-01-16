@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Jaldi');
-@import "../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
+@import "../node_modules/react-table/react-table.css";
 
 * {
   border-radius: 0;
@@ -241,6 +241,19 @@ td {
 .slot .spinner--hidden {
   width: 25px;
   opacity: 0;
+}
+
+.ReactTable {
+  background-color: #FFF;
+  max-width: 600px;
+}
+
+.report-assigneesignups-filterbar {
+  margin-bottom: 10px;
+}
+
+.-header {
+  background-color: #7586bb;
 }
 
 @media (max-width : 420px)
