@@ -231,9 +231,9 @@ export function setFilter(filter) {
   };
 }
 
-export function updateSignupFilter(filter) {
+export function updateReportFilter(filter) {
   return {
-    type: types.UPDATE_SIGNUP_FILTER,
+    type: types.UPDATE_REPORT_FILTER,
     filter
   };
 }

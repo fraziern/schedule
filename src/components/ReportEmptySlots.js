@@ -1,13 +1,13 @@
 import React, { Component, PropTypes } from "react";
 import { connect } from "react-redux";
-import { getEmptySlotReport } from "../selectors";
+import { getEmptySlotReportByFilter } from "../selectors";
 import { LineChart, Line, XAxis, YAxis, Tooltip } from "recharts";
 
 const CustomizedAxisTick = React.createClass({
   propTypes: {
-    x: PropTypes.int,
-    y: PropTypes.int,
-    payload: PropTypes.obj
+    x: PropTypes.number,
+    y: PropTypes.number,
+    payload: PropTypes.object
   },
 
   render: function() {
@@ -41,10 +41,10 @@ class ReportEmptySlots extends Component {
 
       emptySlotTable = (
         <LineChart
-          width={500}
+          width={600}
           height={300}
           data={dateList}
-          margin={{top: 5, right: 5, left: 5, bottom: 40}}>
+          margin={{top: 5, right: 5, left: -25, bottom: 40}}>
 
           <XAxis dataKey="date" name="Date" tick={<CustomizedAxisTick/>}/>
           <YAxis />
@@ -56,7 +56,7 @@ class ReportEmptySlots extends Component {
 
     return (
       <div className="report-emptyslots">
-        <h2>Empty Slots in Last Year</h2>
+        <h2>Empty Slots in Last {this.props.reportFilter}</h2>
         {emptySlotTable}
       </div>
     );
@@ -64,12 +64,14 @@ class ReportEmptySlots extends Component {
 }
 
 ReportEmptySlots.propTypes = {
-  emptySlots: PropTypes.string
+  emptySlots: PropTypes.object,
+  reportFilter: PropTypes.string.isRequired
 };
 
 function mapStateToProps(state) {
   return {
-    emptySlots: getEmptySlotReport(state.assignments)
+    emptySlots: getEmptySlotReportByFilter(state.assignments, state.reports.reportFilter),
+    reportFilter: state.reports.reportFilter
   };
 }
 

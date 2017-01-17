@@ -256,6 +256,20 @@ td {
   background-color: #7586bb;
 }
 
+@media (max-width : 650px) {
+  .menubar {
+    flex-direction: column;
+  }
+
+  .menubar .filter-range {
+    margin-top: 10px;
+  }
+
+  .menubar .filter-range input {
+    width: 75px;
+  }
+}
+
 @media (max-width : 420px)
 and (orientation : portrait) {
   h3 {

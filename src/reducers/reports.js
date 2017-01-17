@@ -3,14 +3,14 @@ import * as types from "../constants/ActionTypes.js";
 // import update from "react-addons-update";
 
 const initialState = {
-  assigneeSignupFilter: "Year",
+  reportFilter: "Year",
 };
 
 // *** private helper functions ***
 
-function changeAssigneeSignupFilter(state, filter) {
+function changeReportFilter(state, filter) {
   return {...state,
-    assigneeSignupFilter: filter
+    reportFilter: filter
   };
 }
 
@@ -22,8 +22,8 @@ function changeAssigneeSignupFilter(state, filter) {
 export default function reports(state = initialState, action) {
   switch (action.type) {
 
-  case types.UPDATE_SIGNUP_FILTER:
-    return changeAssigneeSignupFilter(
+  case types.UPDATE_REPORT_FILTER:
+    return changeReportFilter(
       state,
       action.filter
     );

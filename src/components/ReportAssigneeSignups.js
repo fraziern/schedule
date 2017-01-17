@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from "react";
 import { connect } from "react-redux";
 import { getAssigneeRankingsByFilter } from "../selectors";
 import ReactTable from "react-table";
-import ReportAssigneeSignupFilters from "./ReportAssigneeSignupFilters";
 
 class ReportAssigneeSignups extends Component {
 
@@ -41,7 +40,6 @@ class ReportAssigneeSignups extends Component {
     return (
       <div className="report-assigneesignups">
         <h2>Signups in Last {this.props.reportFilter}</h2>
-        <ReportAssigneeSignupFilters />
         {assigneeTable}
       </div>
     );
@@ -55,8 +53,8 @@ ReportAssigneeSignups.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    assigneeRank: getAssigneeRankingsByFilter(state.assignments, state.reports.assigneeSignupFilter),
-    reportFilter: state.reports.assigneeSignupFilter
+    assigneeRank: getAssigneeRankingsByFilter(state.assignments, state.reports.reportFilter),
+    reportFilter: state.reports.reportFilter
   };
 }
 

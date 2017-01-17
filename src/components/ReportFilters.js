@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from "react";
 import FilterButton from "./FilterButton.js";
 import { connect } from "react-redux";
-import { updateSignupFilter } from "../actions";
+import { updateReportFilter } from "../actions";
 
-class ReportAssigneeSignupFilters extends Component {
+class ReportFilters extends Component {
 
   constructor(props) {
     super(props);
@@ -11,13 +11,13 @@ class ReportAssigneeSignupFilters extends Component {
   }
 
   handleChange(filter) {
-    this.props.dispatch(updateSignupFilter(filter));
+    this.props.dispatch(updateReportFilter(filter));
   }
 
   render() {
 
     return (
-      <div className="report-assigneesignups-filterbar menubar">
+      <div className="report-filterbar menubar">
         <div className="filter-buttons">
           <FilterButton filter="Year" label="1 Year" onClick={this.handleChange} filterStatus={this.props.reportFilter}/>
           <FilterButton filter="9 Months" label="9 Months" onClick={this.handleChange} filterStatus={this.props.reportFilter}/>
@@ -29,15 +29,15 @@ class ReportAssigneeSignupFilters extends Component {
   }
 }
 
-ReportAssigneeSignupFilters.propTypes = {
+ReportFilters.propTypes = {
   reportFilter: PropTypes.string.isRequired,
   dispatch: PropTypes.func.isRequired
 };
 
 function mapStateToProps(state) {
   return {
-    reportFilter: state.reports.assigneeSignupFilter
+    reportFilter: state.reports.reportFilter
   };
 }
 
-export default connect(mapStateToProps)(ReportAssigneeSignupFilters);
+export default connect(mapStateToProps)(ReportFilters);

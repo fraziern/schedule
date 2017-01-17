@@ -8,6 +8,32 @@ const getStartDate = (state) => state.assignments.startDate;
 const getStopDate = (state) => state.assignments.stopDate;
 const getAssignments = (state) => state.assignments;
 
+function getStartDateByFilter(filter) {
+  let time = {};
+  switch (filter) {
+
+  case "Year":
+    time = {len: 1, unit: "years"};
+    break;
+
+  case "9 Months":
+    time = {len: 9, unit: "months"};
+    break;
+
+  case "6 Months":
+    time = {len: 6, unit: "months"};
+    break;
+
+  case "3 Months":
+    time = {len: 3, unit: "months"};
+    break;
+
+  default:
+    time = {len: 1, unit: "years"};
+  }
+  return moment().startOf("date").subtract(time.len, time.unit).format();
+}
+
 function filterIDListByDate(list, assignments, startDate, stopDate) {
   // return only cards between startDate and stopDate
   return assignments.sortedCards.filter(dateCardID => {
@@ -75,37 +101,14 @@ export const getAssigneeRankings = (assignments, startDate, stopDate) => {
 };
 
 export const getAssigneeRankingsByFilter = (assignments, filter) => {
-  let time = {};
-  switch (filter) {
-
-  case "Year":
-    time = {len: 1, unit: "years"};
-    break;
-
-  case "9 Months":
-    time = {len: 9, unit: "months"};
-    break;
-
-  case "6 Months":
-    time = {len: 6, unit: "months"};
-    break;
-
-  case "3 Months":
-    time = {len: 3, unit: "months"};
-    break;
-
-  default:
-    time = {len: 1, unit: "years"};
-  }
-  const startDate = moment().startOf("date").subtract(time.len, time.unit).format();
-  return getAssigneeRankings(assignments, startDate);
+  return getAssigneeRankings(assignments, getStartDateByFilter(filter));
 };
 
-export const getEmptySlotReport = (assignments) => {
+export const getEmptySlotReport = (assignments, startDate) => {
 
   if (!assignments.isLoaded) return null;
 
-  const startDate = moment().startOf("date").subtract(1, "years").format();
+  if (!startDate) startDate = moment().startOf("date").subtract(1, "years").format();
   const stopDate = moment().endOf("date").format();
 
   const filteredList = filterIDListByDate(assignments.sortedCards, assignments, startDate, stopDate);
@@ -132,4 +135,8 @@ export const getEmptySlotReport = (assignments) => {
     emptySlots[el] = { dateScheduled, frequency };
   });
   return emptySlots;
+};
+
+export const getEmptySlotReportByFilter = (assignments, filter) => {
+  return getEmptySlotReport(assignments, getStartDateByFilter(filter));
 };
