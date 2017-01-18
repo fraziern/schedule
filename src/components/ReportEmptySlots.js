@@ -35,7 +35,7 @@ class ReportEmptySlots extends Component {
 
       for (let el in this.props.emptySlots) {
         const { dateScheduled, frequency } = this.props.emptySlots[el];
-        const date = dateScheduled.slice(0,10);
+        const date = dateScheduled.slice(5,10);
         dateList.push({ date, frequency });
       }
 

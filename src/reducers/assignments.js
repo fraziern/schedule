@@ -4,14 +4,13 @@ import * as fromAccessors from "./assignmentsAccessors";
 import update from "react-addons-update";
 import moment from "moment";
 
-const today = moment().startOf("date");
 const initialState = {
   isSaving: false,
   isLoaded: false,
   loggedInUser: null,
-  currentDate: today.format(),
-  cutoffDate: today.add(2, "weeks").format(),
-  startDate: today.format(),
+  currentDate: moment().startOf("date").format(),
+  cutoffDate: moment().startOf("date").add(2, "weeks").format(),
+  startDate: moment().startOf("date").format(),
   stopDate: "",
   filter: "ALL"
 };
