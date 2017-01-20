@@ -27,7 +27,7 @@ var config = {
         loaders: ["style", "css"],
       },
       {
-        test: /\.(jpe?g|png|gif|svg)$/i,
+        test: /\.(jpe?g|png|gif|svg|ico)$/i,
         loader: "file?name=img/[name].[ext]"
       },
       {
