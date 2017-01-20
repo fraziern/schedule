@@ -3,7 +3,7 @@ var express = require("express");
 var bodyParser = require("body-parser");
 require("dotenv").config({silent:true});
 var db_connect = require("./server/db_connect.js");
-var morgan = require("morgan");
+var favicon = require("serve-favicon");
 var cookieSession = require("cookie-session");
 
 // Passport
@@ -33,12 +33,7 @@ var app = express();
 
 db_connect();  // connect to Mongoose
 
-//don"t show the log when it is test
-if(process.env.NODE_ENV !== "test") {
-  //use morgan to log at command line
-  app.use(morgan("combined")); //"combined" outputs the Apache style LOGs
-}
-
+app.use(favicon(__dirname + "/favicon.ico"));
 app.use(express.static("build"));
 
 // used for Passport
