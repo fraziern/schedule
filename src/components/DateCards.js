@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import Menubar from "./Menubar";
 import DateCard from "./DateCard";
 import NewCardSelector from "./NewCardSelector";
-import * as fromAssignments from "../reducers/assignments";
 import spinner from "../img/loading.gif";
 import { getVisibleDateCardsAndDenormalize } from "../selectors";
 
@@ -26,7 +25,7 @@ class DateCards extends Component {
        (<DateCard {...card} key={card.id} admin={this.props.admin || false} isDisabled={this.isLocked(this.props.cutoffDate, card.dateScheduled)} />)
      );
 
-    const conditionalNewCardSelector = (this.props.admin) ? (<NewCardSelector />) : null;
+    const conditionalNewCardSelector = (this.props.admin && this.props.isLoaded) ? (<NewCardSelector />) : null;
 
     return (
       <div>

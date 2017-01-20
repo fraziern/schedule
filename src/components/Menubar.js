@@ -16,12 +16,10 @@ class Menubar extends Component {
 
     this.handleStartChange = this.handleStartChange.bind(this);
     this.handleStopChange = this.handleStopChange.bind(this);
-    this.handleStartSubmit = this.handleStartSubmit.bind(this);
-    this.handleStopSubmit = this.handleStopSubmit.bind(this);
+    this.handleDateFilterSubmit = this.handleDateFilterSubmit.bind(this);
     this.setFilter = this.setFilter.bind(this);
   }
 
-// TODO: DRY this up. Maybe a separate component 'FilterSelector' or something
   handleStartChange(e) {
     this.setState({startDate: e.target.value});
   }
@@ -30,14 +28,9 @@ class Menubar extends Component {
     this.setState({stopDate: e.target.value});
   }
 
-  handleStartSubmit(e) {
+  handleDateFilterSubmit(e) {
     if (e.which === 13) {
       this.props.dispatch(setStartDate(this.state.startDate));
-    }
-  }
-
-  handleStopSubmit(e) {
-    if (e.which === 13) {
       this.props.dispatch(setStopDate(this.state.stopDate));
     }
   }
@@ -51,8 +44,8 @@ class Menubar extends Component {
       <div className="filter-range">
         <FilterRange handleStartChange={this.handleStartChange}
           handleStopChange={this.handleStopChange}
-          handleStartSubmit={this.handleStartSubmit}
-          handleStopSubmit={this.handleStopSubmit}
+          handleStartSubmit={this.handleDateFilterSubmit}
+          handleStopSubmit={this.handleDateFilterSubmit}
           startValue={this.state.startDate}
           stopValue={this.state.stopDate}
           />
