@@ -31,6 +31,7 @@ var DateCardController = function() {
 
     DateCard.update(query, update, function (err, saved) {
       if (err) return res.status(500).send(err);
+
       return res.json({saved: saved});
     });
   }

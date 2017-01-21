@@ -1,3 +1,4 @@
+import moment from "moment";
 // These all operate on the "assignments" reducer piece, so "state"
 // is assumed to be state.assignments
 
@@ -75,4 +76,14 @@ export function getLastNormDatecard(state) {
 
   if (last.id !== "") return state.entities.dateCards[last.id];
   else return undefined;
+}
+
+export function getSignupInfo(state, cardID, slotID) {
+  // return human-readable info on a signup, for messaging
+  // returns { signupDate, assignmentName }
+  const date = getNormalizedDateCard(state, cardID).dateScheduled;
+  const signupDate = moment(date).format("MM/DD/YYYY");
+  const slot = getNormalizedSlot(state, slotID);
+  const assignmentName = getAssignment(state, slot.assignment).name;
+  return { signupDate, assignmentName };
 }

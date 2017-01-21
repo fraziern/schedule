@@ -122,9 +122,8 @@ export function addDateCard(newDate) {
   };
 }
 
-export function updateAssignment(slotID, assigneeName) {
+export function updateAssignment(cardID, slotID, assigneeName) {
   return (dispatch, getState) => {
-
     // flag that we're saving now
     dispatch({
       type: types.SAVING_ASSIGNEE,
@@ -132,8 +131,8 @@ export function updateAssignment(slotID, assigneeName) {
     });
 
     // get assignee ID if exists, otherwise create one
-    const state = getState();
-    let assigneeID = fromAccessors.getAssigneeIDByName(state.assignments, assigneeName);
+    const state = getState().assignments;
+    let assigneeID = fromAccessors.getAssigneeIDByName(state, assigneeName);
     if (!assigneeID) {
       assigneeID = uuid.v4();
       dispatch({
@@ -143,11 +142,13 @@ export function updateAssignment(slotID, assigneeName) {
       });
     }
 
-    // create assignee Object
-    const newAssignee = {
-      name: assigneeName,
-      id: assigneeID
-    };
+    const newAssignee = { name: assigneeName, id: assigneeID };
+
+    // get some human-readable info on the signup, for messaging purposes
+    const data = fromAccessors.getSignupInfo(state, cardID, slotID);
+
+    // API call to send alert email
+    fetchApi.sendEmail("New RMCSignup Signup!", data);
 
     // AJAX call, then update state if successful
     fetchApi.updateAssignee(slotID, newAssignee, () => {

@@ -96,7 +96,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch, ownProps) {
   return {
     handleUpdateAssignment: (slotID, assignee) => {
-      dispatch(updateAssignment(slotID, assignee));
+      dispatch(updateAssignment(ownProps.id, slotID, assignee));
     },
     handleUpdateLabel: (label) => {
       dispatch(updateLabel(ownProps.id, label));

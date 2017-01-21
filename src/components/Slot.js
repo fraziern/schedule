@@ -39,13 +39,17 @@ class Slot extends Component {
 
   handleSelectorBlur() {
     this.setState({ focused: false });
-    if (this.state.changed) this.props.handleUpdateAssignment(this.props.id, this.state.selectorValue.trim());
+    if (this.state.changed) {
+      this.props.handleUpdateAssignment(this.props.id, this.state.selectorValue.trim());
+      this.setState({ changed: false });
+    }
   }
 
   // if we hit ENTER then send an update action
   handleSelectorEnter(e) {
     if (e.which === 13) {
       this.props.handleUpdateAssignment(this.props.id, this.state.selectorValue.trim());
+      this.setState({ changed: false });
     }
   }
 

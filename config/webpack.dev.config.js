@@ -1,4 +1,6 @@
 var path = require("path");
+var webpack = require("webpack");
+require("dotenv").config({silent:true});
 
 var config = {
   debug: true,
@@ -11,6 +13,12 @@ var config = {
     path: path.resolve(__dirname, "../build/"),
     filename: "[name].bundle.js"
   },
+  plugins: [
+    new webpack.EnvironmentPlugin([
+      "MAILGUN_DOMAIN",
+      "MAILGUN_SECRETKEY"
+    ])
+  ],
   module: {
     loaders: [
       {

@@ -98,7 +98,7 @@ export default {
       });
   },
 
-  updateAssignee(slotID, assignee, cb) {
+  updateAssignee(slotID, assignee, data, cb) {
     return fetch("/api/update-assignee/" + slotID, {
       method: "POST",
       credentials: "same-origin",
@@ -107,7 +107,8 @@ export default {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        assignee
+        assignee,
+        data
       })
     })
     .then(checkStatus)
@@ -117,6 +118,36 @@ export default {
       console.warn("updateAssignee request failed", error);
       return Promise.reject(error);
     });
+  },
+
+  sendEmail(subject, data) {
+    let textbody = "";
+    for (var el in data) {
+      textbody = textbody + el + ": " + data[el] + "\n";
+    }
+
+    const creds = "" + process.env.SPARKPOST_SECRET;
+    const url = "https://api.sparkpost.com/api/v1/transmissions";
+    const fetchbody = {
+      content: {
+        from: "rmcsignup@nickfrazier.com",
+        subject: "New signup",
+        text: textbody
+      },
+      recipients: [{address: "nrflaw@gmail.com"}]
+    };
+
+    return fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": creds
+      },
+      body: JSON.stringify(fetchbody)
+    })
+    .then(checkStatus)
+    .then(parseJSON)
+    .then((res) => console.log(res));
   },
 
   updateLabel(cardID, label, cb) {
