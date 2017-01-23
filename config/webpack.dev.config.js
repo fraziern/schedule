@@ -15,8 +15,7 @@ var config = {
   },
   plugins: [
     new webpack.EnvironmentPlugin([
-      "MAILGUN_DOMAIN",
-      "MAILGUN_SECRETKEY"
+      "SPARKPOST_SECRET"
     ])
   ],
   module: {

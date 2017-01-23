@@ -121,39 +121,36 @@ export default {
   },
 
   sendEmail(subject, data) {
-    let textbody = "";
-    for (var el in data) {
-      textbody = textbody + el + ": " + data[el] + "\n";
-    }
+    var json = {
+      "recipients": [
+        {
+          "address": "nrflaw@gmail.com"
+        }
+      ],
+      "content": {
+        "from": {
+          "email": "marketing@nickfrazier.com",
+          "name": "Example Company"
+        },
 
-    const creds = "" + process.env.SPARKPOST_SECRET;
-    const url = "https://api.sparkpost.com/api/v1/transmissions";
-    const fetchbody = {
-      content: {
-        from: "rmcsignup@nickfrazier.com",
-        subject: "New signup",
-        text: textbody
-      },
-      recipients: [{address: "nrflaw@gmail.com"}]
+        "subject": "SparkPost inline template example",
+        "html": "<html><body>Here is your inline html, {{first_name or 'you great person'}}!<br></body></html>"
+      }
     };
-
-    return fetch(url, {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Authorization", "9670267ad7e5491d87bbc634ea04722ba3790320");
+    fetch("https://api.sparkpost.com/api/v1/transmissions", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": creds
-      },
-      body: JSON.stringify(fetchbody)
-    })
-    .then(checkStatus)
-    .then(parseJSON)
-    .then((res) => console.log(res));
+      body: JSON.stringify(json),
+      headers: myHeaders
+    });
   },
 
   updateLabel(cardID, label, cb) {
     return fetch("/api/update-label/" + cardID, {
       method: "POST",
-      credentials: "same-origin",
+      credentials: "include",
       headers: {
         "Accept": "application/json",
         "Content-Type": "application/json"
