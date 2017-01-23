@@ -3,6 +3,11 @@ import Selector from "./Selector";
 import DeleteSlotButton from "./DeleteSlotButton";
 import checkmark from "../img/checkmark.svg";
 import spinner from "../img/loading.gif";
+import { Observable } from "rxjs/Observable";
+import "rxjs/add/observable/fromEvent";
+import "rxjs/add/operator/map";
+import "rxjs/add/operator/distinctUntilChanged";
+import "rxjs/add/operator/debounceTime";
 
 class Slot extends Component {
   constructor(props) {
@@ -10,13 +15,38 @@ class Slot extends Component {
     this.state = {
       selectorValue: (this.props.assignee) ? this.props.assignee.name : "",
       focused: false,
-      changed: false
+      changedSinceSave: false
     };
     this.handleSelectorChange = this.handleSelectorChange.bind(this);
     this.handleSelectorFocus = this.handleSelectorFocus.bind(this);
     this.handleSelectorBlur = this.handleSelectorBlur.bind(this);
     this.handleSelectorEnter = this.handleSelectorEnter.bind(this);
     this.handleDeleteSlotButton = this.handleDeleteSlotButton.bind(this);
+    this.registerInput = this.registerInput.bind(this);
+  }
+
+  componentDidMount() {
+    // RxJS autosave
+    this.keyListener = Observable.fromEvent(this.input, "keyup")
+      .debounceTime(1100)
+      .map(function (ev) { return ev.target.value; })
+      .distinctUntilChanged()
+      .map(() => {
+        if (this.state.changedSinceSave) {
+          this.props.handleUpdateAssignment(this.props.id, this.state.selectorValue.trim());
+          this.setState({ changedSinceSave: false });
+        }
+      });
+
+    this.keyListener.subscribe();
+  }
+
+  componentWillUnmount() {
+    this.keyListener.unsubscribe();
+  }
+
+  registerInput(input) {
+    this.input = input;
   }
 
   handleDeleteSlotButton(e) {
@@ -28,7 +58,7 @@ class Slot extends Component {
     // forbid non-valid characters
     const cleanedValue = e.target.value.replace(/[^A-Za-z\.\s\&']/g,"");
     this.setState({ selectorValue: cleanedValue });
-    if (!this.state.changed) this.setState({ changed: true });
+    if (!this.state.changedSinceSave) this.setState({ changedSinceSave: true });
     if(this.props.saved) this.props.handleChangesIfNeeded(this.props.id);
   }
 
@@ -39,13 +69,13 @@ class Slot extends Component {
 
   handleSelectorBlur() {
     this.setState({ focused: false });
-    if (this.state.changed) this.props.handleUpdateAssignment(this.props.id, this.state.selectorValue.trim());
   }
 
   // if we hit ENTER then send an update action
   handleSelectorEnter(e) {
-    if (e.which === 13) {
+    if (e.which === 13 && this.state.changedSinceSave) {
       this.props.handleUpdateAssignment(this.props.id, this.state.selectorValue.trim());
+      this.setState({ changedSinceSave: false });
     }
   }
 
@@ -65,7 +95,7 @@ class Slot extends Component {
             <h4 className={labelClass}>{this.props.assignment.name}</h4>
           </td>
           <td>
-            <Selector assignmentName={this.props.assignment.name}
+            <Selector registerInput={this.registerInput} assignmentName={this.props.assignment.name}
             selectorValue={this.state.selectorValue}
             handleSelectorChange={this.handleSelectorChange}
             handleSelectorFocus={this.handleSelectorFocus}
