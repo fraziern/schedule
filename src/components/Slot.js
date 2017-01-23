@@ -8,6 +8,7 @@ import "rxjs/add/observable/fromEvent";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/distinctUntilChanged";
 import "rxjs/add/operator/debounceTime";
+import { AUTOSAVE_TIME } from "../constants/Constants";
 
 class Slot extends Component {
   constructor(props) {
@@ -28,7 +29,7 @@ class Slot extends Component {
   componentDidMount() {
     // RxJS autosave
     this.keyListener = Observable.fromEvent(this.input, "keyup")
-      .debounceTime(1100)
+      .debounceTime(AUTOSAVE_TIME)
       .map(function (ev) { return ev.target.value; })
       .distinctUntilChanged()
       .map(() => {
