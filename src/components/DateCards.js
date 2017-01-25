@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import Menubar from "./Menubar";
 import DateCard from "./DateCard";
 import NewCardSelector from "./NewCardSelector";
+import VisibleCSVDownloadButton from "../containers/VisibleCSVDownloadButton";
 import spinner from "../img/loading.gif";
 import { getVisibleDateCardsAndDenormalize } from "../selectors";
 
@@ -30,6 +31,7 @@ class DateCards extends Component {
     return (
       <div>
         <Menubar admin={this.props.admin}/>
+        <VisibleCSVDownloadButton dateCards={this.props.dateCards}/>
         <div className="datecards">
           {dateCards}
         </div>
