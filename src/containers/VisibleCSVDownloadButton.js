@@ -11,12 +11,10 @@ class VisibleCSVDownloadButton extends Component {
   massageData(data) {
     // input is dateCards in the format used by React render
     // output is an object {columns, rows} where each value is an array
-    let returnValue = {};
-    if (!data) return returnValue;
+    if (!data) return {rows: [], columns: []};
 
-    // pass 1/2: pull out dates
-    // and build slot map
-    let columns = [ "Slot Name" ];
+    // transform 1: pull out dates and build slot map
+    let columns = [];
     let slotMap = {};
     data.forEach((el) => {
       const thisDate = moment(el.dateScheduled).format("MM/DD/YYYY");
@@ -29,7 +27,7 @@ class VisibleCSVDownloadButton extends Component {
       });
     });
 
-    // pass 3: build rows array
+    // transform 2: map rows array from the results of transform 1
     const rows = Object.keys(slotMap).map((name) => {
       let row = { "Slot Name": name };
       columns.forEach((date) => {
@@ -40,7 +38,7 @@ class VisibleCSVDownloadButton extends Component {
     });
 
     return {
-      columns,
+      columns: ["Slot Name"].concat(columns),
       rows
     };
   }
@@ -48,12 +46,9 @@ class VisibleCSVDownloadButton extends Component {
   render () {
     const spreadsheet = this.massageData(this.props.dateCards);
 
-    // return (
-    // <CSVDownloadButton columns={spreadsheet.columns} rows={spreadsheet.rows} />
-    // );
     return (
       <div>
-        {JSON.stringify(spreadsheet)}
+        <CSVDownloadButton columns={spreadsheet.columns} rows={spreadsheet.rows} filename="download" />
       </div>
     );
   }
