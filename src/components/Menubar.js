@@ -53,6 +53,10 @@ class Menubar extends Component {
       </div>
     ) : null;
 
+    const downloadButton = (this.props.admin) ? (
+      <VisibleCSVDownloadButton dateCards={this.props.dateCards}/>
+    ) : null;
+
     return (
       <div className="menubar">
         <div className="filter-buttons">
@@ -60,7 +64,7 @@ class Menubar extends Component {
           <FilterButton filter="VACANT" label="Vacant Only" onClick={this.setFilter} filterStatus={this.props.cardFilter}/>
         </div>
         {filterRange}
-        <VisibleCSVDownloadButton dateCards={this.props.dateCards}/>
+        {downloadButton}
       </div>
     );
   }
