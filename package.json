@@ -101,26 +101,7 @@
     "start": "node server.js",
     "build": "webpack --watch --progress --colors --config ./config/webpack.dev.config.js",
     "postinstall": "webpack --progress -p --config ./config/webpack.production.config.js",
-    "test": "mocha --require babel-core/register"
-  },
-  "jest": {
-    "moduleFileExtensions": [
-      "jsx",
-      "js",
-      "json"
-    ],
-    "moduleNameMapper": {
-      "^[./a-zA-Z0-9$_-]+\\.(jpg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm)$": "<rootDir>/config/jest/FileStub.js",
-      "^[./a-zA-Z0-9$_-]+\\.css$": "<rootDir>/config/jest/CSSStub.js"
-    },
-    "scriptPreprocessor": "<rootDir>/config/jest/transform.js",
-    "setupFiles": [
-      "<rootDir>/config/polyfills.js"
-    ],
-    "testPathIgnorePatterns": [
-      "<rootDir>/(build|docs|node_modules)/"
-    ],
-    "testEnvironment": "node",
-    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(js|jsx)$"
+    "test": "jest",
+    "test-debug": "node debug --harmony ./node_modules/jest/bin/jest.js --runInBand"
   }
 }

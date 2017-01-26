@@ -145,6 +145,7 @@ function deleteDateCard(state, cardID) {
 }
 
 function sortCardsAsc(state) {
+  if (state.sortedCards.length < 2) return state;
   var orderedCards = state.sortedCards;
   orderedCards.sort(function(a, b) {
     const aDate = state.entities.dateCards[a].dateScheduled;
@@ -167,36 +168,6 @@ function dropUser(state) {
 // ***
 // EVERYTHING BELOW IS PUBLIC
 // ***
-
-// *** selectors ***
-// SELECTORS USE STATE.ASSIGNMENTS NOT STATE
-export function getVisibleDateCards(state) {
-  const { assignments } = state;
-
-  if (!assignments.isLoaded) return null;
-
-  // TODO: make this dependant on state.sort if/when we implement sorting
-  // const sortedState = sortCardsAsc(assignments);
-
-  // return cards between startDate and stopDate
-  var filteredList = assignments.sortedCards.filter(dateCardID => {
-    const normalizedDateCard = fromAccessors.getNormalizedDateCard(assignments, dateCardID);
-    if (normalizedDateCard.dateScheduled < assignments.startDate) return false;
-    if (assignments.stopDate && normalizedDateCard.dateScheduled > assignments.stopDate) return false;
-    return true;
-  });
-
-  // convert normalized state to something we can use
-  return filteredList.map(dateCardID => {
-    const normalizedDateCard = fromAccessors.getNormalizedDateCard(assignments, dateCardID);
-    return {
-      id: dateCardID,
-      dateScheduled: normalizedDateCard.dateScheduled,
-      label: normalizedDateCard.label,
-      slots: fromAccessors.getSlots(assignments, normalizedDateCard.slots)
-    };
-  });
-}
 
 // *** main reducer ***
 export default function assignments(state = initialState, action) {

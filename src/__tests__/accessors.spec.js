@@ -1,5 +1,5 @@
 var accessors = require("../reducers/assignmentsAccessors.js");
-var expect = require("chai").expect;
+// var expect = require("chai").expect;
 
 describe("reducers", () => {
   describe("accessors", () => {
@@ -24,8 +24,8 @@ describe("reducers", () => {
         }
       };
       let output = accessors.getLastNormDatecard(state);
-      expect(output.stuff).to.equal("things3");
-      expect(output.dateScheduled).to.equal("2016-10-11T04:00:00.000Z");
+      expect(output.stuff).toEqual("things3");
+      expect(output.dateScheduled).toEqual("2016-10-11T04:00:00.000Z");
     });
   });
 });

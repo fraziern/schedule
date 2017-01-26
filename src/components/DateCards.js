@@ -58,7 +58,6 @@ DateCards.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    // dateCards: fromAssignments.getVisibleDateCards(state),
     dateCards: getVisibleDateCardsAndDenormalize(state),
     unsavedChanges: state.assignments.unsavedChanges,
     isLoaded: state.assignments.isLoaded,
