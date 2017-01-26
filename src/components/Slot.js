@@ -16,7 +16,8 @@ class Slot extends Component {
     this.state = {
       selectorValue: (this.props.assignee) ? this.props.assignee.name : "",
       focused: false,
-      changedSinceSave: false
+      changedSinceSave: false,
+      keyListener: null
     };
     this.handleSelectorChange = this.handleSelectorChange.bind(this);
     this.handleSelectorFocus = this.handleSelectorFocus.bind(this);
@@ -28,7 +29,8 @@ class Slot extends Component {
 
   componentDidMount() {
     // RxJS autosave
-    this.keyListener = Observable.fromEvent(this.input, "keyup")
+    var keyListener =
+      Observable.fromEvent(this.input, "keyup")
       .debounceTime(AUTOSAVE_TIME)
       .map(function (ev) { return ev.target.value; })
       .distinctUntilChanged()
@@ -37,13 +39,13 @@ class Slot extends Component {
           this.props.handleUpdateAssignment(this.props.id, this.state.selectorValue.trim());
           this.setState({ changedSinceSave: false });
         }
-      });
-
-    this.keyListener.subscribe();
+      })
+      .subscribe();
+    this.setState({ keyListener });
   }
 
   componentWillUnmount() {
-    this.keyListener.unsubscribe();
+    this.state.keyListener.unsubscribe();
   }
 
   registerInput(input) {

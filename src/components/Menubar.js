@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from "react";
 import { connect } from "react-redux";
 import FilterButton from "./FilterButton.js";
 import FilterRange from "./FilterRange";
+import VisibleCSVDownloadButton from "../containers/VisibleCSVDownloadButton";
 import { setFilter, setStartDate, setStopDate } from "../actions";
 import moment from "moment";
 
@@ -52,6 +53,10 @@ class Menubar extends Component {
       </div>
     ) : null;
 
+    const downloadButton = (this.props.admin) ? (
+      <VisibleCSVDownloadButton dateCards={this.props.dateCards}/>
+    ) : null;
+
     return (
       <div className="menubar">
         <div className="filter-buttons">
@@ -59,6 +64,7 @@ class Menubar extends Component {
           <FilterButton filter="VACANT" label="Vacant Only" onClick={this.setFilter} filterStatus={this.props.cardFilter}/>
         </div>
         {filterRange}
+        {downloadButton}
       </div>
     );
   }
@@ -68,7 +74,8 @@ Menubar.propTypes = {
   admin: PropTypes.bool,
   dispatch: PropTypes.func.isRequired,
   startDate: PropTypes.string.isRequired,
-  cardFilter: PropTypes.string.isRequired
+  cardFilter: PropTypes.string.isRequired,
+  dateCards: PropTypes.array
 };
 
 function mapStateToProps(state) {

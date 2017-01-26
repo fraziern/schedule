@@ -74,6 +74,11 @@ h1 {
   max-width: 80px;
 }
 
+.menubar .csv-button {
+  margin-left: 15px;
+  border-radius: 0;
+}
+
 .datecard {
   border-radius: 0;
 }
