@@ -61,6 +61,14 @@ h1 {
   outline-color: #8f9bbf;
 }
 
+.menubar .filter-buttons {
+  margin-right: 10px;
+}
+
+.menubar .filter-buttons button {
+  margin-right: 0px;
+}
+
 .menubar .filter-range {
   margin-left: 15px;
 }
