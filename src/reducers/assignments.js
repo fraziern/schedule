@@ -157,14 +157,6 @@ function sortCardsAsc(state) {
   return {...state, sortedCards: orderedCards};
 }
 
-function receiveUser(state, user) {
-  return {...state, loggedInUser: user};
-}
-
-function dropUser(state) {
-  return {...state, loggedInUser: null};
-}
-
 // ***
 // EVERYTHING BELOW IS PUBLIC
 // ***
@@ -186,9 +178,6 @@ export default function assignments(state = initialState, action) {
 
   case types.SORT_ASCENDING:
     return sortCardsAsc(state);
-
-  case types.HIDE_OLDCARDS:
-    return state;
 
   case types.ADD_DATECARD:
     return addDateCard(state, action.card);
@@ -267,15 +256,6 @@ export default function assignments(state = initialState, action) {
       state,
       action.cardID
     );
-
-  case types.RECEIVE_USER:
-    return receiveUser(
-      state,
-      action.user
-    );
-
-  case types.DROP_USER:
-    return dropUser(state);
 
   default:
     return state;
