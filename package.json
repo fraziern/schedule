@@ -99,9 +99,15 @@
   },
   "scripts": {
     "start": "node server.js",
-    "build": "webpack --watch --progress --colors --config ./config/webpack.dev.config.js",
-    "postinstall": "webpack --progress -p --config ./config/webpack.production.config.js",
+    "build": "webpack --watch --progress --colors --config ./config/webpack.config.dev.js",
+    "postinstall": "webpack --progress -p --config ./config/webpack.config.production.js",
     "test": "jest",
     "test-debug": "node debug --harmony ./node_modules/jest/bin/jest.js --runInBand"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "./config/jest/fileStub.js",
+      "\\.(css|less)$": "./config/jest/CSSStub.js"
+    }
   }
 }
