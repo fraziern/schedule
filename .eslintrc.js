@@ -19,7 +19,8 @@ module.exports = {
     "globals": {
       "expect": false,
       "describe": false,
-      "it": false
+      "it": false,
+      "jest": false
     },
     "rules": {
         "indent": [

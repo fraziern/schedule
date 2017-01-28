@@ -1,26 +1,14 @@
-import React, { Component, PropTypes } from "react";
+import React, { PropTypes } from "react";
 
-class FilterButton extends Component {
+function FilterButton(props) {
 
-  constructor(props) {
-    super(props);
-    this.handleClick = this.handleClick.bind(this);
-  }
+  let buttonClass = "btn btn-default btn-sm" + ((props.filterStatus === props.filter) ? " active" : "");
 
-  handleClick(e) {
-    e.preventDefault();
-    this.props.onClick(this.props.filter);
-  }
-
-  render() {
-    let buttonClass = "btn btn-default btn-sm" + ((this.props.filterStatus === this.props.filter) ? " active" : "");
-
-    return (
-        <button type="button" className={buttonClass} onClick={this.handleClick} >
-          {this.props.label}
-        </button>
-    );
-  }
+  return (
+      <button type="button" className={buttonClass} onClick={()=>props.onClick(props.filter)} >
+        {props.label}
+      </button>
+  );
 }
 
 FilterButton.propTypes = {

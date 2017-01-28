@@ -6,7 +6,7 @@ import NewCardSelector from "./NewCardSelector";
 import spinner from "../img/loading.gif";
 import { getVisibleDateCardsAndDenormalize } from "../selectors";
 
-class DateCards extends Component {
+export class DateCards extends Component {
 
   constructor(props) {
     super(props);

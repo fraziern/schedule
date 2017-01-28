@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from "react";
-import padlock from "../img/lock.svg";
 import moment from "moment";
 import CardLabel from "./CardLabel";
 import DeleteCardButton from "./DeleteCardButton";
@@ -23,7 +22,7 @@ class DateCardHeader extends Component {
   render() {
     const disabled = this.props.isDisabled;
     const headerClass = "panel-heading " + ((disabled) ? "panel-heading--disabled" : "");
-    const lockClass = (disabled) ? "padlock" : "padlock padlock--hidden";
+    const lockClass = (disabled) ? "glyphicon glyphicon-lock padlock" : "glyphicon glyphicon-lock padlock padlock--hidden";
     const pencilClass = "glyphicon glyphicon-pencil" + ((this.props.editing) ? " pencil--red" : "");
 
     // TODO: move trashcan and pencil to its own component
@@ -35,7 +34,7 @@ class DateCardHeader extends Component {
     return (
       <div className={headerClass}>
         <h3>{this.getDateName(this.props.dateScheduled)}</h3>
-        <img src={padlock} alt="locked" className={lockClass} />
+        <span className={lockClass} />
 
         <ul className="list-inline pull-right">
         <li>{trashcan}</li>

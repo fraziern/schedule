@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
+    "babel-jest": "15.0.0",
     "chai": "^3.5.0",
     "chai-http": "^3.0.0",
     "chalk": "1.1.3",
@@ -18,6 +19,7 @@
     "jest": "15.1.1",
     "mocha": "^3.1.2",
     "react-addons-test-utils": "^15.3.1",
+    "react-test-renderer": "^15.4.2",
     "recursive-readdir": "2.0.0",
     "redux-devtools": "^3.3.1",
     "rimraf": "2.5.4",
@@ -28,8 +30,8 @@
     "babel": "^6.5.2",
     "babel-core": "6.14.0",
     "babel-eslint": "6.1.2",
-    "babel-jest": "15.0.0",
     "babel-loader": "6.2.5",
+    "babel-plugin-inline-react-svg": "^0.2.0",
     "babel-plugin-recharts": "^1.1.0",
     "babel-plugin-transform-class-properties": "6.11.5",
     "babel-plugin-transform-object-assign": "^6.8.0",
@@ -80,7 +82,6 @@
     "react-dom": "^15.4.2",
     "react-redux": "^4.4.5",
     "react-router": "^2.8.1",
-    "react-router-redux": "^4.0.7",
     "react-smooth": "0.1.17",
     "react-table": "^4.1.1",
     "recharts": "^0.20.2",
@@ -106,8 +107,8 @@
   },
   "jest": {
     "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "./config/jest/fileStub.js",
-      "\\.(css|less)$": "./config/jest/CSSStub.js"
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/config/jest/FileStub.js",
+      "\\.(css|less)$": "<rootDir>/config/jest/CSSStub.js"
     }
   }
 }

@@ -1,13 +1,11 @@
-import React, { Component, PropTypes } from "react";
+import React, { PropTypes } from "react";
 
-class DeleteSlotButton extends Component {
-  render() {
-    let buttonClass = (this.props.editing) ? "remove-slot-btn" : "remove-slot-btn remove-slot-btn--hidden";
+function DeleteSlotButton(props) {
+  let buttonClass = (props.editing) ? "remove-slot-btn" : "remove-slot-btn remove-slot-btn--hidden";
 
-    return (
-      <td className={buttonClass}><button onClick={this.props.handleDeleteSlotButton} hidden={!this.props.editing} tabIndex={this.props.editing ? 0 : -1} type="button" className="btn btn-default btn-sm btn-danger">X</button></td>
-    );
-  }
+  return (
+    <td className={buttonClass}><button onClick={props.handleDeleteSlotButton} hidden={!props.editing} tabIndex={props.editing ? 0 : -1} type="button" className="btn btn-default btn-sm btn-danger">X</button></td>
+  );
 }
 
 DeleteSlotButton.propTypes = {

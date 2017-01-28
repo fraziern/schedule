@@ -1,49 +1,43 @@
-import React, { Component, PropTypes } from "react";
+import React, { PropTypes } from "react";
 import { connect } from "react-redux";
 import { getAssigneeRankingsByFilter } from "../selectors";
 import ReactTable from "react-table";
 
-class ReportAssigneeSignups extends Component {
+function ReportAssigneeSignups(props) {
 
-  constructor(props) {
-    super(props);
-  }
+  let assigneeTable = null;
+  if (props.assigneeRank) {
+    let assigneeList = [];
 
-  render() {
-
-    let assigneeTable = null;
-    if (this.props.assigneeRank) {
-      let assigneeList = [];
-
-      for (let el in this.props.assigneeRank) {
-        const { assignee, frequency } = this.props.assigneeRank[el];
-        // filter out blanks
-        if (assignee !== "") assigneeList.push({ assignee, frequency });
-      }
-
-      const columns = [{
-        header: "Volunteer",
-        accessor: "assignee",
-        sortable: true
-      },{
-        header: "Signups",
-        accessor: "frequency",
-        sortable: true,
-        sort: "desc"
-      }];
-
-      assigneeTable = (
-        <ReactTable data={assigneeList} columns={columns} />
-      );
+    for (let el in props.assigneeRank) {
+      const { assignee, frequency } = props.assigneeRank[el];
+      // filter out blanks
+      if (assignee !== "") assigneeList.push({ assignee, frequency });
     }
 
-    return (
-      <div className="report-assigneesignups">
-        <h2>Signups in Last {this.props.reportFilter}</h2>
-        {assigneeTable}
-      </div>
+    const columns = [{
+      header: "Volunteer",
+      accessor: "assignee",
+      sortable: true
+    },{
+      header: "Signups",
+      accessor: "frequency",
+      sortable: true,
+      sort: "desc"
+    }];
+
+    assigneeTable = (
+      <ReactTable data={assigneeList} columns={columns} />
     );
   }
+
+  return (
+    <div className="report-assigneesignups">
+      <h2>Signups in Last {props.reportFilter}</h2>
+      {assigneeTable}
+    </div>
+  );
+
 }
 
 ReportAssigneeSignups.propTypes = {

@@ -46,7 +46,7 @@ class CreateNewSlot extends Component {
 
 CreateNewSlot.propTypes = {
   handleAddSlot: PropTypes.func.isRequired,
-  assignee: PropTypes.string.isRequired
+  assignee: PropTypes.string
 };
 
 export default CreateNewSlot;

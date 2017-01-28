@@ -1,16 +1,14 @@
-import React, { Component, PropTypes } from "react";
+import React, { PropTypes } from "react";
 
-class Selector extends Component {
-  render() {
-    const className = (this.props.selectorValue === "") ? "form-control selector selector-empty" : "form-control selector";
+function Selector(props) {
+  const className = (props.selectorValue === "") ? "form-control selector selector-empty" : "form-control selector";
 
-    return (
-        <input className={className} ref={this.props.registerInput} type="text" name={this.props.assignmentName} disabled={this.props.isDisabled} value={this.props.selectorValue} onChange={this.props.handleSelectorChange} onFocus={this.props.handleSelectorFocus}
-        onBlur={this.props.handleSelectorBlur} onKeyPress={this.props.handleSelectorEnter}
-        />
+  return (
+      <input className={className} ref={props.registerInput} type="text" name={props.assignmentName} disabled={props.isDisabled} value={props.selectorValue} onChange={props.handleSelectorChange} onFocus={props.handleSelectorFocus}
+      onBlur={props.handleSelectorBlur} onKeyPress={props.handleSelectorEnter}
+      />
 
-    );
-  }
+  );
 }
 
 Selector.propTypes = {

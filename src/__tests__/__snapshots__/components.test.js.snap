@@ -1,0 +1,72 @@
+exports[`Components <FilterRange /> renders correctly 1`] = `
+<div
+  className="form-inline">
+  <label
+    htmlFor="startDate">
+    Show Dates From
+  </label>
+  <input
+    id="startDate"
+    onChange={[Function]}
+    onKeyPress={[Function]}
+    type="text"
+    value="" />
+  <label
+    htmlFor="endDate">
+    To
+  </label>
+  <input
+    id="endDate"
+    onChange={[Function]}
+    onKeyPress={[Function]}
+    placeholder="end of time"
+    type="text"
+    value={undefined} />
+</div>
+`;
+
+exports[`Components <ReportFilters /> renders correctly 1`] = `
+<div
+  className="report-filterbar menubar">
+  <div
+    className="filter-buttons">
+    <button
+      className="btn btn-default btn-sm"
+      onClick={[Function]}
+      type="button">
+      1 Year
+    </button>
+    <button
+      className="btn btn-default btn-sm"
+      onClick={[Function]}
+      type="button">
+      9 Months
+    </button>
+    <button
+      className="btn btn-default btn-sm"
+      onClick={[Function]}
+      type="button">
+      6 Months
+    </button>
+    <button
+      className="btn btn-default btn-sm"
+      onClick={[Function]}
+      type="button">
+      3 Months
+    </button>
+  </div>
+</div>
+`;
+
+exports[`Components <Selector /> renders correctly 1`] = `
+<input
+  className="form-control selector selector-empty"
+  disabled={false}
+  name=""
+  onBlur={[Function]}
+  onChange={[Function]}
+  onFocus={[Function]}
+  onKeyPress={[Function]}
+  type="text"
+  value="" />
+`;
