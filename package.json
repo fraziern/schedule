@@ -65,7 +65,6 @@
     "isomorphic-fetch": "^2.2.1",
     "json-loader": "0.5.4",
     "moment": "^2.15.1",
-    "mongoose": "^4.6.1",
     "node-sass": "^3.10.0",
     "normalizr": "^2.2.1",
     "object-assign": "4.1.0",
