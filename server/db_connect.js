@@ -1,6 +1,5 @@
 /*eslint no-console: ["error", { allow: ["log", "warn", "error"] }] */
 var mongoose = require("mongoose");
-var seed = require("./seed");
 var config = require("./_config");
 
 module.exports = function () {
@@ -15,7 +14,6 @@ module.exports = function () {
   // When successfully connected
   db.on("connected", function () {
     console.log("Mongoose default connection open to " + mongoUrl);
-    seed(); // seed database with some test data if it is empty
   });
 
   // If the connection throws an error
