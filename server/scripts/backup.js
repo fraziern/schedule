@@ -2,6 +2,7 @@
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 var dbconnect = require("../db_connect");
+var Promise = require("bluebird");
 
 dbconnect();
 
@@ -15,20 +16,36 @@ var backupSchema = new Schema({
 
 var Backup = mongoose.model("Backup", backupSchema);
 
-DateCard.find().lean().exec(function(err, datecards) {
-  if (err) console.log(err);
-  else {
-    Backup.create({ backup: datecards }, function (err, result) {
-      if (err) console.log(err);
-      else console.log(result);
-    });
-  }
+var createPromise = new Promise(function(resolve, reject) {
+  DateCard.find().lean().exec(function(err, datecards) {
+    if (err) reject("find error");
+    else {
+      Backup.create({ backup: datecards }, function (err) {
+        if (err) reject("create error");
+        else resolve("Created backup.");
+      });
+    }
+  });
 });
 
-// delete any backups older than 5 days
-var weekOld = new Date();
-weekOld.setDate(weekOld.getDate() - 5);
-Backup.remove({ createdAt: {$lt: weekOld }}, function (err, result) {
-  if (err) console.log(err);
-  else console.log(result);
+var deletePromise = new Promise(function(resolve, reject) {
+  // delete any backups older than 5 days
+  var weekOld = new Date();
+  weekOld.setDate(weekOld.getDate() - 5);
+  Backup.remove({ createdAt: {$lt: weekOld }}, function (err) {
+    if (err) reject("delete error");
+    else resolve("Deleted old stuff.");
+  });
 });
+
+Promise.all([createPromise, deletePromise]).then(function(values) {
+  values.map(v => console.log(v));
+  console.log("Done, exiting now.");
+  process.exit(0);
+});
+
+// 15 second timeout as a fallback
+setTimeout(function() {
+  console.log("Timed out.");
+  process.exit(0);
+},15000);

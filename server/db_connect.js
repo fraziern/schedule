@@ -1,8 +1,11 @@
 /*eslint no-console: ["error", { allow: ["log", "warn", "error"] }] */
 var mongoose = require("mongoose");
 var config = require("./_config");
+var Promise = require("bluebird");
 
 module.exports = function () {
+
+  mongoose.Promise = Promise;
 
   var mongoUrl = config.mongoURI[process.env.NODE_ENV];
   console.log("NODE_ENV set to " + process.env.NODE_ENV);
