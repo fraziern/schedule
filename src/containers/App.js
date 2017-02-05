@@ -2,9 +2,10 @@ import React, { Component } from "react";
 import { Router, Route, browserHistory } from "react-router";
 import DateCards from "../components/DateCards";
 import DateCardsAdmin from "../components/DateCardsAdmin";
-import Login from "../components/Login";
 import Header from "../components/Header";
 import Reports from "../components/Reports";
+import EnsureLoggedInContainer from "../containers/EnsureLoggedInContainer";
+import Landing from "../components/Landing";
 import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import createLogger from "redux-logger";
@@ -37,10 +38,12 @@ class App extends Component {
       <Provider store={this.store}>
         <Router history={browserHistory}>
           <Route component={Header} >
-            <Route path="/" component={DateCards} />
-            <Route path="admin" component={DateCardsAdmin} />
-            <Route path="login" component={Login} />
-            <Route path="reports" component={Reports} />
+            <Route path="landing" component={Landing} />
+              <Route component={EnsureLoggedInContainer}>
+                <Route path="/" component={DateCards} />
+                <Route path="admin" component={DateCardsAdmin} />
+                <Route path="reports" component={Reports} />
+              </Route>
           </Route>
         </Router>
       </Provider>

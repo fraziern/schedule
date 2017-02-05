@@ -303,3 +303,22 @@ export function checkServerLogin() {
     }
   };
 }
+
+export function setRedirectUrl(location) {
+  return {
+    type: types.SET_REDIRECTUL,
+    location
+  };
+}
+
+export function navigateTo(location) {
+  if (location.state && location.state.nextPathname) {
+    browserHistory.push(location.state.nextPathname);
+  } else {
+    browserHistory.push("/");
+  }
+  return {
+    type: types.SET_REDIRECTUL,
+    location: null
+  };
+}

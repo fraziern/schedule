@@ -17,6 +17,10 @@ function dropUser(state) {
   return {...state, loggedInUser: null};
 }
 
+function setRedirectUrl(state, location) {
+  return {...state, redirectUrl: location};
+}
+
 // ***
 // EVERYTHING BELOW IS PUBLIC
 // ***
@@ -33,6 +37,12 @@ export default function userinfo(state = initialState, action) {
 
   case types.DROP_USER:
     return dropUser(state);
+
+  case types.SET_REDIRECTURL:
+    return setRedirectUrl(
+      state,
+      action.location
+    );
 
   default:
     return state;
