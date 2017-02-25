@@ -3,6 +3,7 @@ import Selector from "./Selector";
 import DeleteSlotButton from "./DeleteSlotButton";
 import checkmark from "../img/checkmark.svg";
 import spinner from "../img/loading.gif";
+import sanitize from "../utils/sanitize";
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/observable/fromEvent";
 import "rxjs/add/operator/map";
@@ -59,7 +60,7 @@ class Slot extends Component {
 
   handleSelectorChange(e) {
     // forbid non-valid characters and limit length
-    const cleanedValue = e.target.value.slice(0,80).replace(/[^A-Za-z\.\s\&']/g,"");
+    const cleanedValue = sanitize(e.target.value);
     this.setState({ selectorValue: cleanedValue });
     if (!this.state.changedSinceSave) this.setState({ changedSinceSave: true });
     if(this.props.saved) this.props.handleChangesIfNeeded(this.props.id);

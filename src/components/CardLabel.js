@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from "react";
+import sanitize from "../utils/sanitize";
 
 class CardLabel extends Component {
   constructor(props) {
@@ -12,7 +13,7 @@ class CardLabel extends Component {
 
   handleInputChange(e) {
     // forbid non-valid characters and limit length
-    const cleanedValue = e.target.value.slice(0,80).replace(/[^A-Za-z\.\s\&']/g,"");
+    const cleanedValue = sanitize(e.target.value);
     this.setState({ label: cleanedValue });
   }
 

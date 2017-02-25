@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from "react";
 import { connect } from "react-redux";
 import { addDateCard } from "../actions";
+import sanitize from "../utils/sanitize";
 
 class NewCardSelector extends Component {
   constructor(props) {
@@ -14,7 +15,7 @@ class NewCardSelector extends Component {
 
   handleSelectorChange(e) {
     // forbid non-valid characters and limit length
-    const cleanedValue = e.target.value.slice(0,80).replace(/[^A-Za-z\.\s\&']/g,"");
+    const cleanedValue = sanitize(e.target.value);
     this.setState({ selectorValue: cleanedValue });
   }
 

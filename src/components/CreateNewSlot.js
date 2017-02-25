@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from "react";
+import sanitize from "../utils/sanitize";
 
 class CreateNewSlot extends Component {
   constructor(props) {
@@ -13,7 +14,7 @@ class CreateNewSlot extends Component {
 
   handleSelectorChange(e) {
     // forbid non-valid characters and limit length
-    const cleanedValue = e.target.value.slice(0,80).replace(/[^A-Za-z\.\s\&']/g,"");
+    const cleanedValue = sanitize(e.target.value);
     this.setState({ selectorValue: cleanedValue });
   }
 
