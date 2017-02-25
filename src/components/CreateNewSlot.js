@@ -12,7 +12,9 @@ class CreateNewSlot extends Component {
   }
 
   handleSelectorChange(e) {
-    this.setState({ selectorValue: e.target.value });
+    // forbid non-valid characters and limit length
+    const cleanedValue = e.target.value.slice(0,80).replace(/[^A-Za-z\.\s\&']/g,"");
+    this.setState({ selectorValue: cleanedValue });
   }
 
   // if we hit ENTER then send an update action
