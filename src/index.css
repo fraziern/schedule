@@ -32,6 +32,14 @@ body {
   padding-left: 5px;
 }
 
+.DayPicker-Day--valid {
+  background-color: #5e77c2;
+}
+
+.DayPicker-Day--outside {
+  background-color: inherit;
+}
+
 .userinfo {
   background-color: #5e77c2;
   color: white;

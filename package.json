@@ -79,6 +79,7 @@
     "react-addons-css-transition-group": "^15.3.2",
     "react-addons-update": "^15.3.2",
     "react-bootstrap": "^0.30.3",
+    "react-day-picker": "^5.2.3",
     "react-dom": "^15.4.2",
     "react-redux": "^4.4.5",
     "react-router": "^2.8.1",

@@ -1,28 +1,32 @@
 import React, { Component, PropTypes } from "react";
-import moment from "moment";
+// import moment from "moment";
+import DayPicker, { DateUtils } from "react-day-picker";
 import Menubar from "./Menubar";
+
+import "react-day-picker/lib/style.css";
 
 class Sidebar extends Component {
 
   constructor(props) {
     super(props);
-    this.getDateName = this.getDateName.bind(this);
-  }
-
-  // TODO: move this to a higher component?
-  getDateName(JSONDateIn) {
-    return moment(JSONDateIn).format("MMMM Do, YYYY");
   }
 
   render() {
-    const dates = (this.props.isLoaded) ? this.props.dateCards.map((card) =>
-      (<h4 key={card.id}>{this.getDateName(card.dateScheduled)}</h4>)
+    const validDates = (this.props.isLoaded) ? this.props.dateCards.map((card) =>
+      new Date(card.dateScheduled)
     ) : null;
+
     return (
         <div className="sidebar panel panel-default">
           <Menubar admin={this.props.admin} dateCards={this.props.dateCards}/>
           <div className="sidebar-header">Jump To Date</div>
-          {dates}
+          <DayPicker
+            numberOfMonths={2}
+            modifiers={{
+              valid: validDates,
+              disabled: { before: new Date() }
+            }}
+            />
         </div>
     );
   }
