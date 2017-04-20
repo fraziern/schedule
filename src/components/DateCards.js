@@ -28,8 +28,7 @@ export class DateCards extends Component {
     const conditionalNewCardSelector = (this.props.admin && this.props.isLoaded) ? (<NewCardSelector />) : null;
 
     return (
-      <div>
-        <Menubar admin={this.props.admin} dateCards={this.props.dateCards}/>
+      <div className="datecards-inner-container">
         <div className="datecards">
           {dateCards}
         </div>

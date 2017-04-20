@@ -12,9 +12,9 @@ export class DateCardsContainer extends Component {
 
   render() {
     return (
-      <div>
+      <div className="datecards-top-container">
         <DateCards {...this.props} />
-        <Sidebar dateCards={this.props.dateCards} isLoaded={this.props.isLoaded} />
+        <Sidebar {...this.props} />
       </div>
     );
   }

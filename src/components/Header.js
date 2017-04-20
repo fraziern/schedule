@@ -19,7 +19,7 @@ class Header extends Component {
           <div className="header">
             <h1>Volunteer Schedule <small>Raleigh Moravian Church</small></h1>
           </div>
-          <div>
+          <div className="header-children">
             {this.props.children}
           </div>
         </div>

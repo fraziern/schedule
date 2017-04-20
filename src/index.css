@@ -11,7 +11,25 @@ body {
 }
 
 .container {
-  max-width: 650px;
+  max-width: 850px;
+  position: relative;
+}
+
+.datecards-top-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.sidebar {
+  width: 220px;
+  background-color: white;
+  padding: 10px;
+}
+
+.sidebar-header {
+  background-color: #8f9bbf;
+  padding-left: 5px;
 }
 
 .userinfo {
