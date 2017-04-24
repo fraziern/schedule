@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import Sidebar from "../components/Sidebar";
 import DateCards from "../components/DateCards";
 import { getVisibleDateCardsAndDenormalize } from "../selectors";
+import SmoothScroll from "../utils/SmoothScroll.js";
 
 export class DateCardsContainer extends Component {
 
@@ -10,11 +11,15 @@ export class DateCardsContainer extends Component {
     super(props);
   }
 
+  handleDayClick(id) {
+    SmoothScroll.scrollTo(id);
+  }
+
   render() {
     return (
       <div className="datecards-top-container">
         <DateCards {...this.props} />
-        <Sidebar {...this.props} />
+        <Sidebar {...this.props} handleDayClick={this.handleDayClick} />
       </div>
     );
   }

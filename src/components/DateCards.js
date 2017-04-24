@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from "react";
 import { connect } from "react-redux";
-import Menubar from "./Menubar";
 import DateCard from "./DateCard";
 import NewCardSelector from "./NewCardSelector";
 import spinner from "../img/loading.gif";

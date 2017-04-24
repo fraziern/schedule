@@ -46,7 +46,7 @@ class DateCard extends Component {
 
   render() {
     return (
-      <div className="datecard panel panel-default">
+      <div className="datecard panel panel-default" id={this.props.id}>
 
         <DateCardHeader
           dateScheduled={this.props.dateScheduled}
