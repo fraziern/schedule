@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Router, Route, browserHistory } from "react-router";
 import DateCardsContainer from "./DateCardsContainer";
-import DateCardsAdmin from "../components/DateCardsAdmin";
+import DateCardsContainerAdmin from "./DateCardsContainerAdmin";
 import Login from "../components/Login";
 import Header from "../components/Header";
 import Reports from "../components/Reports";
@@ -38,7 +38,7 @@ class App extends Component {
         <Router history={browserHistory}>
           <Route component={Header} >
             <Route path="/" component={DateCardsContainer} />
-            <Route path="admin" component={DateCardsAdmin} />
+            <Route path="admin" component={DateCardsContainerAdmin} />
             <Route path="login" component={Login} />
             <Route path="reports" component={Reports} />
           </Route>

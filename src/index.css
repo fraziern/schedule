@@ -11,7 +11,7 @@ body {
 }
 
 .container {
-  max-width: 950px;
+  max-width: 800px;
   position: relative;
 }
 
@@ -19,6 +19,11 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+}
+
+.datecards-inner-container {
+  flex: 1;
+  margin-right: 25px;
 }
 
 .sidebar {
@@ -38,10 +43,12 @@ body {
 
 .DayPicker-Day {
   outline: none;
+  cursor: default;
 }
 
 .DayPicker-Day--valid {
-  background-color: #5e77c2;
+  background-color: #8f9bbf;
+  cursor: pointer;
 }
 
 .DayPicker-Day--outside {
@@ -76,6 +83,8 @@ h1 {
 .menubar {
   margin-bottom: 30px;
   display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .menubar button {
@@ -96,7 +105,7 @@ h1 {
 }
 
 .menubar .filter-buttons {
-  margin-right: 10px;
+  margin: 15px;
 }
 
 .menubar .filter-buttons button {
@@ -104,7 +113,7 @@ h1 {
 }
 
 .menubar .filter-range {
-  margin-left: 15px;
+  margin: 0 15px 15px;
 }
 
 .menubar .filter-range input {
@@ -305,11 +314,53 @@ td {
   background-color: #7586bb;
 }
 
-@media (max-width : 650px) {
-  .menubar {
-    flex-direction: column;
+@media (max-width : 800px) {
+  .sidebar {
+    width: inherit;
   }
 
+  .sidebar-header {
+    display: none;
+  }
+
+  .DayPicker {
+    display: none;
+  }
+
+  .datecards-top-container {
+    flex-direction: column-reverse;
+    align-items: inherit;
+  }
+
+  .container {
+    max-width: 650px;
+  }
+
+  .datecards-inner-container {
+    margin-right: 0;
+  }
+
+  .menubar {
+    flex-direction: row;
+    margin: auto;
+    height: auto;
+  }
+
+  .menubar .filter-buttons {
+    margin-top: auto;
+    margin-bottom: 0;
+  }
+
+  .menubar .filter-range {
+    margin-bottom: 0;
+  }
+
+  .menubar .csv-button {
+    display: none;
+  }
+}
+
+@media (max-width : 650px) {
   .menubar .filter-range {
     margin-top: 10px;
   }
