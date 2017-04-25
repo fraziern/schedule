@@ -380,6 +380,10 @@ and (orientation : portrait) {
     font-size: 12px;
   }
 
+  .sidebar {
+    display: none;
+  }
+
   .slotlabel {
     margin-left: 10px;
   }
