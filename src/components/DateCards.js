@@ -1,40 +1,27 @@
-import React, { Component, PropTypes } from "react";
-import { connect } from "react-redux";
+import React, { PropTypes } from "react";
 import DateCard from "./DateCard";
 import NewCardSelector from "./NewCardSelector";
 import spinner from "../img/loading.gif";
-import { getVisibleDateCardsAndDenormalize } from "../selectors";
 
-export class DateCards extends Component {
+function DateCards(props) {
+  
+  const mapCards = (card) =>
+    (<DateCard {...card} key={card.id} admin={props.admin || false} isDisabled={!props.admin && (props.cutoffDate > card.dateScheduled)} />);
 
-  constructor(props) {
-    super(props);
-    this.isLocked = this.isLocked.bind(this);
-  }
+  const dateCards = (!props.isLoaded) ?
+    (<img src={spinner} className="spinner" alt="Loading..." />) :
+    props.dateCards.map(mapCards);
 
-  isLocked(cutoff, cardDate) {
-    if (!this.props.admin && (cutoff > cardDate)) return true;
-    return false;
-  }
+  const conditionalNewCardSelector = (props.admin && props.isLoaded) ? (<NewCardSelector />) : null;
 
-  render() {
-    const dateCards = (!this.props.isLoaded) ?
-      (<img src={spinner} className="spinner" alt="Loading..." />) :
-     this.props.dateCards.map((card) =>
-       (<DateCard {...card} key={card.id} admin={this.props.admin || false} isDisabled={this.isLocked(this.props.cutoffDate, card.dateScheduled)} />)
-     );
-
-    const conditionalNewCardSelector = (this.props.admin && this.props.isLoaded) ? (<NewCardSelector />) : null;
-
-    return (
-      <div className="datecards-inner-container">
-        <div className="datecards">
-          {dateCards}
-        </div>
-        {conditionalNewCardSelector}
+  return (
+    <div className="datecards-inner-container">
+      <div className="datecards">
+        {dateCards}
       </div>
-    );
-  }
+      {conditionalNewCardSelector}
+    </div>
+  );
 }
 
 DateCards.propTypes = {
@@ -54,15 +41,4 @@ DateCards.propTypes = {
   }))
 };
 
-function mapStateToProps(state) {
-  return {
-    dateCards: getVisibleDateCardsAndDenormalize(state),
-    unsavedChanges: state.assignments.unsavedChanges,
-    isLoaded: state.assignments.isLoaded,
-    cutoffDate: state.assignments.cutoffDate
-  };
-}
-
-export default connect(
-  mapStateToProps
-)(DateCards);
+export default DateCards;

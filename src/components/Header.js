@@ -1,31 +1,28 @@
-import React, { Component, PropTypes } from "react";
+import React, { PropTypes } from "react";
 import { connect } from "react-redux";
 
-class Header extends Component {
+function Header(props) {
 
-  render() {
+  const userinfo = (props.loggedInUser) ?
+    (<div className="userinfo">
+      Currently logged in as {props.loggedInUser.user.username}.
+      <span className="logout-link"><a href="#" onClick={() => console.log("logging out")}>Logout</a></span>
+    </div>) :
+    null;
 
-    const userinfo = (this.props.loggedInUser) ?
-      (<div className="userinfo">
-        Currently logged in as {this.props.loggedInUser.user.username}.
-        <span className="logout-link"><a href="#" onClick={() => console.log("logging out")}>Logout</a></span>
-      </div>) :
-      null;
-
-    return (
-      <div>
-        {userinfo}
-        <div className="container">
-          <div className="header">
-            <h1>Volunteer Schedule <small>Raleigh Moravian Church</small></h1>
-          </div>
-          <div className="header-children">
-            {this.props.children}
-          </div>
+  return (
+    <div>
+      {userinfo}
+      <div className="container">
+        <div className="header">
+          <h1>Volunteer Schedule <small>Raleigh Moravian Church</small></h1>
         </div>
-    </div>
-    );
-  }
+        <div className="header-children">
+          {props.children}
+        </div>
+      </div>
+  </div>
+  );
 }
 
 Header.propTypes = {
