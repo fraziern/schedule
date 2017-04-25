@@ -81,7 +81,7 @@ h1 {
 }
 
 .menubar {
-  margin-bottom: 30px;
+  margin-bottom: 15px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -150,6 +150,10 @@ h3 {
   width: 80%;
   display: inline;
   font-size: 32px;
+}
+
+h4 {
+  font-size: 17px;
 }
 
 .datecard .cardlabel {
@@ -225,6 +229,11 @@ td {
   overflow: hidden;
 }
 
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+    padding: 8px 4px;
+    vertical-align: middle;
+}
+
 .remove-slot-btn button {
   opacity: 1;
   border-radius: 20%;
@@ -249,7 +258,7 @@ td {
 }
 
 .slotlabel {
-  margin-left: 20px;
+  margin-left: 15px;
 }
 
 .label--focused {
@@ -269,8 +278,7 @@ td {
 .checkmark {
   width: 25px;
   height: 25px;
-  padding: 0px;
-  padding-top: 5px;
+  padding: 2px;
   opacity: 0.9;
   fill: #7586bb;
   transition: all 0.3s;
