@@ -1,6 +1,8 @@
 @import url('https://fonts.googleapis.com/css?family=Jaldi');
 @import "../node_modules/react-table/react-table.css";
 
+/* Bootstrap overrides */
+
 * {
   border-radius: 0;
 }
@@ -10,10 +12,39 @@ body {
   font-family: "Jaldi", sans-serif;
 }
 
+h1 {
+  font-size: 44px;
+}
+
+h3 {
+  margin: 10px;
+  width: 80%;
+  display: inline;
+  font-size: 32px;
+}
+
+h4 {
+  font-size: 17px;
+}
+
+td {
+  position: relative;
+  overflow: hidden;
+}
+
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+    padding: 8px 4px;
+    vertical-align: middle;
+}
+
 .container {
   max-width: 800px;
   position: relative;
 }
+
+/***
+ app specific CSS
+ ***/
 
 .datecards-top-container {
   display: flex;
@@ -22,37 +53,20 @@ body {
 }
 
 .datecards-inner-container {
-  flex: 1;
+  flex: 1 1 auto;
   margin-right: 25px;
 }
 
 .sidebar {
-  width: 220px;
+  width: 200px;
   background-color: white;
   padding: 10px;
+  flex: 0 1 auto;
 }
 
 .sidebar-header {
   background-color: #8f9bbf;
   padding-left: 5px;
-}
-
-.DayPicker {
-  outline: none;
-}
-
-.DayPicker-Day {
-  outline: none;
-  cursor: default;
-}
-
-.DayPicker-Day--valid {
-  background-color: #8f9bbf;
-  cursor: pointer;
-}
-
-.DayPicker-Day--outside {
-  background-color: inherit;
 }
 
 .userinfo {
@@ -74,10 +88,6 @@ body {
 .header {
   border-bottom: 2px #4b4b4b solid;
   margin-bottom: 20px;
-}
-
-h1 {
-  font-size: 44px;
 }
 
 .menubar {
@@ -143,17 +153,6 @@ h1 {
 .datecard .panel-heading {
   background-color: #8f9bbf;
   border-radius: 0;
-}
-
-h3 {
-  margin: 10px;
-  width: 80%;
-  display: inline;
-  font-size: 32px;
-}
-
-h4 {
-  font-size: 17px;
 }
 
 .datecard .cardlabel {
@@ -222,16 +221,6 @@ h4 {
 
 .glyphicon-trash--armed:hover {
   color: #8f9bbf;
-}
-
-td {
-  position: relative;
-  overflow: hidden;
-}
-
-.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
-    padding: 8px 4px;
-    vertical-align: middle;
 }
 
 .remove-slot-btn button {
@@ -309,11 +298,6 @@ td {
   opacity: 0;
 }
 
-.ReactTable {
-  background-color: #FFF;
-  max-width: 600px;
-}
-
 .report-assigneesignups-filterbar {
   margin-bottom: 10px;
 }
@@ -321,6 +305,42 @@ td {
 .-header {
   background-color: #7586bb;
 }
+
+/***
+ Plugin overrides
+ ***/
+
+.DayPicker {
+  outline: none;
+}
+
+.DayPicker-Day {
+  outline: none;
+  cursor: default;
+  padding: 0.1rem;
+}
+
+.DayPicker-Day--valid {
+  background-color: #8f9bbf;
+  cursor: pointer;
+}
+
+.DayPicker-Day--outside {
+  background-color: inherit;
+}
+
+.DayPicker-Month {
+  margin-bottom: .5rem;
+}
+
+.ReactTable {
+  background-color: #FFF;
+  max-width: 600px;
+}
+
+/***
+ Responsive breakpoints
+ ***/
 
 @media (max-width : 800px) {
   .sidebar {
