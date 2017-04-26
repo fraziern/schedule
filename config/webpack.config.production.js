@@ -3,7 +3,7 @@ var path = require("path");
 var webpack = require("webpack");
 
 var config = {
-  devtool: "cheap-module-source-map",
+  devtool: "source-map",
   entry: {
     // babel-polyfill adds ES2015 support for IE
     main: ["babel-polyfill", "./src/index.js"]
@@ -22,30 +22,32 @@ var config = {
       compress:{
         warnings: true
       }
-    })
+    }),
+    new webpack.optimize.DedupePlugin(),
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
   ],
   module: {
     loaders: [
       {
         test: /\.jsx?/,
         exclude: /node_modules/,
-        loader: "babel"
+        loader: "babel-loader"
       },
       {
         test: /\.scss$/,
-        loaders: ["style", "css", "sass"]
+        loaders: ["style-loader", "css-loader", "sass-loader"]
       },
       {
         test: /\.css$/,
-        loaders: ["style", "css"],
+        loaders: ["style-loader", "css-loader"],
       },
       {
         test: /\.(jpe?g|png|gif|svg)$/i,
-        loader: "file?name=img/[name].[ext]"
+        loader: "file-loader?name=img/[name].[ext]"
       },
       {
         test: /\.(woff2?|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,
-        loader: "file?name=fonts/[name].[ext]"
+        loader: "file-loader?name=fonts/[name].[ext]"
       }
     ]
   }

@@ -5,6 +5,7 @@ require("dotenv").config({silent:true});
 var db_connect = require("./server/db_connect.js");
 var favicon = require("serve-favicon");
 var cookieSession = require("cookie-session");
+var compression = require("compression");
 
 // Passport
 // TODO: Move this to a separate module
@@ -33,6 +34,7 @@ var app = express();
 
 db_connect();  // connect to Mongoose
 
+app.use(compression());
 app.use(favicon(__dirname + "/favicon.ico"));
 app.use(express.static("build"));
 

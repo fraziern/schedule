@@ -46,13 +46,16 @@
     "babel-runtime": "6.11.6",
     "body-parser": "^1.15.2",
     "bootstrap": "^3.3.7",
+    "bundle-loader": "^0.5.5",
     "case-sensitive-paths-webpack-plugin": "1.1.3",
+    "compression": "^1.6.2",
+    "compression-webpack-plugin": "^0.4.0",
     "cookie-session": "^2.0.0-alpha.2",
     "css-loader": "^0.24.0",
     "detect-port": "1.0.0",
     "dotenv": "^2.0.0",
     "express": "^4.14.0",
-    "extract-text-webpack-plugin": "1.0.1",
+    "extract-text-webpack-plugin": "^2.1.0",
     "file-loader": "^0.9.0",
     "filesize": "3.3.0",
     "foreman": "^2.0.0",
@@ -97,12 +100,12 @@
     "style-loader": "^0.13.1",
     "url-loader": "0.5.7",
     "uuid": "^2.0.2",
-    "webpack": "1.13.2"
+    "webpack": "^2.4.1"
   },
   "scripts": {
     "start": "node server.js",
     "build": "webpack --watch --progress --colors --config ./config/webpack.config.dev.js",
-    "postinstall": "webpack --progress -p --config ./config/webpack.config.production.js",
+    "postinstall": "webpack --progress --config ./config/webpack.config.production.js",
     "test": "jest",
     "test-debug": "node debug --harmony ./node_modules/jest/bin/jest.js --runInBand"
   },
