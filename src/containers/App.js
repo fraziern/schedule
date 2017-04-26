@@ -4,13 +4,20 @@ import DateCardsContainer from "./DateCardsContainer";
 import DateCardsContainerAdmin from "./DateCardsContainerAdmin";
 import Login from "../components/Login";
 import Header from "../components/Header";
-import Reports from "../components/Reports";
+import loadReports from "bundle-loader?lazy!../components/Reports";
 import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import createLogger from "redux-logger";
 import thunk from "redux-thunk";
 import rootReducer from "../reducers";
 import { loadAllCards } from "../actions/index.js";
+import Bundle from "./Bundle";
+
+const Reports = () => (
+  <Bundle load={loadReports}>
+    {(Reports) => Reports ? <Reports/> : <div>Loading</div>}
+  </Bundle>
+);
 
 class App extends Component {
 
