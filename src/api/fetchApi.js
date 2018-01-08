@@ -1,7 +1,11 @@
 /*eslint no-console: ["error", { allow: ["warn", "error"] }] */
+
+// this is the only place in the front-end where we should need to know
+// the db schema
+
 import { normalize, Schema, arrayOf } from "normalizr";
 import * as fromAccessors from "../reducers/assignmentsAccessors";
-import fetch from "isomorphic-fetch";  // fetch polyfill
+import fetch from "isomorphic-fetch"; // fetch polyfill
 
 // normalizr schemas
 const dateCardSchema = new Schema("dateCards");
@@ -41,8 +45,10 @@ function normalizeCards(cards) {
 }
 
 function denormalizeSlot(slot, state) {
-  // we have a normalized slot object (just IDs), we need a slot object
-  var assignee = (slot.assignee) ? fromAccessors.getAssignee(state, slot.assignee) : { id: "000", name: "" };
+  // we have a normalized slot object, we need a db-formatted slot object
+  const assignee = slot.assignee
+    ? fromAccessors.getAssignee(state.assignments, slot.assignee)
+    : { id: "000", name: "" };
   return {
     _id: slot._id,
     assignee,
@@ -50,9 +56,19 @@ function denormalizeSlot(slot, state) {
   };
 }
 
+function denormalizeSlotIDs(slotIDs, state) {
+  // we have an array of slotIDs, we need an array of db-formatted slots
+  const fullSlots = fromAccessors.getSlots(state.assignments, slotIDs);
+  return fullSlots.map(slot => ({
+    _id: slot.id,
+    assignee: slot.assignee,
+    assignment: slot.assignment
+  }));
+}
+
 function denormalizeCard(card, slots, state) {
-  // we have a array of slotIDs, we need an array of slot objects
-  var newSlots = card.slots.map((slotID) => {
+  // we have a array of slotIDs, we need an array of slot objects in the card
+  var newSlots = card.slots.map(slotID => {
     var slot = slots[slotID];
     return denormalizeSlot(slot, state);
   });
@@ -66,7 +82,7 @@ function denormalizeCard(card, slots, state) {
 
 export default {
   getAllCards(cb) {
-    fetch("/api/all", { credentials : "same-origin" })
+    fetch("/api/all", { credentials: "same-origin" })
       .then(checkStatus)
       .then(parseJSON)
       .then(json => normalizeCards(json.dateCards))
@@ -83,7 +99,7 @@ export default {
       method: "POST",
       credentials: "same-origin",
       headers: {
-        "Accept": "application/json",
+        Accept: "application/json",
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
@@ -103,20 +119,20 @@ export default {
       method: "POST",
       credentials: "same-origin",
       headers: {
-        "Accept": "application/json",
+        Accept: "application/json",
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
         assignee
       })
     })
-    .then(checkStatus)
-    .then(parseJSON)
-    .then(cb)
-    .catch(error => {
-      console.warn("updateAssignee request failed", error);
-      return Promise.reject(error);
-    });
+      .then(checkStatus)
+      .then(parseJSON)
+      .then(cb)
+      .catch(error => {
+        console.warn("updateAssignee request failed", error);
+        return Promise.reject(error);
+      });
   },
 
   updateLabel(cardID, label, cb) {
@@ -124,20 +140,20 @@ export default {
       method: "POST",
       credentials: "same-origin",
       headers: {
-        "Accept": "application/json",
+        Accept: "application/json",
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
         label
       })
     })
-    .then(checkStatus)
-    .then(parseJSON)
-    .then(cb)
-    .catch(error => {
-      console.warn("updateAssignee request failed", error);
-      return Promise.reject(error);
-    });
+      .then(checkStatus)
+      .then(parseJSON)
+      .then(cb)
+      .catch(error => {
+        console.warn("updateAssignee request failed", error);
+        return Promise.reject(error);
+      });
   },
 
   addSlotToCard(cardID, slot, cb) {
@@ -145,20 +161,20 @@ export default {
       method: "POST",
       credentials: "same-origin",
       headers: {
-        "Accept": "application/json",
+        Accept: "application/json",
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
         slot
       })
     })
-    .then(checkStatus)
-    .then(parseJSON)
-    .then(cb)
-    .catch(error => {
-      console.warn("addSlotToCard request failed", error);
-      return Promise.reject(error);
-    });
+      .then(checkStatus)
+      .then(parseJSON)
+      .then(cb)
+      .catch(error => {
+        console.warn("addSlotToCard request failed", error);
+        return Promise.reject(error);
+      });
   },
 
   deleteSlotFromCard(slotID, cb) {
@@ -166,17 +182,39 @@ export default {
       method: "DELETE",
       credentials: "same-origin",
       headers: {
-        "Accept": "application/json",
+        Accept: "application/json",
         "Content-Type": "application/json"
       }
     })
-    .then(checkStatus)
-    .then(parseJSON)
-    .then(cb)
-    .catch(error => {
-      console.warn("deleteSlotFromCard request failed", error);
-      return Promise.reject(error);
-    });
+      .then(checkStatus)
+      .then(parseJSON)
+      .then(cb)
+      .catch(error => {
+        console.warn("deleteSlotFromCard request failed", error);
+        return Promise.reject(error);
+      });
+  },
+
+  updateSlots(cardID, newSlotList, state, cb) {
+    const newSlots = denormalizeSlotIDs(newSlotList, state);
+
+    return fetch("/api/update-slots/" + cardID, {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        slots: newSlots
+      })
+    })
+      .then(checkStatus)
+      .then(parseJSON)
+      .then(cb)
+      .catch(error => {
+        console.warn("updateSlots request failed", error);
+      });
   },
 
   deleteCard(cardID, cb) {
@@ -184,16 +222,16 @@ export default {
       method: "DELETE",
       credentials: "same-origin",
       headers: {
-        "Accept": "application/json",
+        Accept: "application/json",
         "Content-Type": "application/json"
       }
     })
-    .then(checkStatus)
-    .then(parseJSON)
-    .then(cb)
-    .catch(error => {
-      console.warn("deleteCard request failed", error);
-      return Promise.reject(error);
-    });
+      .then(checkStatus)
+      .then(parseJSON)
+      .then(cb)
+      .catch(error => {
+        console.warn("deleteCard request failed", error);
+        return Promise.reject(error);
+      });
   }
 };

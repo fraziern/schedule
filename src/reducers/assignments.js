@@ -8,9 +8,16 @@ const initialState = {
   isSaving: false,
   isLoaded: false,
   loggedInUser: null,
-  currentDate: moment().startOf("date").format(),
-  cutoffDate: moment().startOf("date").add(2, "weeks").format(),
-  startDate: moment().startOf("date").format(),
+  currentDate: moment()
+    .startOf("date")
+    .format(),
+  cutoffDate: moment()
+    .startOf("date")
+    .add(2, "weeks")
+    .format(),
+  startDate: moment()
+    .startOf("date")
+    .format(),
   stopDate: "",
   filter: "ALL"
 };
@@ -19,48 +26,64 @@ const initialState = {
 
 function addAssignee(state, id, name) {
   return update(state, {
-    entities: {assignees: {$merge: {
-      [id]: {
-        id,
-        name
+    entities: {
+      assignees: {
+        $merge: {
+          [id]: {
+            id,
+            name
+          }
+        }
       }
-    }}}
+    }
   });
 }
 
 function addSlot(state, slot) {
   return update(state, {
-    entities: {slots: {$merge: {
-      [slot._id]: {
-        _id: slot._id,
-        assignment: slot.assignment.id,
-        assignee: slot.assignee.id,
-        id: slot._id
+    entities: {
+      slots: {
+        $merge: {
+          [slot._id]: {
+            _id: slot._id,
+            assignment: slot.assignment.id,
+            assignee: slot.assignee.id,
+            id: slot._id
+          }
+        }
       }
-    }}}
+    }
   });
 }
 
 function addAssignment(state, id, name) {
   return update(state, {
-    entities: {assignments: {$merge: {
-      [id]: {
-        id,
-        name
+    entities: {
+      assignments: {
+        $merge: {
+          [id]: {
+            id,
+            name
+          }
+        }
       }
-    }}}
+    }
   });
 }
 
 function addSlotToCard(state, cardID, slot) {
   return update(state, {
     entities: {
-      slots: {$merge: {[slot._id]: {
-        _id: slot._id,
-        assignment: slot.assignment.id,
-        assignee: slot.assignee.id
-      }}},
-      dateCards: {[cardID]: {slots: {$push: [slot._id]}}}
+      slots: {
+        $merge: {
+          [slot._id]: {
+            _id: slot._id,
+            assignment: slot.assignment.id,
+            assignee: slot.assignee.id
+          }
+        }
+      },
+      dateCards: { [cardID]: { slots: { $push: [slot._id] } } }
     }
   });
 }
@@ -68,7 +91,7 @@ function addSlotToCard(state, cardID, slot) {
 function updateLabel(state, cardID, label) {
   return update(state, {
     entities: {
-      dateCards: {[cardID]: {label: {$set: label }}}
+      dateCards: { [cardID]: { label: { $set: label } } }
     }
   });
 }
@@ -76,39 +99,62 @@ function updateLabel(state, cardID, label) {
 function deleteSlotFromCard(state, cardID, slotID) {
   // just pull the slot ID from the slots array. everything else will get
   // cleaned up on the next app refresh
-  var newSlots = state.entities.dateCards[cardID].slots.filter((el) => (el !== slotID) );
+  var newSlots = state.entities.dateCards[cardID].slots.filter(
+    el => el !== slotID
+  );
   return update(state, {
     entities: {
-      dateCards: {[cardID]: {slots: {$set: newSlots }}}
+      dateCards: { [cardID]: { slots: { $set: newSlots } } }
+    }
+  });
+}
+
+function resortSlots(state, cardID, newSlotsList) {
+  console.log("here");
+  return update(state, {
+    entities: {
+      dateCards: { [cardID]: { slots: { $set: newSlotsList } } }
     }
   });
 }
 
 function savingSlotAssignee(state, slotID) {
   return update(state, {
-    entities: {slots: {[slotID]: {
-      isSaving: {$set: true }
-    }}}
+    entities: {
+      slots: {
+        [slotID]: {
+          isSaving: { $set: true }
+        }
+      }
+    }
   });
 }
 
 function updateSlotAssignee(state, slotID, newAssignee) {
   return update(state, {
-    entities: {slots: {[slotID]: {
-      assignee: {$set: newAssignee.id },
-      saved: {$set: true },
-      isSaving: {$set: false }
-    }}}
+    entities: {
+      slots: {
+        [slotID]: {
+          assignee: { $set: newAssignee.id },
+          saved: { $set: true },
+          isSaving: { $set: false }
+        }
+      }
+    }
   });
 }
 
 function markUnsaved(state, slotID) {
   // TODO: How do we cancel an updateSlotAssignee in progress?
   return update(state, {
-    entities: {slots: {[slotID]: {
-      saved: {$set: false },
-      isSaving: {$set: false }
-    }}}
+    entities: {
+      slots: {
+        [slotID]: {
+          saved: { $set: false },
+          isSaving: { $set: false }
+        }
+      }
+    }
   });
 }
 
@@ -120,9 +166,10 @@ function addDateCard(state, card) {
 
   const unsortedState = update(state, {
     entities: {
-      dateCards: {$merge: card.entities.dateCards },
-      slots: {$merge: card.entities.slots }},
-    sortedCards: {$push: [card.result]}
+      dateCards: { $merge: card.entities.dateCards },
+      slots: { $merge: card.entities.slots }
+    },
+    sortedCards: { $push: [card.result] }
   });
   return sortCardsAsc(unsortedState);
 }
@@ -133,14 +180,15 @@ function deleteDateCard(state, cardID) {
     if (card !== cardID) newDateCards[card] = state.entities.dateCards[card];
   }
 
-  var newSortedCards = state.sortedCards.filter((id) => {
-    return (id !== cardID);
+  var newSortedCards = state.sortedCards.filter(id => {
+    return id !== cardID;
   });
 
   return update(state, {
     entities: {
-      dateCards: {$set: newDateCards }},
-    sortedCards: {$set: newSortedCards }
+      dateCards: { $set: newDateCards }
+    },
+    sortedCards: { $set: newSortedCards }
   });
 }
 
@@ -154,7 +202,7 @@ function sortCardsAsc(state) {
     if (aDate > bDate) return 1;
     return 0;
   });
-  return {...state, sortedCards: orderedCards};
+  return { ...state, sortedCards: orderedCards };
 }
 
 // ***
@@ -164,7 +212,6 @@ function sortCardsAsc(state) {
 // *** main reducer ***
 export default function assignments(state = initialState, action) {
   switch (action.type) {
-
   case types.RECEIVE_ALLCARDS:
     var normalized = action.dateCards;
     var newState = {
@@ -183,37 +230,19 @@ export default function assignments(state = initialState, action) {
     return addDateCard(state, action.card);
 
   case types.SAVING_ASSIGNEE:
-    return savingSlotAssignee(
-      state,
-      action.id
-    );
+    return savingSlotAssignee(state, action.id);
 
   case types.UPDATE_ASSIGNEE:
-    return updateSlotAssignee(
-      state,
-      action.id,
-      action.assignee
-    );
+    return updateSlotAssignee(state, action.id, action.assignee);
 
   case types.UPDATE_LABEL:
-    return updateLabel(
-      state,
-      action.cardID,
-      action.label
-    );
+    return updateLabel(state, action.cardID, action.label);
 
   case types.MARK_UNSAVED:
-    return markUnsaved(
-      state,
-      action.id
-    );
+    return markUnsaved(state, action.id);
 
   case types.ADD_ASSIGNEE:
-    return addAssignee(
-      state,
-      action.id,
-      action.name
-    );
+    return addAssignee(state, action.id, action.name);
 
   case types.SET_FILTER:
     return { ...state, filter: action.filter };
@@ -225,37 +254,22 @@ export default function assignments(state = initialState, action) {
     return { ...state, stopDate: action.date };
 
   case types.ADD_SLOT:
-    return addSlot(
-      state,
-      action.slot
-    );
+    return addSlot(state, action.slot);
 
   case types.ADD_ASSIGNMENT:
-    return addAssignment(
-      state,
-      action.id,
-      action.name
-    );
+    return addAssignment(state, action.id, action.name);
 
   case types.ADD_SLOT_TO_CARD:
-    return addSlotToCard(
-      state,
-      action.cardID,
-      action.slot
-    );
+    return addSlotToCard(state, action.cardID, action.slot);
+
+  case types.RESORT_SLOTS:
+    return resortSlots(state, action.cardID, action.newSlotsList);
 
   case types.DELETE_SLOT_FROM_CARD:
-    return deleteSlotFromCard(
-      state,
-      action.cardID,
-      action.slotID
-    );
+    return deleteSlotFromCard(state, action.cardID, action.slotID);
 
   case types.DELETE_CARD:
-    return deleteDateCard(
-      state,
-      action.cardID
-    );
+    return deleteDateCard(state, action.cardID);
 
   default:
     return state;

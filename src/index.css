@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Jaldi');
+@import url("https://fonts.googleapis.com/css?family=Jaldi");
 @import "../node_modules/react-table/react-table.css";
 
 /* Bootstrap overrides */
@@ -32,9 +32,14 @@ td {
   overflow: hidden;
 }
 
-.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
-    padding: 8px 4px;
-    vertical-align: middle;
+.table > thead > tr > th,
+.table > tbody > tr > th,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > tbody > tr > td,
+.table > tfoot > tr > td {
+  padding: 8px 4px;
+  vertical-align: middle;
 }
 
 .container {
@@ -240,6 +245,10 @@ td {
   cursor: default;
 }
 
+.resort-handle {
+  cursor: row-resize;
+}
+
 .create-new-slot input {
   font-size: 18px;
   font-weight: 500;
@@ -261,7 +270,8 @@ td {
 
 .selector:focus {
   border-color: #7586bb;
-  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(72, 109, 138, .6);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075),
+    0 0 8px rgba(72, 109, 138, 0.6);
 }
 
 .checkmark {
@@ -330,11 +340,11 @@ td {
 }
 
 .DayPicker-Month {
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
 }
 
 .ReactTable {
-  background-color: #FFF;
+  background-color: #fff;
   max-width: 600px;
 }
 
@@ -342,7 +352,7 @@ td {
  Responsive breakpoints
  ***/
 
-@media (max-width : 800px) {
+@media (max-width: 800px) {
   .sidebar {
     width: inherit;
   }
@@ -388,7 +398,7 @@ td {
   }
 }
 
-@media (max-width : 650px) {
+@media (max-width: 650px) {
   .menubar .filter-range {
     margin-top: 10px;
   }
@@ -398,8 +408,7 @@ td {
   }
 }
 
-@media (max-width : 420px)
-and (orientation : portrait) {
+@media (max-width: 420px) and (orientation: portrait) {
   h3 {
     font-size: 22px;
   }

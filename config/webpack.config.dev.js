@@ -1,7 +1,7 @@
 var path = require("path");
 
 var config = {
-  devtool: "eval-source-map",
+  devtool: "cheap-module-source-map",
   entry: {
     // babel-polyfill adds ES2015 support for IE
     main: ["babel-polyfill", "./src/index.js"]
@@ -23,7 +23,7 @@ var config = {
       },
       {
         test: /\.css$/,
-        loaders: ["style-loader", "css-loader"],
+        loaders: ["style-loader", "css-loader"]
       },
       {
         test: /\.(jpe?g|png|gif|svg|ico)$/i,

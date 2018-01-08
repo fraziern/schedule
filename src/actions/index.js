@@ -8,6 +8,10 @@ import uuid from "uuid";
 import moment from "moment";
 import { browserHistory } from "react-router";
 import * as constants from "../constants/Constants.js";
+import { arrayMove } from "react-sortable-hoc";
+
+// NOTE: this should mainly work with normalized objects. fetchApi takes
+// normalized objects and knows how to convert for the db
 
 function receiveCards(cards) {
   return {
@@ -55,6 +59,14 @@ function deleteSlotFromCardSuccess(cardID, slotID) {
   };
 }
 
+function resortSlotsSuccess(cardID, newSlotsList) {
+  return {
+    type: types.RESORT_SLOTS,
+    cardID,
+    newSlotsList
+  };
+}
+
 function deleteCardSuccess(cardID) {
   return {
     type: types.DELETE_CARD,
@@ -99,7 +111,7 @@ export function addDateCard(newDate) {
 
     //  2. iterate over the existing slots, create an object of new slots
     var newSlots = {};
-    lastNormDateCard.slots.forEach((slotID) => {
+    lastNormDateCard.slots.forEach(slotID => {
       var id = uuid.v4();
       newSlots[id] = {
         _id: id,
@@ -116,7 +128,7 @@ export function addDateCard(newDate) {
     };
 
     // addCard inputs normalized card and normalized list of new slots, returns normalized card
-    fetchApi.addCard(newDateCard, newSlots, state, function (nCard) {
+    fetchApi.addCard(newDateCard, newSlots, state, nCard => {
       return dispatch(addCardSuccess(nCard));
     });
   };
@@ -124,7 +136,6 @@ export function addDateCard(newDate) {
 
 export function updateAssignment(slotID, assigneeName) {
   return (dispatch, getState) => {
-
     // flag that we're saving now
     dispatch({
       type: types.SAVING_ASSIGNEE,
@@ -133,7 +144,10 @@ export function updateAssignment(slotID, assigneeName) {
 
     // get assignee ID if exists, otherwise create one
     const state = getState();
-    let assigneeID = fromAccessors.getAssigneeIDByName(state.assignments, assigneeName);
+    let assigneeID = fromAccessors.getAssigneeIDByName(
+      state.assignments,
+      assigneeName
+    );
     if (!assigneeID) {
       assigneeID = uuid.v4();
       dispatch({
@@ -150,24 +164,26 @@ export function updateAssignment(slotID, assigneeName) {
     };
 
     // AJAX call, then update state if successful
-    fetchApi.updateAssignee(slotID, newAssignee, () => {
-      return dispatch(updateAssigneeSuccess(slotID, newAssignee));
-    })
-    .catch(error => {
-      console.warn("fetch rejected", error);
-    });
+    fetchApi
+      .updateAssignee(slotID, newAssignee, () => {
+        return dispatch(updateAssigneeSuccess(slotID, newAssignee));
+      })
+      .catch(error => {
+        console.warn("fetch rejected", error);
+      });
   };
 }
 
 export function updateLabel(cardID, label) {
-  return (dispatch) => {
+  return dispatch => {
     // AJAX call, then update state if successful
-    fetchApi.updateLabel(cardID, label, () => {
-      return dispatch(updateLabelSuccess(cardID, label));
-    })
-    .catch(error => {
-      console.log("fetch rejected", error);
-    });
+    fetchApi
+      .updateLabel(cardID, label, () => {
+        return dispatch(updateLabelSuccess(cardID, label));
+      })
+      .catch(error => {
+        console.log("fetch rejected", error);
+      });
   };
 }
 
@@ -180,7 +196,10 @@ export function addSlotToCard(assignmentName, cardID) {
     //   1. flag that we're saving the slot now (can implement later)
     //   2. get assignment ID if it exists, otherwise update state with a new one
     const state = getState();
-    let assignmentID = fromAccessors.getAssignmentIDByName(state.assignments, assignmentName);
+    let assignmentID = fromAccessors.getAssignmentIDByName(
+      state.assignments,
+      assignmentName
+    );
     if (!assignmentID) {
       assignmentID = uuid.v4();
       dispatch({
@@ -204,21 +223,42 @@ export function addSlotToCard(assignmentName, cardID) {
     };
     //
     // Updating state after AJAX means add the new slot, add the slot ID to the card
-    fetchApi.addSlotToCard(cardID, newSlot, () => {
-      return dispatch(addSlotToCardSuccess(cardID, newSlot));
-    })
-    .catch(error => {
-      console.warn("fetch rejected", error);
-    });
+    fetchApi
+      .addSlotToCard(cardID, newSlot, () => {
+        return dispatch(addSlotToCardSuccess(cardID, newSlot));
+      })
+      .catch(error => {
+        console.warn("fetch rejected", error);
+      });
   };
 }
 
 export function deleteSlotFromCard(cardID, slotID) {
-  return (dispatch) => {
-    fetchApi.deleteSlotFromCard(slotID, () => {
-      return dispatch(deleteSlotFromCardSuccess(cardID, slotID));
-    })
-    .catch(error => {
+  return dispatch => {
+    fetchApi
+      .deleteSlotFromCard(slotID, () => {
+        return dispatch(deleteSlotFromCardSuccess(cardID, slotID));
+      })
+      .catch(error => {
+        console.warn("fetch rejected", error);
+      });
+  };
+}
+
+export function resortSlots(cardID, oldIndex, newIndex) {
+  return (dispatch, getState) => {
+    const state = getState();
+    const nCard = fromAccessors.getNormalizedDateCard(
+      state.assignments,
+      cardID
+    );
+    const newSlotList = arrayMove(nCard.slots, oldIndex, newIndex);
+
+    // update state optimistically
+    dispatch(resortSlotsSuccess(cardID, newSlotList));
+
+    // AJAX call
+    fetchApi.updateSlots(cardID, newSlotList, state).catch(error => {
       console.warn("fetch rejected", error);
     });
   };
@@ -261,7 +301,7 @@ export function setStopDate(dateString) {
 }
 
 export function deleteCard(cardID) {
-  return (dispatch) => {
+  return dispatch => {
     fetchApi.deleteCard(cardID, () => {
       return dispatch(deleteCardSuccess(cardID));
     });
@@ -269,7 +309,7 @@ export function deleteCard(cardID) {
 }
 
 export function login(username, password, location) {
-  return (dispatch) => {
+  return dispatch => {
     authApi.login(username, password, (user, err) => {
       if (!err) {
         if (user.user.username) {
@@ -295,9 +335,9 @@ export function checkServerLogin() {
   return (dispatch, getState) => {
     const { userinfo } = getState();
     if (!userinfo.loggedInUser) {
-      authApi.loggedin((response) => {
+      authApi.loggedin(response => {
         if (response.username) {
-          dispatch(receiveUser({user: response}));
+          dispatch(receiveUser({ user: response }));
         }
       });
     }

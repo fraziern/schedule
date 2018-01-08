@@ -17,3 +17,4 @@ export const DROP_USER = "DROP_USER";
 export const SET_STARTDATE = "SET_STARTDATE";
 export const SET_STOPDATE = "SET_STOPDATE";
 export const UPDATE_REPORT_FILTER = "UPDATE_REPORT_FILTER";
+export const RESORT_SLOTS = "RESORT_SLOTS";
