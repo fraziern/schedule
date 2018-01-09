@@ -1,6 +1,9 @@
 {
   "name": "schedule",
   "version": "0.1.0",
+  "engines": {
+    "node": "8.0.0"
+  },
   "private": true,
   "devDependencies": {
     "babel-jest": "15.0.0",
@@ -101,7 +104,7 @@
     "style-loader": "^0.13.1",
     "url-loader": "0.5.7",
     "uuid": "^2.0.2",
-    "webpack": "^2.4.1"
+    "webpack": "~2.4.1"
   },
   "scripts": {
     "start": "node server.js",
