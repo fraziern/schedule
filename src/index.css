@@ -247,6 +247,7 @@ td {
 
 .resort-handle {
   cursor: row-resize;
+  width: 25px;
 }
 
 .create-new-slot input {
