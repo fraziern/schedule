@@ -1,6 +1,12 @@
-var DateCard = require("./models/DateCard");
+/*eslint no-console: ["error", { allow: ["log", "warn", "error"] }] */
+require("dotenv").config({path: "../.env", silent: true});
+var DateCard = require("../models/DateCard");
+var db_connect = require("../db_connect");
 
-module.exports = function () {
+// connect to database
+db_connect();
+
+function seed() {
   DateCard.count().exec( function(err, count) {
     if (count > 0 || process.env.NODE_ENV === "test") {
       return;
@@ -162,4 +168,6 @@ module.exports = function () {
       }
     });
   });
-};
+}
+
+seed();
