@@ -160,6 +160,25 @@ td {
   border-radius: 0;
 }
 
+.datecard .cardlabel-container {
+  position: relative;
+}
+
+.datecard .cardlabel--check {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+}
+
+.cardlabel--check .spinner {
+  width: 25px;
+  padding: 0px;
+  opacity: 0.9;
+  position: absolute;
+  right: 0px;
+  transition: all 0.3s;
+}
+
 .datecard .cardlabel {
   margin-left: 10px;
   margin-bottom: 0px;
@@ -304,7 +323,7 @@ td {
   transition: all 0.3s;
 }
 
-.slot .spinner--hidden {
+.spinner.spinner--hidden {
   width: 25px;
   opacity: 0;
 }
@@ -428,6 +447,10 @@ td {
 
   .datecard .cardlabel {
     font-size: 14px;
+  }
+
+  .datecard .cardlabel--check {
+    top: 12px;
   }
 
   .form-control {

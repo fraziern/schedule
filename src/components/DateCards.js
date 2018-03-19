@@ -38,6 +38,8 @@ DateCards.propTypes = {
     PropTypes.shape({
       id: PropTypes.string.isRequired,
       label: PropTypes.string,
+      labelSaving: PropTypes.bool,
+      labelSaved: PropTypes.bool,
       dateScheduled: PropTypes.string.isRequired,
       slots: PropTypes.arrayOf(
         PropTypes.shape({

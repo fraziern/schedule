@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from "react";
 import sanitize from "../utils/sanitize";
+import checkmark from "../img/checkmark.svg";
+import spinner from "../img/loading.gif";
 
 class CardLabel extends Component {
   constructor(props) {
@@ -7,8 +9,19 @@ class CardLabel extends Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleInputEnter = this.handleInputEnter.bind(this);
     this.state = {
-      label: (this.props.label) ? this.props.label : "",
+      label: this.props.label ? this.props.label : ""
     };
+  }
+
+  // If editing is turned off, and label is changed, save label
+  componentWillReceiveProps(nextProps) {
+    if (
+      this.props.editing &&
+      !nextProps.editing &&
+      this.state.label != this.props.label
+    ) {
+      this.props.handleUpdateLabel(this.state.label.trim());
+    }
   }
 
   handleInputChange(e) {
@@ -26,14 +39,31 @@ class CardLabel extends Component {
   }
 
   render() {
+    const checkClass = this.props.labelSaved
+      ? "checkmark"
+      : "checkmark checkmark--hidden";
+    const spinnerClass = this.props.labelSaving
+      ? "spinner"
+      : "spinner spinner--hidden";
 
-    const switchingLabel = (this.props.editing) ?
-      (<input className="form-control cardlabel--input" type="text"
-        placeholder="Enter label"
-        value={this.state.label}
-        onChange={this.handleInputChange}
-        onKeyPress={this.handleInputEnter}
-      />) : (<p className="cardlabel">{this.state.label}</p>);
+    const switchingLabel = this.props.editing ? (
+      <div className="cardlabel-container">
+        <input
+          className="form-control cardlabel--input"
+          type="text"
+          placeholder="Enter label"
+          value={this.state.label}
+          onChange={this.handleInputChange}
+          onKeyPress={this.handleInputEnter}
+        />
+        <div className="cardlabel--check">
+          <img src={checkmark} className={checkClass} alt="saved" />
+          <img src={spinner} className={spinnerClass} alt="saving" />
+        </div>
+      </div>
+    ) : (
+      <p className="cardlabel">{this.state.label}</p>
+    );
 
     return switchingLabel;
   }
@@ -42,6 +72,8 @@ class CardLabel extends Component {
 CardLabel.propTypes = {
   editing: PropTypes.bool.isRequired,
   handleUpdateLabel: PropTypes.func.isRequired,
+  labelSaving: PropTypes.bool,
+  labelSaved: PropTypes.bool,
   label: PropTypes.string
 };
 

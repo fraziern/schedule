@@ -5,40 +5,45 @@ import * as fromAccessors from "../reducers/assignmentsAccessors";
 import { createSelector } from "reselect";
 import moment from "moment";
 
-const getStartDate = (state) => state.assignments.startDate;
-const getStopDate = (state) => state.assignments.stopDate;
-const getAssignments = (state) => state.assignments;
+const getStartDate = state => state.assignments.startDate;
+const getStopDate = state => state.assignments.stopDate;
+const getAssignments = state => state.assignments;
 
 function getStartDateByFilter(filter) {
   let time = {};
   switch (filter) {
+    case "Year":
+      time = { len: 1, unit: "years" };
+      break;
 
-  case "Year":
-    time = {len: 1, unit: "years"};
-    break;
+    case "9 Months":
+      time = { len: 9, unit: "months" };
+      break;
 
-  case "9 Months":
-    time = {len: 9, unit: "months"};
-    break;
+    case "6 Months":
+      time = { len: 6, unit: "months" };
+      break;
 
-  case "6 Months":
-    time = {len: 6, unit: "months"};
-    break;
+    case "3 Months":
+      time = { len: 3, unit: "months" };
+      break;
 
-  case "3 Months":
-    time = {len: 3, unit: "months"};
-    break;
-
-  default:
-    time = {len: 1, unit: "years"};
+    default:
+      time = { len: 1, unit: "years" };
   }
-  return moment().startOf("date").subtract(time.len, time.unit).format();
+  return moment()
+    .startOf("date")
+    .subtract(time.len, time.unit)
+    .format();
 }
 
 function filterIDListByDate(list, assignments, startDate, stopDate) {
   // return only cards between startDate and stopDate
   return assignments.sortedCards.filter(dateCardID => {
-    const normalizedDateCard = fromAccessors.getNormalizedDateCard(assignments, dateCardID);
+    const normalizedDateCard = fromAccessors.getNormalizedDateCard(
+      assignments,
+      dateCardID
+    );
     if (normalizedDateCard.dateScheduled < startDate) return false;
     if (stopDate && normalizedDateCard.dateScheduled > stopDate) return false;
     return true;
@@ -46,19 +51,29 @@ function filterIDListByDate(list, assignments, startDate, stopDate) {
 }
 
 export const getVisibleDateCardsAndDenormalize = createSelector(
-  [ getAssignments, getStartDate, getStopDate ],
+  [getAssignments, getStartDate, getStopDate],
   (assignments, startDate, stopDate) => {
     if (!assignments.isLoaded) return null;
 
-    const filteredList = filterIDListByDate(assignments.sortedCards, assignments, startDate, stopDate);
+    const filteredList = filterIDListByDate(
+      assignments.sortedCards,
+      assignments,
+      startDate,
+      stopDate
+    );
 
     // convert normalized state to something we can use
     return filteredList.map(dateCardID => {
-      const normalizedDateCard = fromAccessors.getNormalizedDateCard(assignments, dateCardID);
+      const normalizedDateCard = fromAccessors.getNormalizedDateCard(
+        assignments,
+        dateCardID
+      );
       return {
         id: dateCardID,
         dateScheduled: normalizedDateCard.dateScheduled,
         label: normalizedDateCard.label,
+        labelSaving: normalizedDateCard.labelSaving,
+        labelSaved: normalizedDateCard.labelSaved,
         slots: fromAccessors.getSlots(assignments, normalizedDateCard.slots)
       };
     });
@@ -73,11 +88,23 @@ export const getAssigneeRankings = (assignments, startDate, stopDate) => {
   if (!assignments.isLoaded) return null;
 
   // if no startDate or stopDate specified, use the last 1 year
-  if (!stopDate) stopDate = moment().startOf("date").format();
-  if (!startDate) startDate = moment().startOf("date").subtract(1, "years").format();
+  if (!stopDate)
+    stopDate = moment()
+      .startOf("date")
+      .format();
+  if (!startDate)
+    startDate = moment()
+      .startOf("date")
+      .subtract(1, "years")
+      .format();
 
   // return only cards between startDate and stopDate
-  const filteredList = filterIDListByDate(assignments.sortedCards, assignments, startDate, stopDate);
+  const filteredList = filterIDListByDate(
+    assignments.sortedCards,
+    assignments,
+    startDate,
+    stopDate
+  );
 
   // create array of slot IDs only
   var slotList = filteredList.reduce((prev, curr) => {
@@ -86,7 +113,7 @@ export const getAssigneeRankings = (assignments, startDate, stopDate) => {
 
   let freqByID = {};
   // build frequency map of slot assignees by ID
-  slotList.forEach((el) => {
+  slotList.forEach(el => {
     let assigneeID = assignments.entities.slots[el].assignee;
     if (assigneeID in freqByID) freqByID[assigneeID].frequency += 1;
     else {
@@ -106,13 +133,23 @@ export const getAssigneeRankingsByFilter = (assignments, filter) => {
 };
 
 export const getEmptySlotReport = (assignments, startDate) => {
-
   if (!assignments.isLoaded) return null;
 
-  if (!startDate) startDate = moment().startOf("date").subtract(1, "years").format();
-  const stopDate = moment().endOf("date").format();
+  if (!startDate)
+    startDate = moment()
+      .startOf("date")
+      .subtract(1, "years")
+      .format();
+  const stopDate = moment()
+    .endOf("date")
+    .format();
 
-  const filteredList = filterIDListByDate(assignments.sortedCards, assignments, startDate, stopDate);
+  const filteredList = filterIDListByDate(
+    assignments.sortedCards,
+    assignments,
+    startDate,
+    stopDate
+  );
 
   // create array of assignee IDs where name is blank
   let blankAssignees = [];
@@ -123,13 +160,15 @@ export const getEmptySlotReport = (assignments, startDate) => {
 
   // iterate over all slots, by date, and build table
   let emptySlots = {};
-  filteredList.forEach((el) => {
+  filteredList.forEach(el => {
     const dateCard = assignments.entities.dateCards[el];
     const dateScheduled = dateCard.dateScheduled;
     let frequency = 0;
-    dateCard.slots.forEach((el) => {
+    dateCard.slots.forEach(el => {
       // if this ID is one of the blank assignees IDs
-      if (blankAssignees.indexOf(assignments.entities.slots[el].assignee) >= 0) {
+      if (
+        blankAssignees.indexOf(assignments.entities.slots[el].assignee) >= 0
+      ) {
         frequency++;
       }
     });
