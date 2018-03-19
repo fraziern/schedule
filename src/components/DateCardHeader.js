@@ -4,7 +4,6 @@ import CardLabel from "./CardLabel";
 import DeleteCardButton from "./DeleteCardButton";
 
 class DateCardHeader extends Component {
-
   constructor(props) {
     super(props);
     this.handleEditButton = this.handleEditButton.bind(this);
@@ -21,15 +20,27 @@ class DateCardHeader extends Component {
 
   render() {
     const disabled = this.props.isDisabled;
-    const headerClass = "panel-heading " + ((disabled) ? "panel-heading--disabled" : "");
-    const lockClass = (disabled) ? "glyphicon glyphicon-lock padlock" : "glyphicon glyphicon-lock padlock padlock--hidden";
-    const pencilClass = "glyphicon glyphicon-pencil" + ((this.props.editing) ? " pencil--red" : "");
+    const headerClass =
+      "panel-heading " + (disabled ? "panel-heading--disabled" : "");
+    const lockClass = disabled
+      ? "glyphicon glyphicon-lock padlock"
+      : "glyphicon glyphicon-lock padlock padlock--hidden";
+    const pencilClass =
+      "glyphicon glyphicon-pencil" + (this.props.editing ? " pencil--red" : "");
 
     // TODO: move trashcan and pencil to its own component
 
-    const trashcan = (this.props.admin) ? (<DeleteCardButton handleDeleteCard={this.props.handleDeleteCard}/>) : null;
+    const trashcan = this.props.admin ? (
+      <DeleteCardButton handleDeleteCard={this.props.handleDeleteCard} />
+    ) : null;
 
-    const pencil = (this.props.admin) ? (<span onClick={this.handleEditButton} className={pencilClass} aria-hidden="true"></span>) : null;
+    const pencil = this.props.admin ? (
+      <span
+        onClick={this.handleEditButton}
+        className={pencilClass}
+        aria-hidden="true"
+      />
+    ) : null;
 
     return (
       <div className={headerClass}>
@@ -37,15 +48,17 @@ class DateCardHeader extends Component {
         <span className={lockClass} />
 
         <ul className="list-inline pull-right">
-        <li>{trashcan}</li>
-        <li>{pencil}</li>
+          <li>{trashcan}</li>
+          <li>{pencil}</li>
         </ul>
 
         <CardLabel
           label={this.props.label}
+          labelSaving={this.props.labelSaving}
+          labelSaved={this.props.labelSaved}
           editing={this.props.editing}
           handleUpdateLabel={this.props.handleUpdateLabel}
-          />
+        />
       </div>
     );
   }
@@ -58,6 +71,8 @@ DateCardHeader.propTypes = {
   dateScheduled: PropTypes.string.isRequired,
   isDisabled: PropTypes.bool,
   label: PropTypes.string,
+  labelSaving: PropTypes.bool,
+  labelSaved: PropTypes.bool,
   handleUpdateLabel: PropTypes.func.isRequired,
   handleDeleteCard: PropTypes.func.isRequired
 };

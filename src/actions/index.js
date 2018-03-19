@@ -176,6 +176,12 @@ export function updateAssignment(slotID, assigneeName) {
 
 export function updateLabel(cardID, label) {
   return dispatch => {
+    // flag that we're saving now
+    dispatch({
+      type: types.SAVING_LABEL,
+      cardID
+    });
+
     // AJAX call, then update state if successful
     fetchApi
       .updateLabel(cardID, label, () => {

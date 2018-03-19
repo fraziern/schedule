@@ -14,4 +14,8 @@ build
 
 # misc
 .DS_Store
-npm-debug.log
+*.log
+*.txt
+
+# VSCode settings
+.vscode

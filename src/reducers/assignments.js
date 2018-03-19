@@ -88,10 +88,28 @@ function addSlotToCard(state, cardID, slot) {
   });
 }
 
+function savingLabel(state, cardID) {
+  return update(state, {
+    entities: {
+      dateCards: {
+        [cardID]: {
+          labelSaving: { $set: true }
+        }
+      }
+    }
+  });
+}
+
 function updateLabel(state, cardID, label) {
   return update(state, {
     entities: {
-      dateCards: { [cardID]: { label: { $set: label } } }
+      dateCards: {
+        [cardID]: {
+          label: { $set: label },
+          labelSaving: { $set: false },
+          labelSaved: { $set: true }
+        }
+      }
     }
   });
 }
@@ -212,66 +230,69 @@ function sortCardsAsc(state) {
 // *** main reducer ***
 export default function assignments(state = initialState, action) {
   switch (action.type) {
-  case types.RECEIVE_ALLCARDS:
-    var normalized = action.dateCards;
-    var newState = {
-      ...state,
-      entities: normalized.entities,
-      sortedCards: normalized.result,
-      isLoaded: true,
-      sort: "asc"
-    };
-    return sortCardsAsc(newState);
+    case types.RECEIVE_ALLCARDS:
+      var normalized = action.dateCards;
+      var newState = {
+        ...state,
+        entities: normalized.entities,
+        sortedCards: normalized.result,
+        isLoaded: true,
+        sort: "asc"
+      };
+      return sortCardsAsc(newState);
 
-  case types.SORT_ASCENDING:
-    return sortCardsAsc(state);
+    case types.SORT_ASCENDING:
+      return sortCardsAsc(state);
 
-  case types.ADD_DATECARD:
-    return addDateCard(state, action.card);
+    case types.ADD_DATECARD:
+      return addDateCard(state, action.card);
 
-  case types.SAVING_ASSIGNEE:
-    return savingSlotAssignee(state, action.id);
+    case types.SAVING_ASSIGNEE:
+      return savingSlotAssignee(state, action.id);
 
-  case types.UPDATE_ASSIGNEE:
-    return updateSlotAssignee(state, action.id, action.assignee);
+    case types.UPDATE_ASSIGNEE:
+      return updateSlotAssignee(state, action.id, action.assignee);
 
-  case types.UPDATE_LABEL:
-    return updateLabel(state, action.cardID, action.label);
+    case types.SAVING_LABEL:
+      return savingLabel(state, action.cardID);
 
-  case types.MARK_UNSAVED:
-    return markUnsaved(state, action.id);
+    case types.UPDATE_LABEL:
+      return updateLabel(state, action.cardID, action.label);
 
-  case types.ADD_ASSIGNEE:
-    return addAssignee(state, action.id, action.name);
+    case types.MARK_UNSAVED:
+      return markUnsaved(state, action.id);
 
-  case types.SET_FILTER:
-    return { ...state, filter: action.filter };
+    case types.ADD_ASSIGNEE:
+      return addAssignee(state, action.id, action.name);
 
-  case types.SET_STARTDATE:
-    return { ...state, startDate: action.date };
+    case types.SET_FILTER:
+      return { ...state, filter: action.filter };
 
-  case types.SET_STOPDATE:
-    return { ...state, stopDate: action.date };
+    case types.SET_STARTDATE:
+      return { ...state, startDate: action.date };
 
-  case types.ADD_SLOT:
-    return addSlot(state, action.slot);
+    case types.SET_STOPDATE:
+      return { ...state, stopDate: action.date };
 
-  case types.ADD_ASSIGNMENT:
-    return addAssignment(state, action.id, action.name);
+    case types.ADD_SLOT:
+      return addSlot(state, action.slot);
 
-  case types.ADD_SLOT_TO_CARD:
-    return addSlotToCard(state, action.cardID, action.slot);
+    case types.ADD_ASSIGNMENT:
+      return addAssignment(state, action.id, action.name);
 
-  case types.RESORT_SLOTS:
-    return resortSlots(state, action.cardID, action.newSlotsList);
+    case types.ADD_SLOT_TO_CARD:
+      return addSlotToCard(state, action.cardID, action.slot);
 
-  case types.DELETE_SLOT_FROM_CARD:
-    return deleteSlotFromCard(state, action.cardID, action.slotID);
+    case types.RESORT_SLOTS:
+      return resortSlots(state, action.cardID, action.newSlotsList);
 
-  case types.DELETE_CARD:
-    return deleteDateCard(state, action.cardID);
+    case types.DELETE_SLOT_FROM_CARD:
+      return deleteSlotFromCard(state, action.cardID, action.slotID);
 
-  default:
-    return state;
+    case types.DELETE_CARD:
+      return deleteDateCard(state, action.cardID);
+
+    default:
+      return state;
   }
 }

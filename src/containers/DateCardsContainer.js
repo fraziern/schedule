@@ -6,7 +6,6 @@ import { getVisibleDateCardsAndDenormalize } from "../selectors";
 import SmoothScroll from "../utils/SmoothScroll.js";
 
 export class DateCardsContainer extends Component {
-
   constructor(props) {
     super(props);
   }
@@ -29,17 +28,23 @@ DateCardsContainer.propTypes = {
   admin: PropTypes.bool,
   isLoaded: PropTypes.bool.isRequired,
   cutoffDate: PropTypes.string.isRequired,
-  dateCards: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    label: PropTypes.string,
-    dateScheduled: PropTypes.string.isRequired,
-    slots: PropTypes.arrayOf(PropTypes.shape({
-      assignment: PropTypes.string.isRequired,
-      assignee: PropTypes.string.isRequired,
-      saved: PropTypes.bool,
-      isSaving: PropTypes.bool
-    })).isRequired
-  }))
+  dateCards: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      label: PropTypes.string,
+      labelSaving: PropTypes.bool,
+      labelSaved: PropTypes.bool,
+      dateScheduled: PropTypes.string.isRequired,
+      slots: PropTypes.arrayOf(
+        PropTypes.shape({
+          assignment: PropTypes.string.isRequired,
+          assignee: PropTypes.string.isRequired,
+          saved: PropTypes.bool,
+          isSaving: PropTypes.bool
+        })
+      ).isRequired
+    })
+  )
 };
 
 function mapStateToProps(state) {
@@ -51,6 +56,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(
-  mapStateToProps
-)(DateCardsContainer);
+export default connect(mapStateToProps)(DateCardsContainer);

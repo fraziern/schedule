@@ -69,6 +69,8 @@ class DateCard extends Component {
           editing={this.state.editing}
           toggleEditing={this.toggleEditing}
           label={this.props.label}
+          labelSaving={this.props.labelSaving}
+          labelSaved={this.props.labelSaved}
           handleUpdateLabel={this.props.handleUpdateLabel}
           handleDeleteCard={this.props.handleDeleteCard}
         />
@@ -94,6 +96,8 @@ DateCard.propTypes = {
   handleAddSlot: PropTypes.func.isRequired,
   handleSlotSort: PropTypes.func.isRequired,
   label: PropTypes.string,
+  labelSaved: PropTypes.bool,
+  labelSaving: PropTypes.bool,
   markUnsaved: PropTypes.func.isRequired,
   dateScheduled: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
