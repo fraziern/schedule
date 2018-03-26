@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from "react";
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 
 class Bundle extends Component {
   constructor(props) {
@@ -24,7 +25,7 @@ class Bundle extends Component {
     this.setState({
       mod: null
     });
-    props.load((mod) => {
+    props.load(mod => {
       this.setState({
         // handle both es imports and cjs
         mod: mod.default ? mod.default : mod

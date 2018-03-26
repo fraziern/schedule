@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from "react";
+import PropTypes from 'prop-types';
+import React, { Component } from "react";
 import Selector from "./Selector";
 import DeleteSlotButton from "./DeleteSlotButton";
 import checkmark from "../img/checkmark.svg";

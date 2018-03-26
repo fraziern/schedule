@@ -1,4 +1,5 @@
-import React, { PropTypes } from "react";
+import PropTypes from 'prop-types';
+import React from "react";
 
 function Selector(props) {
   const className = (props.selectorValue === "") ? "form-control selector selector-empty" : "form-control selector";

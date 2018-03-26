@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from "react";
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 import sanitize from "../utils/sanitize";
 import checkmark from "../img/checkmark.svg";
 import spinner from "../img/loading.gif";
