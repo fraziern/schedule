@@ -80,22 +80,22 @@ function denormalizeCard(card, slots, state) {
 
 // *** PUBLIC FUNCTIONS BELOW ***
 
-export default {
-  getAllCards(cb) {
-    fetch("/api/all", { credentials: "same-origin" })
-      .then(checkStatus)
-      .then(parseJSON)
-      .then(json => normalizeCards(json.dateCards))
-      .then(cb)
-      .catch(error => {
-        console.warn("fetch all request failed", error);
-      });
-  },
+async function getAllCards() {
+  try {
+    let res = await fetch("/api/all", { credentials: "same-origin" });
+    checkStatus(res);
+    let json = await res.json();
+    return normalizeCards(json.dateCards);
+  } catch (e) {
+    console.warn("fetch all request failed", e);
+  }
+}
 
-  addCard(dateCard, slots, state, cb) {
-    var denormalizedCard = denormalizeCard(dateCard, slots, state);
+async function addCard(dateCard, slots, state) {
+  let denormalizedCard = denormalizeCard(dateCard, slots, state);
 
-    fetch("/api/add", {
+  try {
+    let res = await fetch("/api/add", {
       method: "POST",
       credentials: "same-origin",
       headers: {
@@ -105,17 +105,18 @@ export default {
       body: JSON.stringify({
         dateCard: denormalizedCard
       })
-    })
-      .then(checkStatus)
-      .then(parseJSON)
-      .then(json => cb(normalizeCard(json.saved, dateCardSchema)))
-      .catch(error => {
-        console.warn("addCard request failed", error);
-      });
-  },
+    });
+    checkStatus(res);
+    let json = await res.json();
+    return normalizeCard(json.saved, dateCardSchema);
+  } catch (e) {
+    console.warn("add card request failed", e);
+  }
+}
 
-  updateAssignee(slotID, assignee, cb) {
-    return fetch("/api/update-assignee/" + slotID, {
+async function updateAssignee(slotID, assignee) {
+  try {
+    let res = await fetch("/api/update-assignee/" + slotID, {
       method: "POST",
       credentials: "same-origin",
       headers: {
@@ -125,18 +126,18 @@ export default {
       body: JSON.stringify({
         assignee
       })
-    })
-      .then(checkStatus)
-      .then(parseJSON)
-      .then(cb)
-      .catch(error => {
-        console.warn("updateAssignee request failed", error);
-        return Promise.reject(error);
-      });
-  },
+    });
+    checkStatus(res);
+    return res;
+  } catch (e) {
+    console.warn("updateAssignee request failed", e);
+    return Promise.reject(e);
+  }
+}
 
-  updateLabel(cardID, label, cb) {
-    return fetch("/api/update-label/" + cardID, {
+async function updateLabel(cardID, label) {
+  try {
+    let res = await fetch("/api/update-label/" + cardID, {
       method: "POST",
       credentials: "same-origin",
       headers: {
@@ -146,18 +147,18 @@ export default {
       body: JSON.stringify({
         label
       })
-    })
-      .then(checkStatus)
-      .then(parseJSON)
-      .then(cb)
-      .catch(error => {
-        console.warn("updateAssignee request failed", error);
-        return Promise.reject(error);
-      });
-  },
+    });
+    checkStatus(res);
+    return res;
+  } catch (e) {
+    console.warn("updateLabel request failed", e);
+    return Promise.reject(e);
+  }
+}
 
-  addSlotToCard(cardID, slot, cb) {
-    return fetch("/api/add-slot/" + cardID, {
+async function addSlotToCard(cardID, slot) {
+  try {
+    let res = await fetch("/api/add-slot/" + cardID, {
       method: "POST",
       credentials: "same-origin",
       headers: {
@@ -167,38 +168,39 @@ export default {
       body: JSON.stringify({
         slot
       })
-    })
-      .then(checkStatus)
-      .then(parseJSON)
-      .then(cb)
-      .catch(error => {
-        console.warn("addSlotToCard request failed", error);
-        return Promise.reject(error);
-      });
-  },
+    });
+    checkStatus(res);
+    return res;
+  } catch (e) {
+    console.warn("addSlotToCard request failed", e);
+    return Promise.reject(e);
+  }
+}
 
-  deleteSlotFromCard(slotID, cb) {
-    return fetch("/api/remove-slot/" + slotID, {
+async function deleteSlotFromCard(slotID, cb) {
+  try {
+    let res = await fetch("/api/remove-slot/" + slotID, {
       method: "DELETE",
       credentials: "same-origin",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json"
       }
-    })
-      .then(checkStatus)
-      .then(parseJSON)
-      .then(cb)
-      .catch(error => {
-        console.warn("deleteSlotFromCard request failed", error);
-        return Promise.reject(error);
-      });
-  },
+    });
+    checkStatus(res);
+    return res;
+  } catch (e) {
+    console.warn("deleteSlotFromCard request failed", e);
+    return Promise.reject(e);
+  }
+}
 
-  updateSlots(cardID, newSlotList, state, cb) {
-    const newSlots = denormalizeSlotIDs(newSlotList, state);
+// This is used for re-sorting slots
+async function updateSlots(cardID, newSlotList, state) {
+  const newSlots = denormalizeSlotIDs(newSlotList, state);
 
-    return fetch("/api/update-slots/" + cardID, {
+  try {
+    let res = await fetch("/api/update-slots/" + cardID, {
       method: "POST",
       credentials: "same-origin",
       headers: {
@@ -208,30 +210,46 @@ export default {
       body: JSON.stringify({
         slots: newSlots
       })
-    })
-      .then(checkStatus)
-      .then(parseJSON)
-      .then(cb)
-      .catch(error => {
-        console.warn("updateSlots request failed", error);
-      });
-  },
+    });
+    checkStatus(res);
+    return res;
+  } catch (e) {
+    console.warn("updateSlots request failed", e);
+  }
+}
 
-  deleteCard(cardID, cb) {
-    return fetch("/api/del/" + cardID, {
+async function deleteCard(cardID) {
+  try {
+    let res = await fetch("/api/del/" + cardID, {
       method: "DELETE",
       credentials: "same-origin",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json"
       }
-    })
-      .then(checkStatus)
-      .then(parseJSON)
-      .then(cb)
-      .catch(error => {
-        console.warn("deleteCard request failed", error);
-        return Promise.reject(error);
-      });
+    });
+    checkStatus(res);
+    return res;
+  } catch (e) {
+    console.warn("deleteCard request failed", error);
+    return Promise.reject(error);
   }
+}
+
+export default {
+  getAllCards,
+
+  addCard,
+
+  updateAssignee,
+
+  updateLabel,
+
+  addSlotToCard,
+
+  deleteSlotFromCard,
+
+  updateSlots,
+
+  deleteCard
 };
