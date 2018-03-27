@@ -32,9 +32,6 @@ function checkStatus(response) {
     throw error;
   }
 }
-function parseJSON(response) {
-  return response.json();
-}
 
 function normalizeCard(card) {
   return normalize(card, dateCardSchema);
@@ -88,6 +85,7 @@ async function getAllCards() {
     return normalizeCards(json.dateCards);
   } catch (e) {
     console.warn("fetch all request failed", e);
+    return Promise.reject(e);
   }
 }
 
@@ -111,6 +109,7 @@ async function addCard(dateCard, slots, state) {
     return normalizeCard(json.saved, dateCardSchema);
   } catch (e) {
     console.warn("add card request failed", e);
+    return Promise.reject(e);
   }
 }
 
@@ -177,7 +176,7 @@ async function addSlotToCard(cardID, slot) {
   }
 }
 
-async function deleteSlotFromCard(slotID, cb) {
+async function deleteSlotFromCard(slotID) {
   try {
     let res = await fetch("/api/remove-slot/" + slotID, {
       method: "DELETE",
@@ -215,6 +214,7 @@ async function updateSlots(cardID, newSlotList, state) {
     return res;
   } catch (e) {
     console.warn("updateSlots request failed", e);
+    return Promise.reject(e);
   }
 }
 
@@ -231,8 +231,8 @@ async function deleteCard(cardID) {
     checkStatus(res);
     return res;
   } catch (e) {
-    console.warn("deleteCard request failed", error);
-    return Promise.reject(error);
+    console.warn("deleteCard request failed", e);
+    return Promise.reject(e);
   }
 }
 

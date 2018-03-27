@@ -24,7 +24,8 @@ module.exports = {
   rules: {
     indent: [
       "error",
-      2 // changed from default 4
+      2, // changed from default 4
+      { SwitchCase: 1 }
     ],
     "linebreak-style": ["error", "unix"],
     quotes: ["error", "double", { avoidEscape: true }],

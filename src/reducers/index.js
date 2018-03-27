@@ -1,12 +1,14 @@
 import { combineReducers } from "redux";
-import assignments from "./assignments.js";
-import userinfo from "./userinfo.js";
-import reports from "./reports.js";
+import assignments from "./assignments";
+import userinfo from "./userinfo";
+import reports from "./reports";
+import errors from "./errors";
 
 const rootReducer = combineReducers({
   assignments,
   userinfo,
-  reports
+  reports,
+  errors
 });
 
 export default rootReducer;

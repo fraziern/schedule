@@ -1,7 +1,6 @@
 import * as types from "../constants/ActionTypes.js";
-import * as fromAccessors from "./assignmentsAccessors";
-// TODO: use immutability-helper instead of react-addons-update
-import update from "react-addons-update";
+// import * as fromAccessors from "./assignmentsAccessors";
+import update from "immutability-helper";
 import moment from "moment";
 
 const initialState = {

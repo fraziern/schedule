@@ -13,10 +13,11 @@ import { arrayMove } from "react-sortable-hoc";
 // NOTE: this should mainly work with normalized objects. fetchApi takes
 // normalized objects and knows how to convert for the db
 
-function receiveCards(cards) {
+function fetchError(message, error) {
   return {
-    type: types.RECEIVE_ALLCARDS,
-    dateCards: cards
+    type: types.FETCH_ERROR,
+    message,
+    error
   };
 }
 
@@ -86,8 +87,17 @@ function receiveUser(user) {
 
 export function loadAllCards() {
   return async dispatch => {
-    let cards = await fetchApi.getAllCards();
-    dispatch(receiveCards(cards));
+    try {
+      let cards = await fetchApi.getAllCards();
+      dispatch({
+        type: types.RECEIVE_ALLCARDS,
+        dateCards: cards
+      });
+    } catch (e) {
+      dispatch(
+        fetchError("There was a problem getting data from the server", e)
+      );
+    }
   };
 }
 
