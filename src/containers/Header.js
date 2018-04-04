@@ -6,21 +6,29 @@ import DateCardsContainer from "./DateCardsContainer";
 import DateCardsContainerAdmin from "./DateCardsContainerAdmin";
 import Login from "../components/Login";
 import Reports from "./Reports";
+import ErrorBar from "../components/ErrorBar";
 
 function Header(props) {
-  const userinfo = props.loggedInUser ? (
-    <div className="userinfo">
-      Currently logged in as {props.loggedInUser.user.username}.
-      <span className="logout-link">
-        <a href="#" onClick={() => console.log("logging out")}>
-          Logout
-        </a>
-      </span>
-    </div>
-  ) : null;
+  const { loggedInUser, errors } = props;
+
+  const errorbar = errors.length > 0 && <ErrorBar errors={errors} />;
+
+  const userinfo = null;
+  // ** Authentication implementation code **
+  // const userinfo = loggedInUser ? (
+  //   <div className="userinfo">
+  //     Currently logged in as {loggedInUser.user.username}.
+  //     <span className="logout-link">
+  //       <a href="#" onClick={() => console.log("logging out")}>
+  //         Logout
+  //       </a>
+  //     </span>
+  //   </div>
+  // ) : null;
 
   return (
     <div>
+      {errorbar}
       {userinfo}
       <div className="container">
         <div className="header">
@@ -43,12 +51,14 @@ function Header(props) {
 
 Header.propTypes = {
   children: PropTypes.element,
-  loggedInUser: PropTypes.object
+  loggedInUser: PropTypes.object,
+  errors: PropTypes.array
 };
 
 function mapStateToProps(state) {
   return {
-    loggedInUser: state.userinfo.loggedInUser
+    loggedInUser: state.userinfo.loggedInUser,
+    errors: state.errors.errors
   };
 }
 

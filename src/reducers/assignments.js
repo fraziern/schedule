@@ -127,7 +127,6 @@ function deleteSlotFromCard(state, cardID, slotID) {
 }
 
 function resortSlots(state, cardID, newSlotsList) {
-  console.log("here");
   return update(state, {
     entities: {
       dateCards: { [cardID]: { slots: { $set: newSlotsList } } }

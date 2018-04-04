@@ -18,7 +18,6 @@ h1 {
 
 h3 {
   margin: 10px;
-  width: 80%;
   display: inline;
   font-size: 32px;
 }
@@ -50,6 +49,20 @@ td {
 /***
  app specific CSS
  ***/
+
+.errorbar {
+  position: fixed;
+  top: 0px;
+  background-color: #d32536;
+  color: white;
+  padding: 8px 60px;
+  z-index: 999;
+  width: 100%;
+}
+
+.errorbar-item {
+  margin: 5px;
+}
 
 .datecards-top-container {
   display: flex;

@@ -85,6 +85,11 @@ function receiveUser(user) {
 /// *** PUBLIC FUNCTIONS ***
 // *************************
 
+const getErrorString =
+  "There was a problem getting data from the server. Please reload.";
+const putErrorString =
+  "There was a problem sending data to the server. Please reload.";
+
 export function loadAllCards() {
   return async dispatch => {
     try {
@@ -94,9 +99,7 @@ export function loadAllCards() {
         dateCards: cards
       });
     } catch (e) {
-      dispatch(
-        fetchError("There was a problem getting data from the server", e)
-      );
+      dispatch(fetchError(getErrorString, e));
     }
   };
 }
@@ -173,8 +176,12 @@ export function addDateCard(newDate) {
     };
 
     // addCard inputs normalized card and normalized list of new slots, returns normalized card
-    let nCard = await fetchApi.addCard(newDateCard, newSlots, state);
-    dispatch(addCardSuccess(nCard));
+    try {
+      let nCard = await fetchApi.addCard(newDateCard, newSlots, state);
+      dispatch(addCardSuccess(nCard));
+    } catch (e) {
+      dispatch(fetchError(putErrorString, e));
+    }
   };
 }
 
@@ -212,7 +219,7 @@ export function updateAssignment(slotID, assigneeName) {
       await fetchApi.updateAssignee(slotID, newAssignee);
       dispatch(updateAssigneeSuccess(slotID, newAssignee));
     } catch (e) {
-      console.warn("fetch rejected", e);
+      dispatch(fetchError(putErrorString, e));
     }
   };
 }
@@ -230,7 +237,7 @@ export function updateLabel(cardID, label) {
       await fetchApi.updateLabel(cardID, label);
       dispatch(updateLabelSuccess(cardID, label));
     } catch (e) {
-      console.warn("fetch rejected", e);
+      dispatch(fetchError(putErrorString, e));
     }
   };
 }
@@ -275,7 +282,7 @@ export function addSlotToCard(assignmentName, cardID) {
       await fetchApi.addSlotToCard(cardID, newSlot);
       dispatch(addSlotToCardSuccess(cardID, newSlot));
     } catch (e) {
-      console.warn("fetch rejected", e);
+      dispatch(fetchError(putErrorString, e));
     }
   };
 }
@@ -286,7 +293,7 @@ export function deleteSlotFromCard(cardID, slotID) {
       await fetchApi.deleteSlotFromCard(slotID);
       dispatch(deleteSlotFromCardSuccess(cardID, slotID));
     } catch (e) {
-      console.warn("fetch rejected", e);
+      dispatch(fetchError(putErrorString, e));
     }
   };
 }
@@ -307,7 +314,7 @@ export function resortSlots(cardID, oldIndex, newIndex) {
     try {
       await fetchApi.updateSlots(cardID, newSlotList, state);
     } catch (e) {
-      console.warn("re-sort rejected by server", e);
+      dispatch(fetchError(putErrorString, e));
     }
   };
 }
@@ -318,7 +325,7 @@ export function deleteCard(cardID) {
       await fetchApi.deleteCard(cardID);
       dispatch(deleteCardSuccess(cardID));
     } catch (e) {
-      console.warn("delete card rejected", e);
+      dispatch(fetchError(putErrorString, e));
     }
   };
 }

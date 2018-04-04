@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import React from "react";
 import SortableDateCard from "./SortableDateCard";
 import NewCardSelector from "./NewCardSelector";
@@ -44,8 +44,8 @@ DateCards.propTypes = {
       dateScheduled: PropTypes.string.isRequired,
       slots: PropTypes.arrayOf(
         PropTypes.shape({
-          assignment: PropTypes.string.isRequired,
-          assignee: PropTypes.string.isRequired,
+          assignment: PropTypes.object.isRequired,
+          assignee: PropTypes.object.isRequired,
           saved: PropTypes.bool,
           isSaving: PropTypes.bool
         })

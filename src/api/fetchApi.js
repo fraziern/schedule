@@ -79,12 +79,13 @@ function denormalizeCard(card, slots, state) {
 
 async function getAllCards() {
   try {
+    // return Promise.reject(new Error("test error"));
     let res = await fetch("/api/all", { credentials: "same-origin" });
     checkStatus(res);
     let json = await res.json();
     return normalizeCards(json.dateCards);
   } catch (e) {
-    console.warn("fetch all request failed", e);
+    console.warn("Fetch all request failed.", e);
     return Promise.reject(e);
   }
 }
@@ -108,7 +109,7 @@ async function addCard(dateCard, slots, state) {
     let json = await res.json();
     return normalizeCard(json.saved, dateCardSchema);
   } catch (e) {
-    console.warn("add card request failed", e);
+    console.warn("Add card request failed.", e);
     return Promise.reject(e);
   }
 }
@@ -129,7 +130,7 @@ async function updateAssignee(slotID, assignee) {
     checkStatus(res);
     return res;
   } catch (e) {
-    console.warn("updateAssignee request failed", e);
+    console.warn("Update assignee request failed.", e);
     return Promise.reject(e);
   }
 }
@@ -150,7 +151,7 @@ async function updateLabel(cardID, label) {
     checkStatus(res);
     return res;
   } catch (e) {
-    console.warn("updateLabel request failed", e);
+    console.warn("Update label request failed.", e);
     return Promise.reject(e);
   }
 }
@@ -171,7 +172,7 @@ async function addSlotToCard(cardID, slot) {
     checkStatus(res);
     return res;
   } catch (e) {
-    console.warn("addSlotToCard request failed", e);
+    console.warn("Add slot to card request failed.", e);
     return Promise.reject(e);
   }
 }
@@ -189,7 +190,7 @@ async function deleteSlotFromCard(slotID) {
     checkStatus(res);
     return res;
   } catch (e) {
-    console.warn("deleteSlotFromCard request failed", e);
+    console.warn("Delete slot from card request failed.", e);
     return Promise.reject(e);
   }
 }
@@ -213,7 +214,7 @@ async function updateSlots(cardID, newSlotList, state) {
     checkStatus(res);
     return res;
   } catch (e) {
-    console.warn("updateSlots request failed", e);
+    console.warn("Update slots request failed.", e);
     return Promise.reject(e);
   }
 }
@@ -231,7 +232,7 @@ async function deleteCard(cardID) {
     checkStatus(res);
     return res;
   } catch (e) {
-    console.warn("deleteCard request failed", e);
+    console.warn("Delete card request failed.", e);
     return Promise.reject(e);
   }
 }
