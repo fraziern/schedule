@@ -73,7 +73,6 @@
     "isomorphic-fetch": "^2.2.1",
     "json-loader": "0.5.4",
     "moment": "^2.15.1",
-    "mongoose": "^4.6.1",
     "node-sass": "^4.7.2",
     "normalizr": "^2.2.1",
     "object-assign": "4.1.0",
@@ -111,8 +110,8 @@
   },
   "scripts": {
     "start": "node server.js",
-    "build": "webpack --watch --progress --colors --config ./config/webpack.config.dev.js",
-    "postinstall": "webpack --progress --config ./config/webpack.config.production.js",
+    "devbuild": "webpack --watch --progress --colors --config ./config/webpack.config.dev.js",
+    "build": "webpack --progress --config ./config/webpack.config.production.js",
     "test": "jest",
     "test-debug": "node debug --harmony ./node_modules/jest/bin/jest.js --runInBand"
   },
