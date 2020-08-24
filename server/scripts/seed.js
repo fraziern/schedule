@@ -1,5 +1,5 @@
 /*eslint no-console: ["error", { allow: ["log", "warn", "error"] }] */
-require("dotenv").config({path: "../.env", silent: true});
+require("dotenv").config({path: "../../.env", silent: true});
 var DateCard = require("../models/DateCard");
 var db_connect = require("../db_connect");
 
@@ -14,7 +14,7 @@ function seed() {
 
     var defaultCard1 = new DateCard({
       "_id": "123",
-      "dateScheduled": "2016-09-11T04:00:00.000Z",
+      "dateScheduled": "2020-09-11T04:00:00.000Z",
       "slots": [
         {
           "_id": "sd8f7tsdf7",
