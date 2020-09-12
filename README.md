@@ -17,7 +17,7 @@ This is a full-stack "signup sheet" single page app, built on a MongoDB, Express
 5. Add the following to the newly created .env file:
 
 ```
-MONGODB_URI=mongodb://localhost/test
+DB_URI=mongodb://localhost/test
 PORT=3000
 APP_URL=http://localhost:3000/
 NODE_ENV=development

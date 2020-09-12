@@ -1,6 +1,6 @@
 var config = {};
 
-var mongoURIProd = process.env.MONGODB_URI;
+var mongoURIProd = process.env.DB_URI;
 var mongoURIDev = "mongodb://localhost/test";
 var mongoURITest = "mongodb://localhost/test2";
 
