@@ -23,7 +23,7 @@
     "mocha": "^3.1.2",
     "react-addons-test-utils": "^15.3.1",
     "react-test-renderer": "^15.4.2",
-    "recursive-readdir": "2.0.0",
+    "recursive-readdir": "2.2.3",
     "redux-devtools": "^3.3.1",
     "rimraf": "2.5.4",
     "webpack-dev-server": "^1.15.1"
